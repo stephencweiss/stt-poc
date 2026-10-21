@@ -1,0 +1,475 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "cardio_01",
+      "audio": "audio/cardio_01.wav",
+      "reference": "references/cardio_01.txt",
+      "audioSha256": "c5143e9a818802cc52da1711493beb81a2317955b67b34be51a2f573c17f9fd4",
+      "referenceSha256": "99775bab6a740b66b75c977ea62ad4f18b9572dfcfce24120b680715f38df543",
+      "category": "short",
+      "procedure": "diagnostic-cath",
+      "origin": "Pulse Log cardio_test_1.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "f14f791e1e8aac3a3fea4d7e9f78c8e7b20846374b4a2e2e6d11001fe2ba9748",
+      "expectedFacts": [
+        {
+          "id": "access",
+          "acceptedPhrases": [
+            "right radial"
+          ],
+          "forbiddenPhrases": [
+            "left radial"
+          ]
+        },
+        {
+          "id": "negation",
+          "acceptedPhrases": [
+            "no immediate complications"
+          ],
+          "forbiddenPhrases": [
+            "immediate complications noted"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cardio_02",
+      "audio": "audio/cardio_02.wav",
+      "reference": "references/cardio_02.txt",
+      "audioSha256": "dc01598d53fb0bee8ddab481c07b6c41ee7375e202f643c22c938f474e622459",
+      "referenceSha256": "f55fa23a03bd075127888129f809571213f4d1ade8fd30a66f985182b4cdf5c4",
+      "category": "short",
+      "procedure": "pci",
+      "origin": "Pulse Log cardio_test_2.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "ea1c28ef1cca9a312e12a5e3921919d68aab0a3751156cf1b4c15a3e2b02f7a0",
+      "expectedFacts": [
+        {
+          "id": "vessel",
+          "acceptedPhrases": [
+            "rca"
+          ],
+          "forbiddenPhrases": [
+            "lad"
+          ]
+        },
+        {
+          "id": "sheath",
+          "acceptedPhrases": [
+            "six french",
+            "6 french",
+            "6 fr"
+          ],
+          "forbiddenPhrases": [
+            "seven french",
+            "7 french"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cardio_03",
+      "audio": "audio/cardio_03.wav",
+      "reference": "references/cardio_03.txt",
+      "audioSha256": "db15fb483bb60ed3002a94b7148fd805ef88142a3912ceb66c3e844f991a7057",
+      "referenceSha256": "8d0b366686b9850233c0ffaeab1042a6f1421e6f45033c687c8552106d44ae22",
+      "category": "short",
+      "procedure": "tavr",
+      "origin": "Pulse Log cardio_test_3.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "889e2e2744195a182efe77d047fb8efc62d551b4cc6fdd755a8b93954173ca8f",
+      "expectedFacts": [
+        {
+          "id": "procedure",
+          "acceptedPhrases": [
+            "tavr"
+          ],
+          "forbiddenPhrases": []
+        },
+        {
+          "id": "access",
+          "acceptedPhrases": [
+            "transfemoral"
+          ],
+          "forbiddenPhrases": [
+            "transradial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cardio_04",
+      "audio": "audio/cardio_04.wav",
+      "reference": "references/cardio_04.txt",
+      "audioSha256": "6e0456d98d80125a43152d46a03b0910b47feeacf0d7a13478fc4560c9bddcc5",
+      "referenceSha256": "b42d6eec203a90e028c062000d21e0bd69c65cba8f66d3eef582622cdc8f9c1c",
+      "category": "short",
+      "procedure": "pci",
+      "origin": "Pulse Log cardio_test_4.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "0fb1f403bf8c93a877fd8b3b31ee5968dfa4f8c88c00729e741b98d79633718d",
+      "expectedFacts": [
+        {
+          "id": "vessel",
+          "acceptedPhrases": [
+            "mid lad",
+            "midlad"
+          ],
+          "forbiddenPhrases": [
+            "mid rca"
+          ]
+        },
+        {
+          "id": "residual",
+          "acceptedPhrases": [
+            "zero",
+            "0"
+          ],
+          "forbiddenPhrases": []
+        }
+      ]
+    },
+    {
+      "id": "cardio_05",
+      "audio": "audio/cardio_05.wav",
+      "reference": "references/cardio_05.txt",
+      "audioSha256": "21b1901a46a850095bc87cf04cad7d044bf37bd9984540e4bfd085579fca8493",
+      "referenceSha256": "af0603ea55ecf883e78a0b00698c0a8c349edf2ae282a0a0aa0afbea18a3dd7e",
+      "category": "short",
+      "procedure": "tavr",
+      "origin": "Pulse Log cardio_test_5.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "7ed63098b43d3160bcdbd097eb422be9de450b2162e7bf71bcd0a4412d8d3a1d",
+      "expectedFacts": [
+        {
+          "id": "valve",
+          "acceptedPhrases": [
+            "sapien"
+          ],
+          "forbiddenPhrases": [
+            "evolut"
+          ]
+        },
+        {
+          "id": "access",
+          "acceptedPhrases": [
+            "femoral"
+          ],
+          "forbiddenPhrases": [
+            "radial"
+          ]
+        },
+        {
+          "id": "hematoma-negation",
+          "acceptedPhrases": [
+            "no hematoma"
+          ],
+          "forbiddenPhrases": []
+        }
+      ]
+    },
+    {
+      "id": "cardio_06",
+      "audio": "audio/cardio_06.wav",
+      "reference": "references/cardio_06.txt",
+      "audioSha256": "d10ca4bdd657db3dcdc028306aa5025c5b7225e6086b2a91940106f618daee72",
+      "referenceSha256": "321162fdda0f3b07505ef67208343dbd1ed3aeb24c49d2f8335a01cc6f125dd9",
+      "category": "short",
+      "procedure": "pci",
+      "origin": "Pulse Log cardio_test_6.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "830f6dbe3327ebecb9bf3dd9169db38a3fb424df766e59ba5041ec87cf29f138",
+      "expectedFacts": [
+        {
+          "id": "ffr",
+          "acceptedPhrases": [
+            "zero point nine two",
+            "0 92"
+          ],
+          "forbiddenPhrases": [
+            "0 75"
+          ]
+        },
+        {
+          "id": "vessel",
+          "acceptedPhrases": [
+            "circumflex"
+          ],
+          "forbiddenPhrases": [
+            "rca"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cardio_07",
+      "audio": "audio/cardio_07.wav",
+      "reference": "references/cardio_07.txt",
+      "audioSha256": "46ace187b7d9021fb0d5c92f12e8074ca9c79f5caf792599d7f9c487362c1049",
+      "referenceSha256": "b22211023f5574fd6f242a2733d879e02b2f868e7c866abbbeb137e69fe01ef9",
+      "category": "long",
+      "procedure": "mixed",
+      "origin": "Pulse Log cardio_test_7.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "4fcec42fd40ae5815a37b5ed094b58313ca2c497e37595d2e43fb3770a2137d9",
+      "expectedFacts": [
+        {
+          "id": "access",
+          "acceptedPhrases": [
+            "radial"
+          ],
+          "forbiddenPhrases": [
+            "femoral"
+          ]
+        },
+        {
+          "id": "vessels",
+          "acceptedPhrases": [
+            "lad"
+          ],
+          "forbiddenPhrases": []
+        }
+      ]
+    },
+    {
+      "id": "cardio_08",
+      "audio": "audio/cardio_08.wav",
+      "reference": "references/cardio_08.txt",
+      "audioSha256": "7d7d6c592f489d0234e19e61a1f6eb42dd1245b77000d99f1e54346b2f9ab79d",
+      "referenceSha256": "69dc813fc36c66c97b1b9eed7c754b9a2cd44b2f7e1c7b14f1342302bb1a93dd",
+      "category": "long",
+      "procedure": "tavr",
+      "origin": "Pulse Log cardio_test_8.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "af27a10feea0a0f71013735f1124b1d8d7680b3f7073b6bc55dc08a0fd3c3231",
+      "expectedFacts": [
+        {
+          "id": "device",
+          "acceptedPhrases": [
+            "evolut"
+          ],
+          "forbiddenPhrases": [
+            "sapien"
+          ]
+        },
+        {
+          "id": "valve-size-units",
+          "acceptedPhrases": [
+            "thirty four millimeter",
+            "34 millimeter",
+            "34 mm"
+          ],
+          "forbiddenPhrases": [
+            "thirty four centimeter",
+            "34 centimeter"
+          ]
+        },
+        {
+          "id": "stroke-negation",
+          "acceptedPhrases": [
+            "no signs of stroke"
+          ],
+          "forbiddenPhrases": []
+        }
+      ]
+    },
+    {
+      "id": "cardio_09",
+      "audio": "audio/cardio_09.wav",
+      "reference": "references/cardio_09.txt",
+      "audioSha256": "dc3d012bf2467535a0028274b464dbd12261c3a1e21da5f3300af2f112fc71e1",
+      "referenceSha256": "d369b5aa47356272c59422a5d7869d6ecf8dbd214e84baedc520bca068a780ca",
+      "category": "long",
+      "procedure": "watchman",
+      "origin": "Pulse Log cardio_test_9.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "b53c7f086e43bffbc70434a470b45184844a2e39f68431e05de4887b2758fe9a",
+      "expectedFacts": [
+        {
+          "id": "device",
+          "acceptedPhrases": [
+            "watchman"
+          ],
+          "forbiddenPhrases": [
+            "sapien"
+          ]
+        },
+        {
+          "id": "access",
+          "acceptedPhrases": [
+            "right femoral vein"
+          ],
+          "forbiddenPhrases": [
+            "left femoral vein"
+          ]
+        },
+        {
+          "id": "bleeding-negation",
+          "acceptedPhrases": [
+            "no bleeding complications"
+          ],
+          "forbiddenPhrases": []
+        }
+      ]
+    },
+    {
+      "id": "cardio_10",
+      "audio": "audio/cardio_10.wav",
+      "reference": "references/cardio_10.txt",
+      "audioSha256": "13523ba28ab709c7eb4a76530dc6bfa7663629b2901ac446c07e362d70ecff4a",
+      "referenceSha256": "c85ec851b61f91f0fe46d60ea28ba43c965e5b792822e6f77140953ac185b747",
+      "category": "short",
+      "procedure": "pci",
+      "origin": "Pulse Log cardio_test_10.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "880e61ed44be786ba1a9eb891aa956dd0410276b69b5c377a2ce87ff15a6afeb",
+      "expectedFacts": [
+        {
+          "id": "vessel",
+          "acceptedPhrases": [
+            "rca"
+          ],
+          "forbiddenPhrases": [
+            "lad"
+          ]
+        },
+        {
+          "id": "result",
+          "acceptedPhrases": [
+            "ten",
+            "10"
+          ],
+          "forbiddenPhrases": []
+        }
+      ]
+    },
+    {
+      "id": "cardio_11",
+      "audio": "audio/cardio_11.wav",
+      "reference": "references/cardio_11.txt",
+      "audioSha256": "9f6e0a6f165d36118ad0f439224f84c9dd132dcc67a873432209b6ffacc905fc",
+      "referenceSha256": "4292b0bd20c72b4532ff2f7a6f4f5def3bb4deabf19dd6aba59ecfd4d414f4ce",
+      "category": "short",
+      "procedure": "pci",
+      "origin": "Pulse Log cardio_test_11.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "d73849ad46e206098de412039b92330e33de0320286a01ac8a75e8513714202c",
+      "expectedFacts": [
+        {
+          "id": "ffr",
+          "acceptedPhrases": [
+            "zero point seven five",
+            "0 75"
+          ],
+          "forbiddenPhrases": [
+            "0 92"
+          ]
+        },
+        {
+          "id": "plan",
+          "acceptedPhrases": [
+            "tomorrow morning"
+          ],
+          "forbiddenPhrases": [
+            "yesterday"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cardio_12",
+      "audio": "audio/cardio_12.wav",
+      "reference": "references/cardio_12.txt",
+      "audioSha256": "1eff8f43f072f8829ddc89937d4c75ff21245c8cd46594beb9ba96836cd1b877",
+      "referenceSha256": "462431f84613acd643b9c5c1ec32c05ad2aae1179fee78fb566ac9eed557c585",
+      "category": "false-starts",
+      "procedure": "pci",
+      "origin": "Pulse Log cardio_test_12.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "e900b43163ec1faf297cb9135a7c9421b8f3054e84d9e7f189e9146425b46f4e",
+      "expectedFacts": [
+        {
+          "id": "complication",
+          "acceptedPhrases": [
+            "minor bleeding"
+          ],
+          "forbiddenPhrases": [
+            "major bleeding"
+          ]
+        },
+        {
+          "id": "sheath",
+          "acceptedPhrases": [
+            "six",
+            "6"
+          ],
+          "forbiddenPhrases": [
+            "seven",
+            "7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "silence",
+      "audio": "audio/silence.wav",
+      "reference": "references/silence.txt",
+      "audioSha256": "262d1f34f300560a4c82ba8127ddea9e1d72946f187fdbd3e8f70ee096077aec",
+      "referenceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "category": "non-speech",
+      "procedure": "control",
+      "origin": "Generated locally: 5 s 16 kHz PCM16 mono zero samples or seeded uniform noise (seed 20261021, integer range -3000...3000)",
+      "expectedFacts": []
+    },
+    {
+      "id": "noise",
+      "audio": "audio/noise.wav",
+      "reference": "references/noise.txt",
+      "audioSha256": "5f6817ca9edc45c2428c96908e32c4b570a1df1cefdc344f7d694f120f0f90fb",
+      "referenceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "category": "non-speech",
+      "procedure": "control",
+      "origin": "Generated locally: 5 s 16 kHz PCM16 mono zero samples or seeded uniform noise (seed 20261021, integer range -3000...3000)",
+      "expectedFacts": []
+    },
+    {
+      "id": "tavr_gradient",
+      "audio": "audio/tavr_gradient.wav",
+      "reference": "references/tavr_gradient.txt",
+      "audioSha256": "81193f72ca45bf1d38b9c66226f9288732fe2102f218d16dda92b24aaaa70041",
+      "referenceSha256": "c386e5202c7f46bfcb983e13a0e46f501cecf3d4fe9a09a3c271585c1756e220",
+      "category": "synthetic-units-negation",
+      "procedure": "tavr",
+      "origin": "Generated on 2026-10-21 with installed macOS say default voice from the exact fictional reference text, then ffmpeg 16 kHz mono PCM16 conversion. Synthetic smoke test, not human-dictation accuracy evidence.",
+      "expectedFacts": [
+        {
+          "id": "valve-size-units",
+          "acceptedPhrases": [
+            "twenty six millimeter",
+            "26 millimeter",
+            "26 mm"
+          ],
+          "forbiddenPhrases": [
+            "twenty six centimeter",
+            "26 centimeter"
+          ]
+        },
+        {
+          "id": "mean-gradient",
+          "acceptedPhrases": [
+            "mean gradient was four millimeters of mercury",
+            "mean gradient was 4 millimeters of mercury",
+            "mean gradient was 4 mmhg"
+          ],
+          "forbiddenPhrases": [
+            "mean gradient was forty",
+            "mean gradient was 40"
+          ]
+        },
+        {
+          "id": "pvl-negation",
+          "acceptedPhrases": [
+            "no paravalvular leak"
+          ],
+          "forbiddenPhrases": []
+        },
+        {
+          "id": "obstruction-negation",
+          "acceptedPhrases": [
+            "no coronary obstruction"
+          ],
+          "forbiddenPhrases": []
+        }
+      ]
+    }
+  ]
+}

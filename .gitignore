@@ -12,3 +12,5 @@ __pycache__/
 *.mlmodelc/
 *.xcresult/
 coverage/
+
+.codex/

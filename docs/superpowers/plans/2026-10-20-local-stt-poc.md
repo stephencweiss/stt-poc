@@ -8,7 +8,7 @@
 
 **Tech Stack:** Swift 6, SwiftUI/AppKit, AVFoundation, XCTest; proposed initial engine: the installed `whisper-cli` with `medium.en`.
 
-**Status:** Draft for discussion. No application code, package installation, model download, or benchmark run is part of this planning task.
+**Status:** Planning and engineering foundation are merged. Application PR 1 implements the local file-transcription baseline. Detailed evidence is in `docs/verification.md`; microphone recording starts in application PR 2.
 
 ## 1. Basis and decisions
 
@@ -85,16 +85,19 @@ All paths below are relative to this project root. `Sources/` is the standard Sw
 | `Resources/Info.plist` | Stable app ID and microphone purpose text |
 | `scripts/build-app.sh` | Build and package a local .app |
 | `scripts/run-local.sh` | Open that .app |
-| `Sources/STTCore/Transcription.swift` | Engine-independent TranscriberService protocol and result types |
-| `Sources/STTAdapters/WhisperCppTranscriber.swift` | whisper.cpp adapter: runs whisper-cli, decodes JSON, handles cancellation |
+| `Sources/STTCore/Transcription/Transcription.swift` | Engine-independent TranscriberService protocol and result types |
+| `Sources/STTAdapters/Transcription/WhisperCppTranscriber.swift` | whisper.cpp adapter: runs whisper-cli, decodes JSON, handles cancellation |
 | `Sources/STTAdapters/AudioCapture.swift` | Capture, conversion, level, duration limit |
-| `Sources/STTAdapters/SessionFiles.swift` | Temporary files and cleanup |
+| `Sources/STTAdapters/Transcription/WhisperSessionRecovery.swift` | Temporary files and cleanup |
 | `Sources/STTCore/NoteFormatter.swift` | Ordered, conservative formatting rules |
 | `Sources/STTCore/TransformService.swift` | Transform protocol, preset, request/result types |
 | `Sources/STTAdapters/OllamaTransform.swift` | Local-only model calls, errors, cancellation |
-| `Sources/STTCore/CardiologyVocabulary.swift` | General terms, procedure groups, exact aliases |
-| `Sources/STTCore/Benchmark.swift` | Shared fixture validation and accuracy/timing metrics for any transcriber |
-| `Sources/STTBenchmark/main.swift` | CLI entry point; selects a transcriber and calls shared benchmark code |
+| `Sources/STTCore/Transcription/CardiologyVocabulary.swift` | General terms, procedure groups, exact aliases |
+| `Sources/STTCore/Benchmark/BenchmarkScoring.swift` | Shared word and selected-phrase scoring |
+| `Sources/STTCore/Benchmark/BenchmarkManifest.swift` | Manifest schema and validation |
+| `Sources/STTAdapters/Benchmark/BenchmarkFixtureLoader.swift` | File, checksum, inventory, and audio checks |
+| `Sources/STTBenchmark/BenchmarkRunner.swift` | Engine-independent paired measurements and summaries |
+| `Sources/STTBenchmark/BenchmarkCommand.swift` | CLI entry point; selects a transcriber and calls shared benchmark code |
 | `Sources/STTPractice/App.swift` | macOS app entry point; selects transcription and Transform services |
 | `Sources/STTPractice/SessionModel.swift` | Recording, transcription, editing, Transform, and review state |
 | `Sources/STTPractice/ContentView.swift` | Practice controls and text views |
@@ -103,6 +106,7 @@ All paths below are relative to this project root. `Sources/` is the standard Sw
 | `Sources/STTPractice/GlobalHotkey.swift` | Register and release Cmd+Shift+R |
 | `Sources/STTPractice/Clipboard.swift` | Copy current edited text and report success |
 | `Tests/STTCoreTests/` | Pure formatter, request validation, and metric tests |
+| `Tests/STTBenchmarkTests/` | CLI options, paired reports, and process signals |
 | `Tests/STTAdaptersTests/` | Audio, process, and local-model adapter contract tests |
 | `Tests/STTPracticeTests/` | Session and clipboard behavior tests |
 | `Fixtures/Benchmark/manifest.json` | Versioned fixture IDs, paths, checksums, categories, and expected facts |
@@ -159,30 +163,30 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 
 **Files:** `Package.swift`, `.gitignore`, `Resources/Info.plist`, both scripts, `Sources/STTPractice/App.swift`, `ContentView.swift`, `README.md`.
 
-- [ ] Create the package with a core library, adapter library, app executable, benchmark executable, and test targets. Use Apple frameworks first; do not add third-party packages for the shell.
-- [ ] Package the executable into a `.app` with a stable bundle ID and microphone usage description. Apply local ad hoc signing. Do not add App Store distribution or a paid signing requirement.
-- [ ] Define `./scripts/run-local.sh` as the single build-and-launch command. Resolve paths from the script location.
-- [ ] Add startup checks for the configured CLI and model paths. Show a clear missing-file error; do not download automatically.
-- [ ] Run `swift build`, `./scripts/build-app.sh`, and `./scripts/run-local.sh`. Expected: the app opens from Finder/Launch Services with Record disabled until setup is valid.
+- [x] Create the package with a core library, adapter library, app executable, benchmark executable, and test targets. Use Apple frameworks first; do not add third-party packages for the shell.
+- [x] Package the executable into a `.app` with a stable bundle ID and microphone usage description. Apply local ad hoc signing. Do not add App Store distribution or a paid signing requirement.
+- [x] Define `./scripts/run-local.sh` as the single build-and-launch command. Resolve paths from the script location.
+- [x] Add startup checks for the configured CLI and model paths. Show a clear missing-file error; do not download automatically.
+- [x] Run `swift build`, `./scripts/build-app.sh`, and `./scripts/run-local.sh`. Expected: the app opens from Finder/Launch Services with Record disabled until setup is valid.
 
 **Exit:** The user can open the app without entering Xcode. Record the installed CLI version and model path in setup instructions.
 
 ### Task 2: Validate local transcription before more UI work
 
-**Files:** `Transcription.swift`, `WhisperCppTranscriber.swift`, `SessionFiles.swift`, engine tests.
+**Files:** `Transcription.swift`, `WhisperCppTranscriber.swift`, `WhisperSessionRecovery.swift`, engine tests.
 
-- [ ] Define an async transcriber interface with transcription and cancellation. The result includes raw text, segments when available, model identity, and elapsed time.
-- [ ] Test a fake process runner for successful JSON, missing model, nonzero exit, invalid JSON, timeout, and cancellation. Expected: tests fail before the adapter exists.
-- [ ] Invoke `Process` with an argument array, never a shell string. Use unique output paths, English transcription, JSON output, and an optional short general cardiology vocabulary prompt. Do not apply the PRD's TAVR-only prompt to all recordings.
-- [ ] Drain stdout and stderr without deadlock. Terminate and reap the child on timeout/cancel. Default timeout: 180 seconds; expose it as local configuration for tests.
-- [ ] Run `swift test --filter WhisperCppTranscriberTests`. Expected: all adapter cases pass and diagnostics never become clinical text.
+- [x] Define an async transcriber interface with transcription and cancellation. The result includes raw text, segments when available, model identity, and elapsed time.
+- [x] Test a fake process runner for successful JSON, missing model, nonzero exit, invalid JSON, timeout, and cancellation. Expected: tests fail before the adapter exists.
+- [x] Invoke `Process` with an argument array, never a shell string. Use unique output paths, English transcription, JSON output, and an optional short general cardiology vocabulary prompt. Do not apply the PRD's TAVR-only prompt to all recordings.
+- [x] Drain stdout and stderr without deadlock. Terminate and reap the child on timeout/cancel. Default timeout: 180 seconds; expose it as local configuration for tests.
+- [x] Run `swift test --filter WhisperCppTranscriberTests`. Expected: all adapter cases pass and diagnostics never become clinical text.
 - [ ] Copy one reviewed fictional clip and its reference into `Fixtures/Benchmark/`; if conversion is needed, commit the canonical 16 kHz mono WAV and record its checksum and conversion settings. Run actual inference with `medium.en`; inspect text and full command duration, including model loading.
 
 **Exit:** A valid local transcript exists, with networking off. If the model fails to load, verify the model file before downloading a replacement. Do not use the 15-byte large-model file.
 
 ### Task 3: Build the benchmark and choose the engine
 
-**Files:** `Benchmark.swift`, `Sources/STTBenchmark/main.swift`, metric tests, `Fixtures/Benchmark/manifest.json`, README.
+**Files:** `Benchmark.swift`, `Sources/STTBenchmark/BenchmarkCommand.swift`, metric tests, `Fixtures/Benchmark/manifest.json`, README.
 
 - [ ] Copy reviewed fictional test assets into `Fixtures/Benchmark/` and version audio, references, and manifest together; do not reference the source checkout at runtime. Define manifest entries with a stable ID, audio/reference paths, checksums, expected key phrases/values, test category, and origin. Reject duplicate IDs, missing pairs, checksum mismatches, and an empty suite.
 - [ ] Add known-answer tests for WER substitutions, deletions, insertions, repeated words, and empty references. Score silence separately; do not divide by zero.

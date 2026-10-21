@@ -1,6 +1,6 @@
 # Verification and limits
 
-Status: engineering foundation implemented locally; final check evidence and hosted results are recorded below. Application source does not exist yet.
+Status: engineering foundation and application baseline implemented locally. The baseline has a setup window and a file-transcription benchmark. Microphone recording and note editing remain planned.
 
 ## Commands
 
@@ -19,15 +19,15 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | Matching convention indexes and local document file links | Implemented | Anchor links and Markdown formatting are not checked; supplied PRD is preserved |
 | Protected paths and symlinks | Implemented | Staged mode reads index paths; full mode covers tracked/nonignored paths |
 | Redacted Gitleaks scan | Implemented | Staged mode materializes index blobs; scans current files, not all Git history; not a clinical-content detector |
-| Fixture checksums and manifest integrity | Implemented | Reports suite not installed until application PR 1; existing suite cannot silently skip missing assets |
+| Fixture checksums and manifest integrity | Implemented | 15 committed fictional cases; missing or changed assets fail, with no silent skips |
 | Repository policy and installed tool tests | Implemented | Fictional temporary files; no services or models |
-| Swift format/SwiftLint | Implemented | Config tested on temporary Swift snippets; no app source yet |
+| Swift format/SwiftLint | Implemented | Checks application/test source and temporary rule-test snippets |
 | ShellCheck, shell syntax, actionlint | Implemented | Static workflow validation does not prove a hosted run |
-| Swift app compiler, XCTest, packaging | Planned: application PR 1 | Check reports NOT INSTALLED; source without a package fails |
-| Four-target dependency rules | Planned: application PR 1 | Package graph enforces target direction; app file boundaries need review |
+| Swift app compiler, XCTest, packaging | Implemented | Swift 6, warnings as errors, and ad hoc signed local app; no distribution signing |
+| Four-target dependency rules | Implemented | Package graph enforces target direction; file boundaries require review |
 | Model accuracy/latency/memory | Planned: explicit local benchmark | Not a default CI or unit-test requirement |
 | Microphone, hotkey, floating panel, clipboard | Planned: relevant application PR | Manual checks on the target Mac |
-| Workflow map | Planned: first working workflow | No empty map or unverified UI automation |
+| Workflow map | Implemented | docs/agent/feature_map.json records benchmark and setup-window workflows; no automated UI test |
 | Remote branch protection | Not configured/verified | Workflow and local hooks do not enforce merging |
 
 ## Hosted checks and freshness
@@ -52,4 +52,10 @@ The remote is public, so standard hosted runner use is currently free under GitH
 
 Local `./scripts/check.sh` passes with 18 policy/tool tests. The checks verified Xcode 26.2, Swift format 6.2.3, SwiftLint 0.63.2, ShellCheck 0.11.0, actionlint 1.7.12, and Gitleaks 8.30.1. Installed lint/formatter tests reject unsafe snippets; a synthetic staged credential is detected and redacted even with a clean working copy. Fixture tests reject unlisted files, changed checksums, missing pairs, path escapes, and staged mismatches. Document, secret, shell, and workflow checks pass.
 
-The local hook is enabled with core.hooksPath=.githooks. The initial [hosted foundation run](https://github.com/stephencweiss/stt-poc/actions/runs/39602887351) passed for engineering code commit `35a3b6d`, using the proposed merge with the planning branch. Current acceptance evidence is the latest check on [engineering PR #2](https://github.com/stephencweiss/stt-poc/pull/2); later head/base changes require another run. No application build, model benchmark, or medical accuracy has been claimed.
+The local hook is enabled with core.hooksPath=.githooks. The initial [hosted foundation run](https://github.com/stephencweiss/stt-poc/actions/runs/39602887351) passed for engineering code commit `35a3b6d`, using the proposed merge with the planning branch. Current acceptance evidence is the latest check on [engineering PR #2](https://github.com/stephencweiss/stt-poc/pull/2); later head/base changes require another run. Those foundation results predate the application baseline. Application evidence follows below.
+
+## Application baseline
+
+Local full checks pass with 36 Swift tests and 18 repository/tool tests. The compiler uses Swift 6 with warnings as errors. Tests cover phrase/word scoring, fixture validation, CLI options, paired reports, process errors, timeout, cancellation, signal handling, and session recovery. App packaging passes plist validation and ad hoc signature verification. The launch script was run locally; visual interaction and microphone behavior are not automated.
+
+The real-model report is pending the explicit local run. References are inherited and not independently audited word-by-word; WER remains provisional. The fixed synthetic voice case is pipeline coverage, not human accuracy evidence. No microphone capture, clipboard, formatting, or Clean Up behavior is included in this PR.

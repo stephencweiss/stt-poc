@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "workflows": [
+    {
+      "id": "file-benchmark",
+      "prerequisites": [
+        "Run from the repository root",
+        "Install the pinned development tools",
+        "Provide whisper-cli and medium.en model locally"
+      ],
+      "command": "swift run STTBenchmark --report .local/baseline.json",
+      "result": "15 checksummed cases run with prompt off and on; a fresh JSON report records text, accuracy, selected facts, timing, and identities",
+      "sources": [
+        "Sources/STTBenchmark/BenchmarkCommand.swift",
+        "Sources/STTBenchmark/BenchmarkRunner.swift",
+        "Sources/STTAdapters/Transcription/WhisperCppTranscriber.swift"
+      ],
+      "tests": [
+        "Tests/STTBenchmarkTests/BenchmarkRunnerTests.swift",
+        "Tests/STTBenchmarkTests/BenchmarkSignalTests.swift",
+        "Tests/STTAdaptersTests/WhisperCppTranscriberTests.swift"
+      ],
+      "manualSteps": [
+        "Review the report for factual errors",
+        "Run real inference explicitly; ordinary checks use fake engines"
+      ]
+    },
+    {
+      "id": "setup-window",
+      "command": "./scripts/run-local.sh",
+      "prerequisites": [
+        "Apple Silicon Mac with the pinned Xcode tools"
+      ],
+      "result": "Build, ad hoc sign, and open STTPractice.app; Record is disabled in this baseline",
+      "sources": [
+        "Sources/STTPractice/ContentView.swift",
+        "scripts/build-app.sh",
+        "scripts/run-local.sh"
+      ],
+      "tests": [],
+      "manualSteps": [
+        "Check that the setup window opens",
+        "Change a path to a missing file and check the status message",
+        "Visual controls have no automated UI test yet"
+      ]
+    }
+  ]
+}
