@@ -1,0 +1,56 @@
+name: Engineering checks
+
+on:
+  pull_request:
+    types: [ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Open PR number to check at its current merge revision
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: engineering-${{ github.event.pull_request.number || inputs.pr }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Foundation and application checks
+    runs-on: macos-26
+    timeout-minutes: 20
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+    steps:
+      - name: Check out workflow tools
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Resolve current PR revisions
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr }}
+        run: python3 scripts/resolve_pr.py
+      - name: Check out proposed merge
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ steps.pr.outputs.merge }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Confirm merge parents
+        env:
+          EXPECTED_BASE: ${{ steps.pr.outputs.base }}
+          EXPECTED_HEAD: ${{ steps.pr.outputs.head }}
+        run: |
+          set -euo pipefail
+          actual=$(git show -s --format=%P HEAD)
+          test "$actual" = "$EXPECTED_BASE $EXPECTED_HEAD"
+      - name: Install pinned tools
+        run: ./scripts/setup-dev.sh --install-tools
+      - name: Run shared checks
+        run: ./scripts/check.sh
