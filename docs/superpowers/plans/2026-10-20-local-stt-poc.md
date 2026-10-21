@@ -4,7 +4,7 @@
 
 **Goal:** Run a local Mac app that accepts free-form general cardiology dictation, produces readable text with light formatting, and lets the user edit and copy each note.
 
-**Architecture:** One Swift package with a core library, a benchmark command, and a SwiftUI macOS executable packaged as a local `.app`. Audio goes through a replaceable transcriber and a deterministic formatter. A separate local language model provides user-selected post-transcription Transforms. No hosted service or database is required; the proposed model runner uses a loopback-only local service.
+**Architecture:** One Swift package with a core library, an adapter library, a benchmark command, and a SwiftUI macOS executable packaged as a local `.app`. Audio goes through a replaceable transcriber and a deterministic formatter. A separate local language model provides user-selected post-transcription Transforms. No hosted service or database is required; the proposed model runner uses a loopback-only local service.
 
 **Tech Stack:** Swift 6, SwiftUI/AppKit, AVFoundation, XCTest; proposed initial engine: the installed `whisper-cli` with `medium.en`.
 
@@ -86,12 +86,12 @@ All paths below are relative to this project root. `Sources/` is the standard Sw
 | `scripts/build-app.sh` | Build and package a local .app |
 | `scripts/run-local.sh` | Open that .app |
 | `Sources/STTCore/Transcription.swift` | Engine-independent TranscriberService protocol and result types |
-| `Sources/STTCore/WhisperCppTranscriber.swift` | whisper.cpp adapter: runs whisper-cli, decodes JSON, handles cancellation |
-| `Sources/STTCore/AudioCapture.swift` | Capture, conversion, level, duration limit |
-| `Sources/STTCore/SessionFiles.swift` | Temporary files and cleanup |
+| `Sources/STTAdapters/WhisperCppTranscriber.swift` | whisper.cpp adapter: runs whisper-cli, decodes JSON, handles cancellation |
+| `Sources/STTAdapters/AudioCapture.swift` | Capture, conversion, level, duration limit |
+| `Sources/STTAdapters/SessionFiles.swift` | Temporary files and cleanup |
 | `Sources/STTCore/NoteFormatter.swift` | Ordered, conservative formatting rules |
 | `Sources/STTCore/TransformService.swift` | Transform protocol, preset, request/result types |
-| `Sources/STTCore/OllamaTransform.swift` | Local-only model calls, errors, cancellation |
+| `Sources/STTAdapters/OllamaTransform.swift` | Local-only model calls, errors, cancellation |
 | `Sources/STTCore/CardiologyVocabulary.swift` | General terms, procedure groups, exact aliases |
 | `Sources/STTCore/Benchmark.swift` | Shared fixture validation and accuracy/timing metrics for any transcriber |
 | `Sources/STTBenchmark/main.swift` | CLI entry point; selects a transcriber and calls shared benchmark code |
@@ -102,7 +102,8 @@ All paths below are relative to this project root. `Sources/` is the standard Sw
 | `Sources/STTPractice/FloatingPanel.swift` | Optional floating window |
 | `Sources/STTPractice/GlobalHotkey.swift` | Register and release Cmd+Shift+R |
 | `Sources/STTPractice/Clipboard.swift` | Copy current edited text and report success |
-| `Tests/STTCoreTests/` | Engine, audio, formatter, metric tests |
+| `Tests/STTCoreTests/` | Pure formatter, request validation, and metric tests |
+| `Tests/STTAdaptersTests/` | Audio, process, and local-model adapter contract tests |
 | `Tests/STTPracticeTests/` | Session and clipboard behavior tests |
 | `Fixtures/Benchmark/manifest.json` | Versioned fixture IDs, paths, checksums, categories, and expected facts |
 | `Fixtures/Benchmark/audio/` | Fixed fictional audio inputs, including silence and noise controls |
@@ -138,12 +139,12 @@ Installed model and tool paths may remain machine-specific; none may depend on t
 
 ### Pull request sequence
 
-Use one planning PR, a proposed engineering-foundation PR, then five application PRs. The [engineering standards proposal](../specs/2026-10-20-engineering-standards.md) defines the foundation and a proposed core/adapter target split; review it before implementing those changes. Merge each implementation PR before starting the next. The delivery sequence below groups the task checklist into reviewable results; task numbers identify the detailed work, not separate PRs.
+Use one planning PR, an engineering-foundation PR, then five application PRs. The [engineering standards proposal](../specs/2026-10-20-engineering-standards.md) defines the foundation and a proposed core/adapter target split; review it before implementing those changes. Merge each implementation PR before starting the next. The delivery sequence below groups the task checklist into reviewable results; task numbers identify the detailed work, not separate PRs.
 
 | PR | Scope | Review and acceptance |
 |---|---|---|
 | Planning | This plan, source PRD, and TODO list | Scope and delivery sequence are reviewed; no application code |
-| Engineering foundation (proposed) | Agent guide, convention indexes, pinned format/lint tools, repository checks, hooks, readiness/manual CI | Local checks and policy tests pass; planned versus active enforcement is documented; hosted execution verified once a remote exists |
+| Engineering foundation | Agent guide, convention indexes, pinned format/lint tools, repository checks, hooks, readiness/manual CI | Local checks and policy tests pass; planned versus active enforcement is documented; hosted execution verified once a remote exists |
 | 1. Local transcription baseline | Task 1 foundation and Tasks 2–3: Swift package, app shell, CLI adapter, copied local test assets, benchmark command | Package builds; adapter and metric tests pass; real clips produce an accuracy and timing report offline |
 | 2. Usable dictation app | Tasks 4 and 6: microphone capture, recording controls, raw text, editing, copy, cancellation, cleanup | Record → stop → transcribe → edit → copy works in the packaged app; session tests and permission/error checks pass |
 | 3. Light formatting | Task 5 and its connection to the practice loop | Formatting tests pass; raw text stays available; explicit headings and units work without generated structure |
@@ -158,7 +159,7 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 
 **Files:** `Package.swift`, `.gitignore`, `Resources/Info.plist`, both scripts, `Sources/STTPractice/App.swift`, `ContentView.swift`, `README.md`.
 
-- [ ] Create the package with a core library, app executable, benchmark executable, and test targets. Use Apple frameworks first; do not add third-party packages for the shell.
+- [ ] Create the package with a core library, adapter library, app executable, benchmark executable, and test targets. Use Apple frameworks first; do not add third-party packages for the shell.
 - [ ] Package the executable into a `.app` with a stable bundle ID and microphone usage description. Apply local ad hoc signing. Do not add App Store distribution or a paid signing requirement.
 - [ ] Define `./scripts/run-local.sh` as the single build-and-launch command. Resolve paths from the script location.
 - [ ] Add startup checks for the configured CLI and model paths. Show a clear missing-file error; do not download automatically.

@@ -1,0 +1,14 @@
+.DS_Store
+.build/
+.swiftpm/
+.tools/
+.local/
+__pycache__/
+*.pyc
+.env
+.env.*
+*.bin
+*.gguf
+*.mlmodelc/
+*.xcresult/
+coverage/

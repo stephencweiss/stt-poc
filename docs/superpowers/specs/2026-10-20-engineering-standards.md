@@ -1,6 +1,6 @@
 # Engineering standards proposal
 
-Status: proposed for review. The user chose hosted CI on PR readiness and manual requests. The other standards below are proposals. No hooks, CI, package, or lint configuration have been installed by this document.
+Status: accepted design. Implementation is tracked by the active conventions and docs/verification.md. The user chose hosted CI on PR readiness and manual requests. Application source remains deferred.
 
 ## Recommendation
 
@@ -179,7 +179,7 @@ Hooks help feedback but can be bypassed and are not merge enforcement. Partial s
 - Manual runs must identify the intended PR and resolve its current head/base and merge revision. A run against an unrelated branch is not PR acceptance evidence.
 - After any code or base revision changes, previous results are stale. Request a fresh readiness/manual run before merging. Record the head/base or merge SHA so a green result cannot be mistaken for a current check.
 - The chosen triggers do not automatically cover later pushes or base-branch changes. Do not describe this as continuous merge blocking. Document the manual freshness step in the PR checklist.
-- Branch protection/rulesets are a separate repository setting. Verify account support, exact check names, and stale-result behavior before claiming required checks. No remote is configured in this checkout yet; visibility, quota, and protections are unknown.
+- Branch protection/rulesets are a separate repository setting. Verify account support, exact check names, and stale-result behavior before claiming required checks. The configured remote is stephencweiss/stt-poc and is public; branch protection is not configured or verified.
 - Confirm Actions allowance/budget when the repository is created. Standard runners are free for public repos; private repos use the owner's allowance and can incur charges beyond it. Do not promise zero hosted cost or change account spending settings without a request.
 
 Local full checks remain available when hosted capacity is absent. A local result must be labelled local; it is not a hosted CI pass.
@@ -207,4 +207,4 @@ The first source PR adds compiler-enforced target boundaries, Swift 6 settings, 
 - [Swift API design guidelines](https://www.swift.org/documentation/api-design-guidelines/): Swift naming and documentation.
 - [GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions): runner and allowance costs.
 
-No conventions or executable tools from the reference projects were copied into active use in this change. This proposal defines what to adopt and what the foundation PR must verify.
+The engineering-foundation implementation adapts these rules into active conventions. docs/verification.md owns actual tool/check status and limits; this design is not proof that every proposed check has run.
