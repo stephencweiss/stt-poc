@@ -1,6 +1,6 @@
 # STT POC
 
-A local macOS practice app for free-form cardiology dictation, editing, copying, and an optional local Clean Up Transform. Application code is not implemented yet.
+A local macOS practice app for free-form cardiology dictation, editing, copying, and an optional local Clean Up Transform. The first build includes a setup window and a local file-transcription benchmark. Live microphone recording, formatting, and Clean Up are later application PRs.
 
 Read the [document guide](docs/README.md) for accepted scope, plans, and verification status.
 
@@ -14,7 +14,19 @@ Apple Silicon macOS, Xcode 26.2 / Swift 6.2.3, and Python 3.11+ are required. Ex
 ./scripts/check.sh
 ```
 
-Setup downloads only missing/mismatched tools into ignored .tools; it does not download speech/language models. Use ./scripts/setup-dev.sh to verify an existing setup, ./scripts/check.sh --quick for fast checks, and ./scripts/format.sh for explicit Swift formatting. Checks do not stage files. App launch and benchmark commands will be added with application code.
+Setup downloads only missing/mismatched tools into ignored .tools; it does not download speech/language models. Use ./scripts/setup-dev.sh to verify an existing setup, ./scripts/check.sh --quick for fast checks, and ./scripts/format.sh for explicit Swift formatting. Checks do not stage files. Run the setup window with `./scripts/run-local.sh`. Record remains disabled in this baseline build. The window checks file paths; it does not initialize the model. Custom paths entered there do not change CLI options.
+
+## Local benchmark
+
+```sh
+swift run STTBenchmark --report .local/baseline.json
+```
+
+This runs 15 fixed cases with the vocabulary prompt both off and on (30 local inferences). Progress appears immediately on stderr as `Progress: 0/30 inferences complete.` and advances after each successful inference. The total includes prompt modes and repetitions. Wait for `Completed 30 inferences. Report: …` before reading the JSON; cancelling or failing a run does not write a partial report. Every call launches whisper.cpp and loads the model; total wait can be several minutes. No model download or network service is used. Reports include fictional fixture text; do not publish reports made from private recordings.
+
+Defaults are /opt/homebrew/bin/whisper-cli and /opt/homebrew/share/whisper-cpp/ggml-medium.en.bin. Override them with `--executable PATH` and `--model PATH`. Use `--manifest PATH`, `--prompt off|on|both`, and `--repetitions 1...10` as needed. Run `swift run STTBenchmark --help` for usage. Use a fresh report filename; existing reports and the fixture directory are protected from accidental overwrite. Invalid setup or any failed case returns a nonzero exit instead of skipping a case.
+
+Read [fixture provenance and scoring](Fixtures/Benchmark/README.md) before changing the suite. Read the [measured baseline and failures](docs/benchmarks/2026-10-22-whisper-cpp-medium-en.md). Real-model evaluations run locally; CI builds, tests, checks fixture integrity, and packages the app without a model or microphone.
 
 ## Conventions
 

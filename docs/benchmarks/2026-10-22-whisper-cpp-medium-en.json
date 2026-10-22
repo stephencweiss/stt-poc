@@ -1,0 +1,1435 @@
+{
+  "createdAt" : "2026-10-22T19:12:36Z",
+  "decodingSettings" : "argv: -m MODEL -f AUDIO -l en -oj -of SESSION\/transcript -np [--prompt PROMPT]; all remaining decoding options use the fingerprinted executable defaults",
+  "executableSha256" : "595da05cb412fd923ad66ce680b46d968f39be2c7156ae952d49ed0ace93d006",
+  "hardware" : "Mac15,7\nApple M3 Pro\n38654705664",
+  "manifestSha256" : "2650e034ff181858d9fe70acfa2db4d0bd27ac01b3a509f6e8109360d5a891dd",
+  "measurements" : [
+    {
+      "audioSeconds" : 9.6213125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_01",
+      "invocation" : 1,
+      "procedure" : "diagnostic-cath",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.17159215117480073,
+      "reference" : "Patient underwent a successful diagnostic cath via the right radial approach. No immediate complications like bleeding or hematoma noted.\n",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 1,
+        "referenceWords" : 19,
+        "substitutions" : 2
+      },
+      "transcript" : "Patient underwent a successful diagnostic path by the right radial approach. No immediate complications like bleeding or hematoma are noted.",
+      "transcriptionSeconds" : 1.650941709,
+      "trial" : 1,
+      "wordErrorRate" : 0.15789473684210525
+    },
+    {
+      "audioSeconds" : 9.6213125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_01",
+      "invocation" : 2,
+      "procedure" : "diagnostic-cath",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.16662164501984528,
+      "reference" : "Patient underwent a successful diagnostic cath via the right radial approach. No immediate complications like bleeding or hematoma noted.\n",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 0,
+        "referenceWords" : 19,
+        "substitutions" : 0
+      },
+      "transcript" : "Patient underwent a successful diagnostic cath via the right radial approach. No immediate complications like bleeding or hematoma noted.",
+      "transcriptionSeconds" : 1.6031189160000001,
+      "trial" : 1,
+      "wordErrorRate" : 0
+    },
+    {
+      "audioSeconds" : 8,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "sheath",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_02",
+      "invocation" : 3,
+      "procedure" : "pci",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.200556375,
+      "reference" : "The PCI of the RCA was completed without event. We used transradial access and a six French sheath.\n",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 1,
+        "referenceWords" : 18,
+        "substitutions" : 3
+      },
+      "transcript" : "The PCI of the RCA was completed without event. We used trans-radio access in a six French sheaths.",
+      "transcriptionSeconds" : 1.604451,
+      "trial" : 1,
+      "wordErrorRate" : 0.2222222222222222
+    },
+    {
+      "audioSeconds" : 8,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "sheath",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_02",
+      "invocation" : 4,
+      "procedure" : "pci",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.200606885375,
+      "reference" : "The PCI of the RCA was completed without event. We used transradial access and a six French sheath.\n",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 1,
+        "referenceWords" : 18,
+        "substitutions" : 2
+      },
+      "transcript" : "The PCI of the RCA was completed without event. We used trans-radial access and a sixth French sheath.",
+      "transcriptionSeconds" : 1.604855083,
+      "trial" : 1,
+      "wordErrorRate" : 0.16666666666666666
+    },
+    {
+      "audioSeconds" : 6.8053125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "procedure",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_03",
+      "invocation" : 5,
+      "procedure" : "tavr",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.23441847218625153,
+      "reference" : "Scheduled for a TAVR procedure tomorrow. The access point will be transfemoral with a focus on avoiding any post-op stroke.\n",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 1,
+        "referenceWords" : 21,
+        "substitutions" : 3
+      },
+      "transcript" : "Scheduled for a TAVR procedure tomorrow, the access point will be the trans-femoral with focus on avoiding any post-op stroke.",
+      "transcriptionSeconds" : 1.595290959,
+      "trial" : 1,
+      "wordErrorRate" : 0.19047619047619047
+    },
+    {
+      "audioSeconds" : 6.8053125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "procedure",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_03",
+      "invocation" : 6,
+      "procedure" : "tavr",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.23495165240391236,
+      "reference" : "Scheduled for a TAVR procedure tomorrow. The access point will be transfemoral with a focus on avoiding any post-op stroke.\n",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 1,
+        "referenceWords" : 21,
+        "substitutions" : 3
+      },
+      "transcript" : "Scheduled for a TAVR procedure tomorrow, the access point will be the trans femoral with focus on avoiding any post-op stroke.",
+      "transcriptionSeconds" : 1.5989194169999998,
+      "trial" : 1,
+      "wordErrorRate" : 0.19047619047619047
+    },
+    {
+      "audioSeconds" : 10.3893125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "vessel",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "residual",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stent-size",
+          "matched" : false,
+          "unexpectedPhrases" : [
+            "2 85 by 18"
+          ]
+        },
+        {
+          "id" : "device",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_04",
+      "invocation" : 7,
+      "procedure" : "pci",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.15448208598980923,
+      "reference" : "Post-PCI of the mid-LAD using a two-point-five by eighteen millimeters drug-eluting stent. Residual percent stenosis is zero.\n",
+      "score" : {
+        "deletions" : 1,
+        "insertions" : 0,
+        "referenceWords" : 22,
+        "substitutions" : 7
+      },
+      "transcript" : "Post PCI at the mid lab using a 2.85 by 18 millimeter drug-eluting scent residual percent stenosis is zero.",
+      "transcriptionSeconds" : 1.6049626670000001,
+      "trial" : 1,
+      "wordErrorRate" : 0.36363636363636365
+    },
+    {
+      "audioSeconds" : 10.3893125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "vessel",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "residual",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stent-size",
+          "matched" : false,
+          "unexpectedPhrases" : [
+            "2 85 by 18"
+          ]
+        },
+        {
+          "id" : "device",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_04",
+      "invocation" : 8,
+      "procedure" : "pci",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.15253572688279418,
+      "reference" : "Post-PCI of the mid-LAD using a two-point-five by eighteen millimeters drug-eluting stent. Residual percent stenosis is zero.\n",
+      "score" : {
+        "deletions" : 1,
+        "insertions" : 0,
+        "referenceWords" : 22,
+        "substitutions" : 7
+      },
+      "transcript" : "Post-PCI at the mid lab using a 2.85 by 18 millimeter drug-eluting scent residual percent stenosis is zero.",
+      "transcriptionSeconds" : 1.5847413339999998,
+      "trial" : 1,
+      "wordErrorRate" : 0.36363636363636365
+    },
+    {
+      "audioSeconds" : 8.4053125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "valve",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "hematoma-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_05",
+      "invocation" : 9,
+      "procedure" : "tavr",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.18959060617912776,
+      "reference" : "Pre-dilated with a two-point-zero balloon before deploying the Sapien valve. Excellent expansion with no hematoma at the femoral site.\n",
+      "score" : {
+        "deletions" : 1,
+        "insertions" : 0,
+        "referenceWords" : 22,
+        "substitutions" : 3
+      },
+      "transcript" : "pre dilated with a 2.0 balloon before deploying the sapien valve excellent expansion with no hematoma at the federal site",
+      "transcriptionSeconds" : 1.593568292,
+      "trial" : 1,
+      "wordErrorRate" : 0.18181818181818182
+    },
+    {
+      "audioSeconds" : 8.4053125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "valve",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "hematoma-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_05",
+      "invocation" : 10,
+      "procedure" : "tavr",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.18758563408558573,
+      "reference" : "Pre-dilated with a two-point-zero balloon before deploying the Sapien valve. Excellent expansion with no hematoma at the femoral site.\n",
+      "score" : {
+        "deletions" : 1,
+        "insertions" : 0,
+        "referenceWords" : 22,
+        "substitutions" : 2
+      },
+      "transcript" : "Pre-dilated with a 2.0 balloon before deploying the SAPIEN valve. Excellent expansion with no hematoma at the femoral site.",
+      "transcriptionSeconds" : 1.576715875,
+      "trial" : 1,
+      "wordErrorRate" : 0.13636363636363635
+    },
+    {
+      "audioSeconds" : 9.9626875,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "ffr",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "imaging",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_06",
+      "invocation" : 11,
+      "procedure" : "pci",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.1598633443034322,
+      "reference" : "Used IVUS to confirm stent apposition in the circumflex. FFR was zero-point-nine-two after heparin bolus.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 1,
+        "referenceWords" : 18,
+        "substitutions" : 4
+      },
+      "transcript" : "He used Ibis to confirm stent apposition in the Circumflex FFR was 0.92 after heparin volts.",
+      "transcriptionSeconds" : 1.592668542,
+      "trial" : 1,
+      "wordErrorRate" : 0.3888888888888889
+    },
+    {
+      "audioSeconds" : 9.9626875,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "ffr",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "imaging",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_06",
+      "invocation" : 12,
+      "procedure" : "pci",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.16034535109125927,
+      "reference" : "Used IVUS to confirm stent apposition in the circumflex. FFR was zero-point-nine-two after heparin bolus.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 1,
+        "referenceWords" : 18,
+        "substitutions" : 3
+      },
+      "transcript" : "He used IVUS to confirm stent apposition in the circumflex. FFR was 0.92 after heparin bolts",
+      "transcriptionSeconds" : 1.5974706250000001,
+      "trial" : 1,
+      "wordErrorRate" : 0.3333333333333333
+    },
+    {
+      "audioSeconds" : 36.3733125,
+      "category" : "long",
+      "facts" : [
+        {
+          "id" : "access",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "vessels",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "drug",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "lithotripsy",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_07",
+      "invocation" : 13,
+      "procedure" : "mixed",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.08577960605045251,
+      "reference" : "Starting the diagnostic cath for Mr. Johnson. We gained radial access on the first attempt. Angiography shows the LAD has a seventy percent stenosis, but the LCx looks clear. We decided to perform atherectomy followed by lithotripsy for a heavily calcified lesion in the RCA. I've administered bivalirudin to maintain anticoagulation. We'll finish up with a three-point-zero stent and check the final IVUS before moving the patient to recovery.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 2,
+        "referenceWords" : 73,
+        "substitutions" : 12
+      },
+      "transcript" : "Starting the diagnostic cath from Mr. Johnson, we gained radio access on the first attempt, and geography shows the LAD has a 70% stenosis, but the LCX looks clear. We decided to perform atherectomy, followed with a TRPSY for a heavily calcified lesion in the RCA, administered by Val Rudin to maintain anticoagulation. We'll finish up with a 3.0 stent and check the final IVUS before moving the patient to recovery.",
+      "transcriptionSeconds" : 3.120088417,
+      "trial" : 1,
+      "wordErrorRate" : 0.2191780821917808
+    },
+    {
+      "audioSeconds" : 36.3733125,
+      "category" : "long",
+      "facts" : [
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "vessels",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "drug",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "lithotripsy",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_07",
+      "invocation" : 14,
+      "procedure" : "mixed",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.08568865450459041,
+      "reference" : "Starting the diagnostic cath for Mr. Johnson. We gained radial access on the first attempt. Angiography shows the LAD has a seventy percent stenosis, but the LCx looks clear. We decided to perform atherectomy followed by lithotripsy for a heavily calcified lesion in the RCA. I've administered bivalirudin to maintain anticoagulation. We'll finish up with a three-point-zero stent and check the final IVUS before moving the patient to recovery.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 4,
+        "referenceWords" : 73,
+        "substitutions" : 11
+      },
+      "transcript" : "Starting the diagnostic cath for Mr. Johnson, we gained radial access on the first attempt, and geography shows the LAD has a 70% stenosis, but the LCX looks clear. We decided to perform atherectomy followed by lithotripsy for a heavily calcified lesion in the RCA administered by valvudine to maintain anticoagulation. We'll finish up with a 3.0 stent and two more and check the final IVUS before moving to the patient tumor properly.",
+      "transcriptionSeconds" : 3.1167802079999998,
+      "trial" : 1,
+      "wordErrorRate" : 0.2328767123287671
+    },
+    {
+      "audioSeconds" : 32.8746875,
+      "category" : "long",
+      "facts" : [
+        {
+          "id" : "device",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "valve-size-units",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stroke-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "support-device",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "antiplatelet",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_08",
+      "invocation" : 15,
+      "procedure" : "tavr",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.11012859818059108,
+      "reference" : "This was a complex TAVR case using a thirty-four millimeter Evolut platform. Because of the patient's low cardiac output, we placed an Impella for hemodynamic support during the valvuloplasty. Transfemoral access was large-bore, requiring a ProGlide closure. There was a small hematoma noted at the femoral artery, which was managed with manual pressure. Patient will remain on clopidogrel and aspirin. No signs of stroke or focal deficits post-procedure.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 2,
+        "referenceWords" : 72,
+        "substitutions" : 10
+      },
+      "transcript" : "This was a complex TAVR case using a 34 millimeter evolute platform because of the patient's low cardiac output. We placed an impeller for hemodynamic support during developing low plasty. Transfemoral access with large pore requiring procloid closure. There was a small hematoma noted at the femoral artery which was managed with manure pressure. Patient will remain on clopid withdrawal and aspirin, no signs of stroke or focal deficits post procedure.",
+      "transcriptionSeconds" : 3.62044325,
+      "trial" : 1,
+      "wordErrorRate" : 0.19444444444444445
+    },
+    {
+      "audioSeconds" : 32.8746875,
+      "category" : "long",
+      "facts" : [
+        {
+          "id" : "device",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "valve-size-units",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stroke-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "support-device",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "antiplatelet",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_08",
+      "invocation" : 16,
+      "procedure" : "tavr",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.20174672635291208,
+      "reference" : "This was a complex TAVR case using a thirty-four millimeter Evolut platform. Because of the patient's low cardiac output, we placed an Impella for hemodynamic support during the valvuloplasty. Transfemoral access was large-bore, requiring a ProGlide closure. There was a small hematoma noted at the femoral artery, which was managed with manual pressure. Patient will remain on clopidogrel and aspirin. No signs of stroke or focal deficits post-procedure.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 1,
+        "referenceWords" : 72,
+        "substitutions" : 10
+      },
+      "transcript" : "This was a complex TAVR case using a 34 millimeter evolute platform because of the patient's low cardiac output. We placed an impeller for hemodynamic support during developing low plasty. Transfemoral access with large pore requiring procloid closure. There was a small hematoma noted at the femoral artery which was managed with manure pressure. Patient will remain on glaucoma and aspirin, no signs of stroke or focal deficits post procedure.",
+      "transcriptionSeconds" : 6.632360583,
+      "trial" : 1,
+      "wordErrorRate" : 0.18055555555555555
+    },
+    {
+      "audioSeconds" : 27.4773125,
+      "category" : "long",
+      "facts" : [
+        {
+          "id" : "device",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "bleeding-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "reversal-drug",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_09",
+      "invocation" : 17,
+      "procedure" : "watchman",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.11319998242186168,
+      "reference" : "Proceeding with Watchman device implantation for stroke prophylaxis. The guidewire was advanced into the left atrial appendage under TEE guidance. We measured the ostium at twenty-two millimeters. Deployment was successful on the first pass. We checked for any peri-device leak—none found. Access site was the right femoral vein. Heparin was neutralized with protamine at the end of the case. No bleeding complications observed.\n",
+      "score" : {
+        "deletions" : 3,
+        "insertions" : 4,
+        "referenceWords" : 66,
+        "substitutions" : 7
+      },
+      "transcript" : "Proceeding with the Watchman device implantation for stroke peripheral access. The guide wire was advanced into the left atrial appendage under T-ED guidance. We measured the osteome at 22mm. Deployment was successful on the first pass. We checked for any peridevice leak. None found. Access site was the right femoral vein. Heparin was neutralized with bromine at the end of the case. No bleeding complications observed.",
+      "transcriptionSeconds" : 3.110431292,
+      "trial" : 1,
+      "wordErrorRate" : 0.21212121212121213
+    },
+    {
+      "audioSeconds" : 27.4773125,
+      "category" : "long",
+      "facts" : [
+        {
+          "id" : "device",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "bleeding-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "reversal-drug",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_09",
+      "invocation" : 18,
+      "procedure" : "watchman",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.09470558665444447,
+      "reference" : "Proceeding with Watchman device implantation for stroke prophylaxis. The guidewire was advanced into the left atrial appendage under TEE guidance. We measured the ostium at twenty-two millimeters. Deployment was successful on the first pass. We checked for any peri-device leak—none found. Access site was the right femoral vein. Heparin was neutralized with protamine at the end of the case. No bleeding complications observed.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 3,
+        "referenceWords" : 66,
+        "substitutions" : 7
+      },
+      "transcript" : "Proceeding with the Watchman device implantation for stroke peripheral access. The guide wire was advanced into the left atrial appendage under TEE guidance. We measured the osteome at 22 mm. Deployment was successful on the first pass. We checked for any peridevice leak. None found. Access site was the right femoral vein. Heparin was neutralized with bromine at the end of the case. No bleeding complications observed.",
+      "transcriptionSeconds" : 2.602255,
+      "trial" : 1,
+      "wordErrorRate" : 0.18181818181818182
+    },
+    {
+      "audioSeconds" : 20.1173125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "treated-vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stenosis-result",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "ffr",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "plan",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_10",
+      "invocation" : 19,
+      "procedure" : "pci",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.12956713900030134,
+      "reference" : "The RCA was treated with a drug-coated balloon. Percent stenosis went from ninety down to ten. No hematoma. Reviewing the FFR data for the LAD. It's zero-point-seven-five. We need to go back in for a PCI tomorrow morning.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 3,
+        "referenceWords" : 43,
+        "substitutions" : 8
+      },
+      "transcript" : "The RCA was treated with a drug-coated balloon. Present synosis went from 90 down to 10, no hematoma. We're viewing the FFR data for the LAD, it's 0.75, we need to go back in for a cardio. PCI tomorrow, warning.",
+      "transcriptionSeconds" : 2.606542625,
+      "trial" : 1,
+      "wordErrorRate" : 0.3023255813953488
+    },
+    {
+      "audioSeconds" : 20.1173125,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "treated-vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stenosis-result",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "ffr",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "plan",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_10",
+      "invocation" : 20,
+      "procedure" : "pci",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.1041373402635168,
+      "reference" : "The RCA was treated with a drug-coated balloon. Percent stenosis went from ninety down to ten. No hematoma. Reviewing the FFR data for the LAD. It's zero-point-seven-five. We need to go back in for a PCI tomorrow morning.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 1,
+        "referenceWords" : 43,
+        "substitutions" : 6
+      },
+      "transcript" : "The RCA was treated with a drug-coated balloon. Present stenosis went from 90 down to 10. No hematoma. Reviewing the FFR data for the LAD, it's 0.75. We need to go back in for a cardio. PCI tomorrow. Warning.",
+      "transcriptionSeconds" : 2.0949634169999998,
+      "trial" : 1,
+      "wordErrorRate" : 0.20930232558139536
+    },
+    {
+      "audioSeconds" : 12.416,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "complication",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "sheath",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_11",
+      "invocation" : 21,
+      "procedure" : "pci",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.16984993153994846,
+      "reference" : "The patient had a... uh... hematoma? No, wait, it was a minor bleeding episode at the radial site. We used a guidewire... I mean a sheath size six.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 1,
+        "referenceWords" : 28,
+        "substitutions" : 3
+      },
+      "transcript" : "The patient had hematoma. No, wait, it was a minor bleeding episode at the radio site. We used a guide wire, I mean a sheet size six.",
+      "transcriptionSeconds" : 2.10885675,
+      "trial" : 1,
+      "wordErrorRate" : 0.21428571428571427
+    },
+    {
+      "audioSeconds" : 12.416,
+      "category" : "short",
+      "facts" : [
+        {
+          "id" : "complication",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "access",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "sheath",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_11",
+      "invocation" : 22,
+      "procedure" : "pci",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.12918524146262886,
+      "reference" : "The patient had a... uh... hematoma? No, wait, it was a minor bleeding episode at the radial site. We used a guidewire... I mean a sheath size six.\n",
+      "score" : {
+        "deletions" : 2,
+        "insertions" : 1,
+        "referenceWords" : 28,
+        "substitutions" : 2
+      },
+      "transcript" : "The patient had hematoma, no wait it was a minor bleeding episode at the radial site. We used a guide wire, I mean a sheath size 6.",
+      "transcriptionSeconds" : 1.603963958,
+      "trial" : 1,
+      "wordErrorRate" : 0.17857142857142858
+    },
+    {
+      "audioSeconds" : 16.4906875,
+      "category" : "false-starts",
+      "facts" : [
+        {
+          "id" : "vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "imaging",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stent",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_12",
+      "invocation" : 23,
+      "procedure" : "pci",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.09676613440161302,
+      "reference" : "Looking at the LCx... actually it's the circumflex, wait they're the same... use IVUS to check the stent because the image is blurry.\n",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 0,
+        "referenceWords" : 25,
+        "substitutions" : 3
+      },
+      "transcript" : "Looking at the LCX, actually it's the circumflex weight, they're the same. Use hivis to check the stem because the image is blurry.",
+      "transcriptionSeconds" : 1.595740083,
+      "trial" : 1,
+      "wordErrorRate" : 0.12
+    },
+    {
+      "audioSeconds" : 16.4906875,
+      "category" : "false-starts",
+      "facts" : [
+        {
+          "id" : "vessel",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "imaging",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "stent",
+          "matched" : false,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "cardio_12",
+      "invocation" : 24,
+      "procedure" : "pci",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.09633210919799433,
+      "reference" : "Looking at the LCx... actually it's the circumflex, wait they're the same... use IVUS to check the stent because the image is blurry.\n",
+      "score" : {
+        "deletions" : 1,
+        "insertions" : 0,
+        "referenceWords" : 25,
+        "substitutions" : 2
+      },
+      "transcript" : "Looking at the LCX, actually it's been circumflex, they're the same. Use IVUS to check the stem because the image is blurry.",
+      "transcriptionSeconds" : 1.588582709,
+      "trial" : 1,
+      "wordErrorRate" : 0.12
+    },
+    {
+      "audioSeconds" : 5,
+      "category" : "non-speech",
+      "facts" : [
+
+      ],
+      "id" : "silence",
+      "invocation" : 25,
+      "procedure" : "control",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.3182670666,
+      "reference" : "",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 2,
+        "referenceWords" : 0,
+        "substitutions" : 0
+      },
+      "transcript" : "[BLANK_AUDIO]",
+      "transcriptionSeconds" : 1.591335333,
+      "trial" : 1
+    },
+    {
+      "audioSeconds" : 5,
+      "category" : "non-speech",
+      "facts" : [
+
+      ],
+      "id" : "silence",
+      "invocation" : 26,
+      "procedure" : "control",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.32224841660000003,
+      "reference" : "",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 2,
+        "referenceWords" : 0,
+        "substitutions" : 0
+      },
+      "transcript" : "[BLANK_AUDIO]",
+      "transcriptionSeconds" : 1.611242083,
+      "trial" : 1
+    },
+    {
+      "audioSeconds" : 5,
+      "category" : "non-speech",
+      "facts" : [
+
+      ],
+      "id" : "noise",
+      "invocation" : 27,
+      "procedure" : "control",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.322418325,
+      "reference" : "",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 2,
+        "referenceWords" : 0,
+        "substitutions" : 0
+      },
+      "transcript" : "(water splashing)",
+      "transcriptionSeconds" : 1.6120916250000001,
+      "trial" : 1
+    },
+    {
+      "audioSeconds" : 5,
+      "category" : "non-speech",
+      "facts" : [
+
+      ],
+      "id" : "noise",
+      "invocation" : 28,
+      "procedure" : "control",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.3210110582,
+      "reference" : "",
+      "score" : {
+        "deletions" : 0,
+        "insertions" : 1,
+        "referenceWords" : 0,
+        "substitutions" : 0
+      },
+      "transcript" : "[static]",
+      "transcriptionSeconds" : 1.605055291,
+      "trial" : 1
+    },
+    {
+      "audioSeconds" : 9.7315,
+      "category" : "synthetic-units-negation",
+      "facts" : [
+        {
+          "id" : "valve-size-units",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "mean-gradient",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "pvl-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "obstruction-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "tavr_gradient",
+      "invocation" : 29,
+      "procedure" : "tavr",
+      "promptEnabled" : false,
+      "realTimeFactor" : 0.21436153213790266,
+      "reference" : "We implanted a twenty six millimeter Edwards Sapien three valve. The mean gradient was four millimeters of mercury. There was no paravalvular leak and no coronary obstruction.\n",
+      "score" : {
+        "deletions" : 1,
+        "insertions" : 0,
+        "referenceWords" : 27,
+        "substitutions" : 3
+      },
+      "transcript" : "We implanted a 26-millimeter Edward Sapien III valve. The mean gradient was four millimeters of mercury. There was no paravalvular leak and no coronary obstruction.",
+      "transcriptionSeconds" : 2.08605925,
+      "trial" : 1,
+      "wordErrorRate" : 0.14814814814814814
+    },
+    {
+      "audioSeconds" : 9.7315,
+      "category" : "synthetic-units-negation",
+      "facts" : [
+        {
+          "id" : "valve-size-units",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "mean-gradient",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "pvl-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        },
+        {
+          "id" : "obstruction-negation",
+          "matched" : true,
+          "unexpectedPhrases" : [
+
+          ]
+        }
+      ],
+      "id" : "tavr_gradient",
+      "invocation" : 30,
+      "procedure" : "tavr",
+      "promptEnabled" : true,
+      "realTimeFactor" : 0.21638703355084005,
+      "reference" : "We implanted a twenty six millimeter Edwards Sapien three valve. The mean gradient was four millimeters of mercury. There was no paravalvular leak and no coronary obstruction.\n",
+      "score" : {
+        "deletions" : 1,
+        "insertions" : 0,
+        "referenceWords" : 27,
+        "substitutions" : 3
+      },
+      "transcript" : "We implanted a 26-millimeter Edwards SAPIEN III valve. The mean gradient was 4 millimeters of mercury. There was no paravalvular leak and no coronary obstruction.",
+      "transcriptionSeconds" : 2.105770417,
+      "trial" : 1,
+      "wordErrorRate" : 0.14814814814814814
+    }
+  ],
+  "modelID" : "ggml-medium.en.bin",
+  "modelSha256" : "cc37e93478338ec7700281a7ac30a10128929eb8f427dda2e865faa8f6da4356",
+  "operatingSystem" : "Version 15.7.7 (Build 24G720)",
+  "prompt" : "Cardiology procedure dictation. Diagnostic catheterization, PCI, TAVR, Watchman, LAD, RCA, circumflex, radial access, femoral access, French sheath, IVUS, FFR, Edwards SAPIEN, Medtronic Evolut, balloon aortic valvuloplasty, paravalvular leak.",
+  "promptVersion" : "cardiology-v1",
+  "schemaVersion" : 1,
+  "scoringVersion" : "word-levenshtein-v1: Unicode letters\/digits, lowercase, punctuation splits, no number normalization",
+  "sourceCommit" : "ef0ae8a53034096ebaef3e1e732007b50b8a9eec",
+  "summaries" : [
+    {
+      "cases" : 15,
+      "maximumSeconds" : 3.62044325,
+      "medianSeconds" : 1.6120916250000001,
+      "missingFacts" : 17,
+      "nonSpeechInsertions" : 4,
+      "procedure" : "all",
+      "promptEnabled" : false,
+      "unexpectedPhrases" : 1,
+      "weightedWordErrorRate" : 0.22026431718061673
+    },
+    {
+      "cases" : 2,
+      "maximumSeconds" : 1.6120916250000001,
+      "medianSeconds" : 1.601713479,
+      "missingFacts" : 0,
+      "nonSpeechInsertions" : 4,
+      "procedure" : "control",
+      "promptEnabled" : false,
+      "unexpectedPhrases" : 0
+    },
+    {
+      "cases" : 1,
+      "maximumSeconds" : 1.650941709,
+      "medianSeconds" : 1.650941709,
+      "missingFacts" : 0,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "diagnostic-cath",
+      "promptEnabled" : false,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0.15789473684210525
+    },
+    {
+      "cases" : 1,
+      "maximumSeconds" : 3.120088417,
+      "medianSeconds" : 3.120088417,
+      "missingFacts" : 3,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "mixed",
+      "promptEnabled" : false,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0.2191780821917808
+    },
+    {
+      "cases" : 6,
+      "maximumSeconds" : 2.606542625,
+      "medianSeconds" : 1.6047068335,
+      "missingFacts" : 9,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "pci",
+      "promptEnabled" : false,
+      "unexpectedPhrases" : 1,
+      "weightedWordErrorRate" : 0.2662337662337662
+    },
+    {
+      "cases" : 4,
+      "maximumSeconds" : 3.62044325,
+      "medianSeconds" : 1.8406751044999998,
+      "missingFacts" : 4,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "tavr",
+      "promptEnabled" : false,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0.18309859154929578
+    },
+    {
+      "cases" : 1,
+      "maximumSeconds" : 3.110431292,
+      "medianSeconds" : 3.110431292,
+      "missingFacts" : 1,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "watchman",
+      "promptEnabled" : false,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0.21212121212121213
+    },
+    {
+      "cases" : 15,
+      "maximumSeconds" : 6.632360583,
+      "medianSeconds" : 1.604855083,
+      "missingFacts" : 11,
+      "nonSpeechInsertions" : 3,
+      "procedure" : "all",
+      "promptEnabled" : true,
+      "unexpectedPhrases" : 1,
+      "weightedWordErrorRate" : 0.19162995594713655
+    },
+    {
+      "cases" : 2,
+      "maximumSeconds" : 1.611242083,
+      "medianSeconds" : 1.608148687,
+      "missingFacts" : 0,
+      "nonSpeechInsertions" : 3,
+      "procedure" : "control",
+      "promptEnabled" : true,
+      "unexpectedPhrases" : 0
+    },
+    {
+      "cases" : 1,
+      "maximumSeconds" : 1.6031189160000001,
+      "medianSeconds" : 1.6031189160000001,
+      "missingFacts" : 0,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "diagnostic-cath",
+      "promptEnabled" : true,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0
+    },
+    {
+      "cases" : 1,
+      "maximumSeconds" : 3.1167802079999998,
+      "medianSeconds" : 3.1167802079999998,
+      "missingFacts" : 1,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "mixed",
+      "promptEnabled" : true,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0.2328767123287671
+    },
+    {
+      "cases" : 6,
+      "maximumSeconds" : 2.0949634169999998,
+      "medianSeconds" : 1.6007172915,
+      "missingFacts" : 6,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "pci",
+      "promptEnabled" : true,
+      "unexpectedPhrases" : 1,
+      "weightedWordErrorRate" : 0.22077922077922077
+    },
+    {
+      "cases" : 4,
+      "maximumSeconds" : 6.632360583,
+      "medianSeconds" : 1.852344917,
+      "missingFacts" : 3,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "tavr",
+      "promptEnabled" : true,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0.16901408450704225
+    },
+    {
+      "cases" : 1,
+      "maximumSeconds" : 2.602255,
+      "medianSeconds" : 2.602255,
+      "missingFacts" : 1,
+      "nonSpeechInsertions" : 0,
+      "procedure" : "watchman",
+      "promptEnabled" : true,
+      "unexpectedPhrases" : 0,
+      "weightedWordErrorRate" : 0.18181818181818182
+    }
+  ],
+  "timingNotes" : "Every invocation launches and loads a new CLI process. First invocation is marked; subsequent runs may benefit from OS caches. Includes process\/model load and JSON handling; excludes suite validation and fingerprints. No resident-model warm timing is claimed.",
+  "workingTreeDirty" : false
+}
