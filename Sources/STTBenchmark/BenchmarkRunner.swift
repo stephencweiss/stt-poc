@@ -69,7 +69,7 @@ struct BenchmarkRunner {
                 for enabled in modes {
                     try Task.checkCancellation()
                     rows.append(
-                        try await measure(
+                        try await measureCase(
                             entry, enabled: enabled, trial: trial, invocation: rows.count + 1))
                     progress(rows.count, total)
                 }
@@ -78,7 +78,9 @@ struct BenchmarkRunner {
         return rows
     }
 
-    private func measure(_ entry: LoadedBenchmarkCase, enabled: Bool, trial: Int, invocation: Int)
+    private func measureCase(
+        _ entry: LoadedBenchmarkCase, enabled: Bool, trial: Int, invocation: Int
+    )
         async throws -> BenchmarkMeasurement
     {
         let result = try await transcriber.transcribe(
