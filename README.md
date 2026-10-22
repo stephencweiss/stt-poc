@@ -26,7 +26,7 @@ This runs 15 fixed cases with the vocabulary prompt both off and on (30 local in
 
 Defaults are /opt/homebrew/bin/whisper-cli and /opt/homebrew/share/whisper-cpp/ggml-medium.en.bin. Override them with `--executable PATH` and `--model PATH`. Use `--manifest PATH`, `--prompt off|on|both`, and `--repetitions 1...10` as needed. Run `swift run STTBenchmark --help` for usage. Use a fresh report filename; existing reports and the fixture directory are protected from accidental overwrite. Invalid setup or any failed case returns a nonzero exit instead of skipping a case.
 
-Read [fixture provenance and scoring](Fixtures/Benchmark/README.md) before changing the suite. Baseline analysis will be stored under docs/benchmarks/. Real-model evaluations run locally; CI builds, tests, checks fixture integrity, and packages the app without a model or microphone.
+Read [fixture provenance and scoring](Fixtures/Benchmark/README.md) before changing the suite. Read the [measured baseline and failures](docs/benchmarks/2026-10-22-whisper-cpp-medium-en.md). Real-model evaluations run locally; CI builds, tests, checks fixture integrity, and packages the app without a model or microphone.
 
 ## Conventions
 

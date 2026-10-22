@@ -25,7 +25,7 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | ShellCheck, shell syntax, actionlint | Implemented | Static workflow validation does not prove a hosted run |
 | Swift app compiler, XCTest, packaging | Implemented | Swift 6, warnings as errors, and ad hoc signed local app; no distribution signing |
 | Four-target dependency rules | Implemented | Package graph enforces target direction; file boundaries require review |
-| Model accuracy/latency/memory | Planned: explicit local benchmark | Not a default CI or unit-test requirement |
+| Model accuracy/latency/memory | Measured locally | Full offline baseline completed; critical recognition errors remain; not a default CI requirement |
 | Microphone, hotkey, floating panel, clipboard | Planned: relevant application PR | Manual checks on the target Mac |
 | Workflow map | Implemented | docs/agent/feature_map.json records benchmark and setup-window workflows; no automated UI test |
 | Remote branch protection | Not configured/verified | Workflow and local hooks do not enforce merging |
@@ -56,6 +56,8 @@ The local hook is enabled with core.hooksPath=.githooks. The initial [hosted fou
 
 ## Application baseline
 
-Local full checks pass with 36 Swift tests and 18 repository/tool tests. The compiler uses Swift 6 with warnings as errors. Tests cover phrase/word scoring, fixture validation, CLI options, paired reports, process errors, timeout, cancellation, signal handling, and session recovery. App packaging passes plist validation and ad hoc signature verification. The launch script was run locally; visual interaction and microphone behavior are not automated.
+Local full checks pass with 37 Swift tests and 18 repository/tool tests. The compiler uses Swift 6 with warnings as errors. Tests cover phrase/word scoring, fixture validation, CLI options, paired reports, process errors, timeout, cancellation, signal handling, and session recovery. App packaging passes plist validation and ad hoc signature verification. The launch script was run locally; visual interaction and microphone behavior are not automated.
 
-The first real-model run stopped on the 180-second timeout after the Mac entered clamshell sleep. No partial success report was written. A complete awake run is still required; no accuracy or latency result is claimed yet. References are inherited and not independently audited word-by-word; WER remains provisional. The fixed synthetic voice case is pipeline coverage, not human accuracy evidence. No microphone capture, clipboard, formatting, or Clean Up behavior is included in this PR.
+The full awake run on 2026-10-22 completed all 30 inferences with network access denied, without changing the timeout. The [reviewed baseline](benchmarks/2026-10-22-whisper-cpp-medium-en.md) includes raw JSON, identities, sampled memory, and case-by-case failures. Prompt-on raw WER was 19.16% (19.44% on human recordings only), median transcription time 1.60 seconds, maximum 6.63 seconds. Critical value and drug-name errors remain. Earlier sleep-interrupted attempts wrote no partial success report.
+
+Review also found incorrect expected facts in the fixture manifest. They were corrected against unchanged references, and a new regression checks reference/fact consistency. WER remains provisional until an independent audio/reference audit. The synthetic voice case is pipeline coverage only. Quiet speech, background conversation, true cold-cache startup, microphone capture, clipboard, formatting, and Clean Up remain untested or unimplemented. Compare WhisperKit before further UI work because this baseline fails important recognition checks.

@@ -180,7 +180,7 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 - [x] Invoke `Process` with an argument array, never a shell string. Use unique output paths, English transcription, JSON output, and an optional short general cardiology vocabulary prompt. Do not apply the PRD's TAVR-only prompt to all recordings.
 - [x] Drain stdout and stderr without deadlock. Terminate and reap the child on timeout/cancel. Default timeout: 180 seconds; expose it as local configuration for tests.
 - [x] Run `swift test --filter WhisperCppTranscriberTests`. Expected: all adapter cases pass and diagnostics never become clinical text.
-- [ ] Copy one reviewed fictional clip and its reference into `Fixtures/Benchmark/`; if conversion is needed, commit the canonical 16 kHz mono WAV and record its checksum and conversion settings. Run actual inference with `medium.en`; inspect text and full command duration, including model loading.
+- [x] Copy one reviewed fictional clip and its reference into `Fixtures/Benchmark/`; if conversion is needed, commit the canonical 16 kHz mono WAV and record its checksum and conversion settings. Run actual inference with `medium.en`; inspect text and full command duration, including model loading.
 
 **Exit:** A valid local transcript exists, with networking off. If the model fails to load, verify the model file before downloading a replacement. Do not use the 15-byte large-model file.
 
@@ -188,17 +188,20 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 
 **Files:** `Benchmark.swift`, `Sources/STTBenchmark/BenchmarkCommand.swift`, metric tests, `Fixtures/Benchmark/manifest.json`, README.
 
-- [ ] Copy reviewed fictional test assets into `Fixtures/Benchmark/` and version audio, references, and manifest together; do not reference the source checkout at runtime. Define manifest entries with a stable ID, audio/reference paths, checksums, expected key phrases/values, test category, and origin. Reject duplicate IDs, missing pairs, checksum mismatches, and an empty suite.
-- [ ] Add known-answer tests for WER substitutions, deletions, insertions, repeated words, and empty references. Score silence separately; do not divide by zero.
-- [ ] Measure raw WER using a fixed documented tokenizer: lowercase, separate punctuation, collapse whitespace. Keep number words as spoken; report formatted results separately.
-- [ ] Measure complete phrase capture, valve size/type, access side, gradients, units, and negation. Count missing and unexpected critical facts. Do not use word-set membership as clinical accuracy.
-- [ ] Add duration, full transcription time, real-time factor, dataset checksum/source commit, prompt version, CLI/model version, decoding settings, and per-clip results to a local JSON report. Commit reviewed baseline reports under `docs/benchmarks/`; keep scratch reports ignored. Separate process/model startup where measurable.
-- [ ] Support `swift run STTBenchmark --manifest /absolute/path/manifest.json --report /absolute/path/report.json`. Run paired prompt-on/prompt-off tests on identical audio.
+- [x] Copy reviewed fictional test assets into `Fixtures/Benchmark/` and version audio, references, and manifest together; do not reference the source checkout at runtime. Define manifest entries with a stable ID, audio/reference paths, checksums, expected key phrases/values, test category, and origin. Reject duplicate IDs, missing pairs, checksum mismatches, and an empty suite.
+- [x] Add known-answer tests for WER substitutions, deletions, insertions, repeated words, and empty references. Score silence separately; do not divide by zero.
+- [x] Measure raw WER using a fixed documented tokenizer: lowercase, separate punctuation, collapse whitespace. Keep number words as spoken; report formatted results separately.
+- [x] Measure complete phrase capture, valve size/type, access side, gradients, units, and negation. Count missing and unexpected critical facts. Do not use word-set membership as clinical accuracy.
+- [x] Add duration, full transcription time, real-time factor, dataset checksum/source commit, prompt version, CLI/model version, decoding settings, and per-clip results to a local JSON report. Commit reviewed baseline reports under `docs/benchmarks/`; keep scratch reports ignored. Separate process/model startup where measurable.
+- [x] Support `swift run STTBenchmark --manifest /absolute/path/manifest.json --report /absolute/path/report.json`. Run paired prompt-on/prompt-off tests on identical audio.
 - [ ] Start with three clips covering diagnostic catheterization, PCI, and TAVR. Expand to at least 10 spoken clips across those groups, including clear speech, jargon/values, and quiet/negation cases, plus silence and background-only controls. Report results by procedure group as well as overall; do not claim coverage of untested procedures.
 
 **Exit:** Choose the best measured configuration. Proposed target: median stop-to-text under 5 seconds and every warm run under 10 seconds for 15-second clips. Report first-use time separately. These are discussion targets, not measured results. Any wrong value, side, device, or negation is a listed failure, regardless of WER. Do not claim clinical readiness from this small suite.
 
 **Decision gate:** If results are poor, compare one WhisperKit configuration on the same clips before building more features. Do not add formatter rules to hide recognition errors.
+
+
+**2026-10-22 result:** The corrected fixed suite completed all 30 inferences offline. See the [baseline and failures](../../benchmarks/2026-10-22-whisper-cpp-medium-en.md). Prompt on improves aggregate WER, but critical value and drug-name errors remain. Compare WhisperKit before Task 4. Controlled quiet speech and background-conversation coverage are still pending; the final coverage checkbox remains open.
 
 ### Task 4: Capture microphone audio
 

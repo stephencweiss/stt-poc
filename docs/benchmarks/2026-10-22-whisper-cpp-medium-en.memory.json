@@ -1,0 +1,12 @@
+{
+  "samplingSeconds": 0.5,
+  "samples": 116,
+  "peakEngineRSSKiB": 2210000,
+  "peakParentPlusEngineRSSKiB": 2756608,
+  "activeWallSeconds": 66.03383033303544,
+  "elapsedWallSeconds": 66.03135180473328,
+  "exitCode": 0,
+  "networkPolicy": "(version 1)(allow default)(deny network*)",
+  "sleepProtection": "caffeinate -i; lid open",
+  "limit": "Sampled CPU resident memory; excludes GPU allocation and may miss short peaks."
+}
