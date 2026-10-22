@@ -15,6 +15,24 @@ final class BenchmarkFixtureLoaderTests: XCTestCase {
         XCTAssertTrue(suite.cases.contains { $0.definition.procedure == "tavr" })
     }
 
+    func testCommittedExpectedFactsAgreeWithTheirReference() throws {
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let suite = try BenchmarkFixtureLoader.load(
+            root.appendingPathComponent("Fixtures/Benchmark/manifest.json"))
+        for entry in suite.cases {
+            for fact in entry.definition.expectedFacts {
+                let result = fact.evaluate(entry.referenceText)
+                XCTAssertTrue(
+                    result.matched,
+                    "\(entry.definition.id): \(fact.id) is absent from its reference")
+                XCTAssertTrue(
+                    result.unexpectedPhrases.isEmpty,
+                    "\(entry.definition.id): \(fact.id) forbids reference text")
+            }
+        }
+    }
+
     func testChecksumChangeAndUnlistedAudioAreRejected() throws {
         let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
             .deletingLastPathComponent().deletingLastPathComponent()

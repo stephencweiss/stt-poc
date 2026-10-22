@@ -87,7 +87,8 @@
         {
           "id": "access",
           "acceptedPhrases": [
-            "transfemoral"
+            "transfemoral",
+            "trans femoral"
           ],
           "forbiddenPhrases": [
             "transradial"
@@ -121,6 +122,24 @@
           "acceptedPhrases": [
             "zero",
             "0"
+          ],
+          "forbiddenPhrases": []
+        },
+        {
+          "id": "stent-size",
+          "acceptedPhrases": [
+            "two point five by eighteen millimeters",
+            "2 5 by 18 millimeter",
+            "2 5 by 18 millimeters"
+          ],
+          "forbiddenPhrases": [
+            "2 85 by 18"
+          ]
+        },
+        {
+          "id": "device",
+          "acceptedPhrases": [
+            "drug eluting stent"
           ],
           "forbiddenPhrases": []
         }
@@ -193,6 +212,13 @@
           "forbiddenPhrases": [
             "rca"
           ]
+        },
+        {
+          "id": "imaging",
+          "acceptedPhrases": [
+            "ivus"
+          ],
+          "forbiddenPhrases": []
         }
       ]
     },
@@ -220,6 +246,20 @@
           "id": "vessels",
           "acceptedPhrases": [
             "lad"
+          ],
+          "forbiddenPhrases": []
+        },
+        {
+          "id": "drug",
+          "acceptedPhrases": [
+            "bivalirudin"
+          ],
+          "forbiddenPhrases": []
+        },
+        {
+          "id": "lithotripsy",
+          "acceptedPhrases": [
+            "lithotripsy"
           ],
           "forbiddenPhrases": []
         }
@@ -263,6 +303,20 @@
             "no signs of stroke"
           ],
           "forbiddenPhrases": []
+        },
+        {
+          "id": "support-device",
+          "acceptedPhrases": [
+            "impella"
+          ],
+          "forbiddenPhrases": []
+        },
+        {
+          "id": "antiplatelet",
+          "acceptedPhrases": [
+            "clopidogrel"
+          ],
+          "forbiddenPhrases": []
         }
       ]
     },
@@ -301,6 +355,13 @@
             "no bleeding complications"
           ],
           "forbiddenPhrases": []
+        },
+        {
+          "id": "reversal-drug",
+          "acceptedPhrases": [
+            "protamine"
+          ],
+          "forbiddenPhrases": []
         }
       ]
     },
@@ -316,35 +377,22 @@
       "sourceSha256": "880e61ed44be786ba1a9eb891aa956dd0410276b69b5c377a2ce87ff15a6afeb",
       "expectedFacts": [
         {
-          "id": "vessel",
+          "id": "treated-vessel",
           "acceptedPhrases": [
-            "rca"
+            "rca was treated"
           ],
           "forbiddenPhrases": [
-            "lad"
+            "lad was treated"
           ]
         },
         {
-          "id": "result",
+          "id": "stenosis-result",
           "acceptedPhrases": [
-            "ten",
-            "10"
+            "ninety down to ten",
+            "90 down to 10"
           ],
           "forbiddenPhrases": []
-        }
-      ]
-    },
-    {
-      "id": "cardio_11",
-      "audio": "audio/cardio_11.wav",
-      "reference": "references/cardio_11.txt",
-      "audioSha256": "9f6e0a6f165d36118ad0f439224f84c9dd132dcc67a873432209b6ffacc905fc",
-      "referenceSha256": "4292b0bd20c72b4532ff2f7a6f4f5def3bb4deabf19dd6aba59ecfd4d414f4ce",
-      "category": "short",
-      "procedure": "pci",
-      "origin": "Pulse Log cardio_test_11.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
-      "sourceSha256": "d73849ad46e206098de412039b92330e33de0320286a01ac8a75e8513714202c",
-      "expectedFacts": [
+        },
         {
           "id": "ffr",
           "acceptedPhrases": [
@@ -367,15 +415,15 @@
       ]
     },
     {
-      "id": "cardio_12",
-      "audio": "audio/cardio_12.wav",
-      "reference": "references/cardio_12.txt",
-      "audioSha256": "1eff8f43f072f8829ddc89937d4c75ff21245c8cd46594beb9ba96836cd1b877",
-      "referenceSha256": "462431f84613acd643b9c5c1ec32c05ad2aae1179fee78fb566ac9eed557c585",
-      "category": "false-starts",
+      "id": "cardio_11",
+      "audio": "audio/cardio_11.wav",
+      "reference": "references/cardio_11.txt",
+      "audioSha256": "9f6e0a6f165d36118ad0f439224f84c9dd132dcc67a873432209b6ffacc905fc",
+      "referenceSha256": "4292b0bd20c72b4532ff2f7a6f4f5def3bb4deabf19dd6aba59ecfd4d414f4ce",
+      "category": "short",
       "procedure": "pci",
-      "origin": "Pulse Log cardio_test_12.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
-      "sourceSha256": "e900b43163ec1faf297cb9135a7c9421b8f3054e84d9e7f189e9146425b46f4e",
+      "origin": "Pulse Log cardio_test_11.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "d73849ad46e206098de412039b92330e33de0320286a01ac8a75e8513714202c",
       "expectedFacts": [
         {
           "id": "complication",
@@ -387,15 +435,60 @@
           ]
         },
         {
-          "id": "sheath",
+          "id": "access",
           "acceptedPhrases": [
-            "six",
-            "6"
+            "radial site"
           ],
           "forbiddenPhrases": [
-            "seven",
-            "7"
+            "femoral site"
           ]
+        },
+        {
+          "id": "sheath",
+          "acceptedPhrases": [
+            "sheath size six",
+            "sheath size 6"
+          ],
+          "forbiddenPhrases": [
+            "sheath size seven",
+            "sheath size 7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cardio_12",
+      "audio": "audio/cardio_12.wav",
+      "reference": "references/cardio_12.txt",
+      "audioSha256": "1eff8f43f072f8829ddc89937d4c75ff21245c8cd46594beb9ba96836cd1b877",
+      "referenceSha256": "462431f84613acd643b9c5c1ec32c05ad2aae1179fee78fb566ac9eed557c585",
+      "category": "false-starts",
+      "procedure": "pci",
+      "origin": "Pulse Log cardio_test_12.m4a; fictional practice origin and public reuse confirmed by author 2026-10-21",
+      "sourceSha256": "e900b43163ec1faf297cb9135a7c9421b8f3054e84d9e7f189e9146425b46f4e",
+      "expectedFacts": [
+        {
+          "id": "vessel",
+          "acceptedPhrases": [
+            "circumflex"
+          ],
+          "forbiddenPhrases": [
+            "rca"
+          ]
+        },
+        {
+          "id": "imaging",
+          "acceptedPhrases": [
+            "ivus"
+          ],
+          "forbiddenPhrases": []
+        },
+        {
+          "id": "stent",
+          "acceptedPhrases": [
+            "stent"
+          ],
+          "forbiddenPhrases": []
         }
       ]
     },
