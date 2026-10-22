@@ -1,6 +1,6 @@
 # STT POC
 
-A local macOS practice app for free-form cardiology dictation, editing, copying, and an optional local Clean Up Transform. The first build includes a setup window and a local file-transcription benchmark. Live microphone recording, formatting, and Clean Up are later application PRs.
+A local macOS practice app for free-form cardiology dictation, editing, copying, and an optional local Clean Up Transform. The app records from the microphone, transcribes locally, and lets you edit and copy a note. A file benchmark provides fixed regression inputs. Formatting and Clean Up remain later application PRs.
 
 Read the [document guide](docs/README.md) for accepted scope, plans, and verification status.
 
@@ -14,7 +14,23 @@ Apple Silicon macOS, Xcode 26.2 / Swift 6.2.3, and Python 3.11+ are required. Ex
 ./scripts/check.sh
 ```
 
-Setup downloads only missing/mismatched tools into ignored .tools; it does not download speech/language models. Use ./scripts/setup-dev.sh to verify an existing setup, ./scripts/check.sh --quick for fast checks, and ./scripts/format.sh for explicit Swift formatting. Checks do not stage files. Run the setup window with `./scripts/run-local.sh`. Record remains disabled in this baseline build. The window checks file paths; it does not initialize the model. Custom paths entered there do not change CLI options.
+Setup downloads only missing/mismatched tools into ignored .tools; it does not download speech/language models. Use ./scripts/setup-dev.sh to verify an existing setup, ./scripts/check.sh --quick for fast checks, and ./scripts/format.sh for explicit Swift formatting. Checks do not stage files. Run the app with `./scripts/run-local.sh`. The window checks local file paths; model loading occurs when transcription starts. Custom app paths do not change benchmark CLI options.
+
+## Local dictation
+
+```sh
+./scripts/run-local.sh
+```
+
+Use **Record → Stop → edit → Copy Note**. Allow microphone access when macOS asks. If access is denied, allow STT Practice under System Settings → Privacy & Security → Microphone, then retry. Open **Local setup** to change the executable or model path and select **Check setup**.
+
+Each recording stops at 120 seconds and processes the full captured audio. **Cancel** stops work and removes temporary recording files. **New Note** clears the current note. Raw text remains available for comparison; edits do not change it. Copy uses the current edited text. The app marks the clipboard as stale after another edit.
+
+Use fictional practice cases. Notes remain in memory and are lost at quit. Audio files are removed after processing, cancel, or failure; abandoned sessions are checked at launch. Deletion is not secure erase. No network service or model download is used. The vocabulary prompt is on, based on the measured baseline; recognition still has known value and drug-name errors.
+
+For a sample you want to keep, enable **Keep this recording in memory for optional export** before Record. After transcription, **Export practice sample…** writes a new directory containing audio.wav and reference.txt (the current edited note). Review the reference against the audio before treating it as a regression input. Export is off by default. The app does not add samples to Git.
+
+See the [manual practice checklist](docs/practice-checklist.md) for device, permission, copy, offline, and cleanup checks. Ordinary tests use fake capture and clipboard boundaries; they do not prove microphone quality or cross-app paste behavior.
 
 ## Local benchmark
 

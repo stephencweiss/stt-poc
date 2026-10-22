@@ -1,6 +1,6 @@
 # whisper.cpp medium.en local baseline — 2026-10-22
 
-All 30 inferences completed with exit status 0. The file-transcription pipeline works with network access denied. Accuracy still fails important value, drug, and terminology checks. Use this as a comparison baseline; compare WhisperKit before more UI work, as the implementation plan requires when accuracy is poor. Do not use formatting or Clean Up to conceal recognition errors.
+All 30 inferences completed with exit status 0. The file-transcription pipeline works with network access denied. Accuracy still fails important value, drug, and terminology checks. Use this as a comparison baseline; the user chose on 2026-10-22 to build the practice app first and compare WhisperKit after the first trial. Do not use formatting or Clean Up to conceal recognition errors.
 
 ## Run and identity
 

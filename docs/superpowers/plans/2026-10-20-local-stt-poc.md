@@ -31,7 +31,7 @@ Local checks on 2026-10-20 found:
 | B. Start with WhisperKit | Matches the PRD; supports an in-process engine | Needs Swift package setup, separate Core ML models and tokenizer assets, and first-load testing |
 | C. Add the new flow to Pulse Log | Existing UI and services | Brings database, security, and domain dependencies into a much smaller POC |
 
-Use A for the first working loop, subject to user review. Keep a transcriber protocol so B remains possible. Do not build both engines in the first pass. If A has unacceptable latency or accuracy, stop and compare one WhisperKit model before further UI work.
+Use A for the first working loop, subject to user review. Keep a transcriber protocol so B remains possible. Do not build both engines in the first pass. The user chose on 2026-10-22 to build the usable practice app first, then compare engines after the first practice trial.
 
 ### Scope changes from the PRD
 
@@ -198,10 +198,10 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 
 **Exit:** Choose the best measured configuration. Proposed target: median stop-to-text under 5 seconds and every warm run under 10 seconds for 15-second clips. Report first-use time separately. These are discussion targets, not measured results. Any wrong value, side, device, or negation is a listed failure, regardless of WER. Do not claim clinical readiness from this small suite.
 
-**Decision gate:** If results are poor, compare one WhisperKit configuration on the same clips before building more features. Do not add formatter rules to hide recognition errors.
+**Decision gate (updated 2026-10-22):** Build the practice app before the engine comparison, as the user requested. Compare engines after the first practice trial. Do not add formatter rules to hide recognition errors.
 
 
-**2026-10-22 result:** The corrected fixed suite completed all 30 inferences offline. See the [baseline and failures](../../benchmarks/2026-10-22-whisper-cpp-medium-en.md). Prompt on improves aggregate WER, but critical value and drug-name errors remain. Compare WhisperKit before Task 4. Controlled quiet speech and background-conversation coverage are still pending; the final coverage checkbox remains open.
+**2026-10-22 result:** The corrected fixed suite completed all 30 inferences offline. See the [baseline and failures](../../benchmarks/2026-10-22-whisper-cpp-medium-en.md). Prompt on improves aggregate WER, but critical value and drug-name errors remain. The user chose to proceed with Task 4 before comparing WhisperKit. Controlled quiet speech and background-conversation coverage are still pending; the final coverage checkbox remains open.
 
 ### Task 4: Capture microphone audio
 
@@ -209,12 +209,14 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 
 - [ ] Test conversion from 44.1/48 kHz stereo to 16 kHz mono, frame count/duration, cancellation, cleanup, and propagated write errors.
 - [ ] Request microphone access from the packaged app. Show instructions when denied; allow another attempt after the user changes System Settings.
-- [ ] Capture the hardware format and use a persistent `AVAudioConverter`. Keep blocking disk work and inference outside the audio callback.
+- [ ] Use framework-managed `AVAudioRecorder` capture at the input device rate, then one persistent `AVAudioConverter` after stop. Keep blocking disk work and inference outside application audio callbacks.
 - [ ] Produce the WAV sample format accepted by the CLI. Flush conversion buffers at stop. Show recording duration and level.
 - [ ] Enforce the visible 120-second limit and handle no input device, unplugged microphone, empty capture, and disk failure.
 - [ ] Run `swift test --filter AudioCaptureTests`; then record and play a fictional clip manually. Expected: no clipping, repeated frames, dropped ending, or duration mismatch.
 
 **Exit:** Stop returns complete usable audio; cancel removes session files.
+
+**2026-10-22 implementation:** The usable app adds framework-managed capture, conversion, session state, editing, manual copy, cancellation, quit cleanup, and optional export. See the [execution plan](2026-10-22-usable-dictation-app.md) and [manual checklist](../../practice-checklist.md). Live microphone and paste checks remain pending. Formatting stays in PR 3.
 
 ### Task 5: Add conservative formatting
 
@@ -299,7 +301,7 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 
 1. **Confirmed:** General cardiology procedure logs. Initial benchmark groups are diagnostic catheterization, PCI, and TAVR; no required procedure-specific template.
 2. **Confirmed:** Free-form dictation with readable text, optional spoken headings, and a local language model for the Clean Up Transform only. Preserve meaning and spoken order; inferred structure, summaries, and field extraction remain deferred.
-3. **Proposed:** Use the installed whisper.cpp engine first, with WhisperKit gated on benchmark results.
+3. **Proposed:** Use the installed whisper.cpp engine first, with an engine comparison after the first practice trial.
 4. **Proposed:** English, one speaker, separate notes, recordings up to 120 seconds, and fictional practice content.
 5. **Proposed:** No automatic retention; manual Copy first, optional automatic copy later.
 
