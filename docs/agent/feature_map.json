@@ -9,7 +9,7 @@
         "Provide whisper-cli and medium.en model locally"
       ],
       "command": "swift run STTBenchmark --report .local/baseline.json",
-      "result": "15 checksummed cases run with prompt off and on; a fresh JSON report records text, accuracy, selected facts, timing, and identities",
+      "result": "15 checksummed cases run with prompt off and on; an immediate stderr counter advances after each successful inference; a fresh JSON report records text, accuracy, selected facts, timing, and identities",
       "sources": [
         "Sources/STTBenchmark/BenchmarkCommand.swift",
         "Sources/STTBenchmark/BenchmarkRunner.swift",

@@ -22,7 +22,7 @@ Setup downloads only missing/mismatched tools into ignored .tools; it does not d
 swift run STTBenchmark --report .local/baseline.json
 ```
 
-This runs 15 fixed cases with the vocabulary prompt both off and on (30 local inferences). Every call launches whisper.cpp and loads the model; total wait can be several minutes. No model download or network service is used. Reports include fictional fixture text; do not publish reports made from private recordings.
+This runs 15 fixed cases with the vocabulary prompt both off and on (30 local inferences). Progress appears immediately on stderr as `Progress: 0/30 inferences complete.` and advances after each successful inference. The total includes prompt modes and repetitions. Wait for `Completed 30 inferences. Report: …` before reading the JSON; cancelling or failing a run does not write a partial report. Every call launches whisper.cpp and loads the model; total wait can be several minutes. No model download or network service is used. Reports include fictional fixture text; do not publish reports made from private recordings.
 
 Defaults are /opt/homebrew/bin/whisper-cli and /opt/homebrew/share/whisper-cpp/ggml-medium.en.bin. Override them with `--executable PATH` and `--model PATH`. Use `--manifest PATH`, `--prompt off|on|both`, and `--repetitions 1...10` as needed. Run `swift run STTBenchmark --help` for usage. Use a fresh report filename; existing reports and the fixture directory are protected from accidental overwrite. Invalid setup or any failed case returns a nonzero exit instead of skipping a case.
 

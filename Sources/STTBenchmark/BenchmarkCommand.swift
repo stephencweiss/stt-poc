@@ -58,7 +58,12 @@ struct BenchmarkCommand {
             "Running \(suite.cases.count) fixed cases; prompt modes: \(options.promptModes.count); repetitions: \(options.repetitions)."
         )
         let rows = try await BenchmarkRunner(transcriber: service).measure(
-            suite, modes: options.promptModes, repetitions: options.repetitions)
+            suite, modes: options.promptModes, repetitions: options.repetitions
+        ) { completed, total in
+            // Direct stderr writes keep progress visible in terminals and redirected output.
+            FileHandle.standardError.write(
+                Data("Progress: \(completed)/\(total) inferences complete.\n".utf8))
+        }
         let report = BenchmarkReport(
             schemaVersion: 1, createdAt: ISO8601DateFormatter().string(from: Date()),
             sourceCommit: source,

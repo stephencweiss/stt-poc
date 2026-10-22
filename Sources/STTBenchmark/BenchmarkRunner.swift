@@ -54,9 +54,15 @@ struct BenchmarkReport: Codable {
 struct BenchmarkRunner {
     let transcriber: any TranscriberService
 
-    func measure(_ suite: LoadedBenchmarkSuite, modes: [Bool], repetitions: Int) async throws
+    func measure(
+        _ suite: LoadedBenchmarkSuite, modes: [Bool], repetitions: Int,
+        progress: (_ completed: Int, _ total: Int) -> Void = { _, _ in }
+    ) async throws
         -> [BenchmarkMeasurement]
     {
+        try Task.checkCancellation()
+        let total = suite.cases.count * modes.count * repetitions
+        progress(0, total)
         var rows: [BenchmarkMeasurement] = []
         for trial in 1...repetitions {
             for entry in suite.cases {
@@ -65,6 +71,7 @@ struct BenchmarkRunner {
                     rows.append(
                         try await measure(
                             entry, enabled: enabled, trial: trial, invocation: rows.count + 1))
+                    progress(rows.count, total)
                 }
             }
         }

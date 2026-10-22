@@ -32,7 +32,8 @@ final class BenchmarkSignalTests: XCTestCase {
             "--report", report.path, "--executable", engine.path, "--model", model.path,
         ]
         command.standardOutput = FileHandle.nullDevice
-        command.standardError = FileHandle.nullDevice
+        let diagnostics = Pipe()
+        command.standardError = diagnostics
         try command.run()
         defer {
             if command.isRunning { kill(command.processIdentifier, SIGKILL) }
@@ -46,6 +47,10 @@ final class BenchmarkSignalTests: XCTestCase {
         XCTAssertEqual(command.terminationStatus, 1)
         XCTAssertFalse(FileManager.default.fileExists(atPath: report.path))
         XCTAssertFalse(FileManager.default.fileExists(atPath: session.path))
+        let output = String(
+            decoding: diagnostics.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
+        XCTAssertTrue(output.contains("Progress: 0/30 inferences complete."))
+        XCTAssertFalse(output.contains("Progress: 1/30"))
     }
 
     private func wait(until condition: () -> Bool) async throws {
