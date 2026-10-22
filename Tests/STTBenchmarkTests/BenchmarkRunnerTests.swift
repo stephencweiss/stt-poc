@@ -1,14 +1,14 @@
 import Foundation
 import STTAdapters
 import STTCore
+import STTTestSupport
 import XCTest
 
 @testable import STTBenchmark
 
 final class BenchmarkRunnerTests: XCTestCase {
     func testPairedRunsAndSummariesUseTheSameFixtureSet() async throws {
-        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
+        let root = try TestPackageRoot.find()
         let suite = try BenchmarkFixtureLoader.load(
             root.appendingPathComponent("Fixtures/Benchmark/manifest.json"))
         let runner = BenchmarkRunner(transcriber: ConstantTranscriber())
@@ -31,8 +31,7 @@ final class BenchmarkRunnerTests: XCTestCase {
     }
 
     func testEngineFailureStopsTheBenchmark() async throws {
-        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
+        let root = try TestPackageRoot.find()
         let suite = try BenchmarkFixtureLoader.load(
             root.appendingPathComponent("Fixtures/Benchmark/manifest.json"))
         var progress: [Int] = []

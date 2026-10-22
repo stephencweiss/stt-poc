@@ -1,13 +1,13 @@
 import Foundation
 import STTCore
+import STTTestSupport
 import XCTest
 
 @testable import STTAdapters
 
 final class BenchmarkFixtureLoaderTests: XCTestCase {
     func testCommittedSuiteLoadsCanonicalAudioAndReferences() throws {
-        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
+        let root = try TestPackageRoot.find()
         let suite = try BenchmarkFixtureLoader.load(
             root.appendingPathComponent("Fixtures/Benchmark/manifest.json"))
         XCTAssertGreaterThanOrEqual(suite.cases.count, 14)
@@ -16,8 +16,7 @@ final class BenchmarkFixtureLoaderTests: XCTestCase {
     }
 
     func testCommittedExpectedFactsAgreeWithTheirReference() throws {
-        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
+        let root = try TestPackageRoot.find()
         let suite = try BenchmarkFixtureLoader.load(
             root.appendingPathComponent("Fixtures/Benchmark/manifest.json"))
         for entry in suite.cases {
@@ -34,8 +33,7 @@ final class BenchmarkFixtureLoaderTests: XCTestCase {
     }
 
     func testChecksumChangeAndUnlistedAudioAreRejected() throws {
-        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
+        let root = try TestPackageRoot.find()
         let temporary = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString)
         try FileManager.default.copyItem(

@@ -56,7 +56,7 @@ The local hook is enabled with core.hooksPath=.githooks. The initial [hosted fou
 
 ## Application baseline
 
-Local full checks pass with 37 Swift tests and 18 repository/tool tests. The compiler uses Swift 6 with warnings as errors. Tests cover phrase/word scoring, fixture validation, CLI options, paired reports, process errors, timeout, cancellation, signal handling, and session recovery. App packaging passes plist validation and ad hoc signature verification. The launch script was run locally; visual interaction and microphone behavior are not automated.
+Local full checks pass with 40 Swift tests and 18 repository/tool tests. The compiler uses Swift 6 with warnings as errors. Tests cover phrase/word scoring, fixture validation, CLI options, paired reports, process errors, timeout, cancellation, signal handling, and session recovery. Shared test-only root discovery finds the nearest ancestor containing a Package.swift file; tests cover nested paths, directory-marker rejection, and a clear missing-manifest error. App packaging passes plist validation and ad hoc signature verification. The launch script was run locally; visual interaction and microphone behavior are not automated.
 
 The full awake run on 2026-10-22 completed all 30 inferences with network access denied, without changing the timeout. The [reviewed baseline](benchmarks/2026-10-22-whisper-cpp-medium-en.md) includes raw JSON, identities, sampled memory, and case-by-case failures. Prompt-on raw WER was 19.16% (19.44% on human recordings only), median transcription time 1.60 seconds, maximum 6.63 seconds. Critical value and drug-name errors remain. Earlier sleep-interrupted attempts wrote no partial success report.
 

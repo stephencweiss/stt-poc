@@ -1,11 +1,11 @@
 import Darwin
 import Foundation
+import STTTestSupport
 import XCTest
 
 final class BenchmarkSignalTests: XCTestCase {
     func testTerminationStopsEngineAndRemovesSessionWithoutWritingReport() async throws {
-        let project = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
+        let project = try TestPackageRoot.find()
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
         defer { try? FileManager.default.removeItem(at: root) }  // Test-owned temporary files only.
