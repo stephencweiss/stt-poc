@@ -24,7 +24,7 @@ Setup downloads only missing/mismatched tools into ignored .tools; it does not d
 
 Use **Record → Stop → edit → Copy Note**. Allow microphone access when macOS asks. If access is denied, allow STT Practice under System Settings → Privacy & Security → Microphone, then retry. Open **Local setup** to change the executable or model path and select **Check setup**.
 
-Each recording stops at 120 seconds and processes the full captured audio. **Cancel** stops work and removes temporary recording files. **New Note** clears the current note. Raw text remains available for comparison; edits do not change it. Copy uses the current edited text. The app marks the clipboard as stale after another edit.
+Each recording stops at 120 seconds and processes the full captured audio. This short-note policy comes from `RecordingConfiguration.maximumDurationSeconds` in [the shared recording configuration](Sources/STTCore/Audio/RecordingConfiguration.swift); it is not a Whisper model limit. Increasing it does not add long-session support: transcription still starts after Stop, has a 180-second processing timeout, and has no saved partial transcript. **Cancel** stops work and removes temporary recording files. **New Note** clears the current note. Raw text remains available for comparison; edits do not change it. Copy uses the current edited text. The app marks the clipboard as stale after another edit.
 
 Use fictional practice cases. Notes remain in memory and are lost at quit. Audio files are removed after processing, cancel, or failure; abandoned sessions are checked at launch. Deletion is not secure erase. No network service or model download is used. The vocabulary prompt is on, based on the measured baseline; recognition still has known value and drug-name errors.
 

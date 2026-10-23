@@ -115,7 +115,8 @@ final class SessionModel {
                 try Task.checkCancellation()
                 guard revision == token, !closed else { return }
                 state = .recording
-                message = "Recording. Maximum 120 seconds."
+                message =
+                    "Recording. Maximum \(Int(RecordingConfiguration.maximumDurationSeconds)) seconds."
             } catch { await fail(error, token: token) }
         }
     }

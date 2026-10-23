@@ -133,8 +133,9 @@ public actor MicrophoneCaptureService: AudioCaptureService {
             fail(capture, recorder: recorder, error: failure)
             return
         }
-        if snapshot.durationSeconds >= 120
-            || (!snapshot.isRecording && snapshot.durationSeconds >= 119.5)
+        if snapshot.durationSeconds >= RecordingConfiguration.maximumDurationSeconds
+            || (!snapshot.isRecording
+                && snapshot.durationSeconds >= RecordingConfiguration.maximumDurationSeconds - 0.5)
         {
             recorder.stop()
             monitorTask?.cancel()

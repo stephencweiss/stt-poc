@@ -50,7 +50,9 @@ struct FrameworkAudioRecorder: CaptureRecorder {
         guard AVCaptureDevice(uniqueID: deviceID)?.isConnected == true else {
             throw AudioCaptureError.unavailableDevice
         }
-        guard recorder.prepareToRecord(), recorder.record(forDuration: 120) else {
+        guard recorder.prepareToRecord(),
+            recorder.record(forDuration: RecordingConfiguration.maximumDurationSeconds)
+        else {
             throw AudioCaptureError.captureFailed
         }
     }

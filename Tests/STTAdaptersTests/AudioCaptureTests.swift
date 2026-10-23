@@ -26,14 +26,16 @@ final class AudioCaptureTests: XCTestCase {
         }
     }
 
-    func testRetainsFull120Seconds() throws {
+    func testRetainsFullConfiguredDuration() throws {
         let root = try makeRoot()
         defer { try? FileManager.default.removeItem(at: root) }
         let input = root.appendingPathComponent("input.caf")
-        try writeTone(input, rate: 48000, channels: 1, seconds: 120)
+        try writeTone(
+            input, rate: 48000, channels: 1, seconds: RecordingConfiguration.maximumDurationSeconds)
         let result = try CaptureAudioConverter.convert(
             input: input, output: root.appendingPathComponent("output.wav"))
-        XCTAssertEqual(result.durationSeconds, 120, accuracy: 0.002)
+        XCTAssertEqual(
+            result.durationSeconds, RecordingConfiguration.maximumDurationSeconds, accuracy: 0.002)
     }
 
     func testEmptySilentInvalidAndWriteFailuresAreTyped() throws {
@@ -147,7 +149,9 @@ final class AudioCaptureTests: XCTestCase {
         let second = UUID()
         try await service.start(recordingID: second, retainForExport: false)
         recorder.status.withLock {
-            $0 = .init(isRecording: false, durationSeconds: 120, rms: 0.2, failure: nil)
+            $0 = .init(
+                isRecording: false, durationSeconds: RecordingConfiguration.maximumDurationSeconds,
+                rms: 0.2, failure: nil)
         }
         await service.poll()
         guard case .limitReached(let id) = await events.next() else {

@@ -1,3 +1,4 @@
+import STTCore
 import SwiftUI
 
 struct ContentView: View {
@@ -24,8 +25,12 @@ struct ContentView: View {
                 Button("New Note") { session.newNote() }
                     .disabled(session.state.isBusy)
                 Spacer()
-                Text(String(format: "%.1f / 120 seconds", session.durationSeconds))
-                    .monospacedDigit()
+                Text(
+                    String(
+                        format: "%.1f / %.0f seconds", session.durationSeconds,
+                        RecordingConfiguration.maximumDurationSeconds)
+                )
+                .monospacedDigit()
             }
             ProgressView(value: Double(session.level), total: 1)
                 .accessibilityLabel("Microphone input level")

@@ -16,7 +16,8 @@ enum CaptureAudioConverter {
         }
         guard source.length > 0 else { throw AudioCaptureError.emptyRecording }
         let duration = Double(source.length) / source.processingFormat.sampleRate
-        guard duration.isFinite, duration <= 120.1 else { throw AudioCaptureError.conversionFailed }
+        guard duration.isFinite, duration <= RecordingConfiguration.maximumDurationSeconds + 0.1
+        else { throw AudioCaptureError.conversionFailed }
         guard let format = AVAudioFormat(standardFormatWithSampleRate: 16000, channels: 1),
             let converter = AVAudioConverter(from: source.processingFormat, to: format),
             let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 4096)
@@ -99,6 +100,8 @@ private struct AudioEnergy {
             energy += sample * sample
         }
         frames += Int(buffer.frameLength)
-        guard frames <= 1_921_600 else { throw AudioCaptureError.conversionFailed }
+        guard Double(frames) / 16000 <= RecordingConfiguration.maximumDurationSeconds + 0.1 else {
+            throw AudioCaptureError.conversionFailed
+        }
     }
 }
