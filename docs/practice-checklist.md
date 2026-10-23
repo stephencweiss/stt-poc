@@ -2,6 +2,8 @@
 
 Status: manual checks for the usable dictation app. Record results on the target Mac. Automated tests do not establish microphone or pasteboard behavior.
 
+The user reported a successful basic microphone → transcription → edit → copy trial before formatting planning. The detailed checks below remain separate; that report does not establish that each scenario was tested.
+
 - [ ] Run ./scripts/run-local.sh. Check that the app opens and local paths pass setup.
 - [ ] Deny microphone access. Check the error and recovery instructions. Allow access in System Settings and retry.
 - [ ] With networking off, record a fictional catheterization, PCI, and TAVR note. Stop, compare raw text with edited text, and check values, units, side, drugs, uncertainty, and negation.

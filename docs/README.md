@@ -4,6 +4,7 @@
 |---|---|
 | [POC implementation plan](superpowers/plans/2026-10-20-local-stt-poc.md) | Current product decisions and proposed application build sequence |
 | [Usable dictation app plan](superpowers/plans/2026-10-22-usable-dictation-app.md) | Current capture, note, and copy implementation slice |
+| [Light formatting plan](superpowers/plans/2026-10-23-light-formatting.md) | Draft rules and implementation steps for the next application slice |
 | [Original PRD](../medical_stt_procedure_log_mvp_specification.md) | Supplied reference; later accepted decisions replace conflicting scope |
 | [Engineering adoption decision](decisions/2026-10-21-engineering-foundation.md) | Accepted engineering design and its adaptation from INAB/SuChef |
 | [Engineering design](superpowers/specs/2026-10-20-engineering-standards.md) | Reviewed design context; active conventions/verification own implementation detail |
