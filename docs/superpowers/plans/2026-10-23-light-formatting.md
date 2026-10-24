@@ -26,7 +26,7 @@ These details refine the existing scope and need review before implementation.
 |---|---|---|
 | Whitespace | Leading/trailing spaces; repeated horizontal spaces; CRLF | Trim edges, collapse horizontal whitespace, normalize newlines, and cap blank lines at one. Preserve paragraph boundaries. Do not infer paragraphs from clinical meaning. |
 | Explicit heading command | `Heading findings. No coronary obstruction.` | `Findings:` then a newline and the statement. Match only an approved heading immediately after the literal word `heading`, at the start of the transcript or a sentence/line. Preserve commands with unknown labels. |
-| Existing heading label | Standalone `Findings:` | Canonicalize the approved label and keep its section break. Do not treat `the findings were normal` or a bare narrative word as a heading. |
+| Bare heading or existing label | `Findings. No coronary obstruction.`, standalone `Findings`, or `Findings:` | Normalize the approved label to `Findings:` and place the following statement on a new line. Match section boundaries and whole labels; preserve ordinary narrative such as `the findings were normal` or `Findings were reviewed`. |
 | Numeric units | `16 french`, `26 millimeters`, `2.5 millimeters` | `16 Fr`, `26 mm`, `2.5 mm`. Match complete numeric-unit expressions; retain the numeric value, sign, and decimal digits. |
 | Integer words with units | `sixteen french`, `twenty six millimeters` | `16 Fr`, `26 mm`. Initially support complete English integer phrases from zero through ninety-nine, including hyphenated tens, directly before an approved unit. |
 | Exact vocabulary spelling | `pci`, `tavr`, `sapien` | `PCI`, `TAVR`, `SAPIEN`. Initial allowlist is case normalization only for PCI, TAVR, LAD, RCA, IVUS, FFR, SAPIEN, and Evolut. Preserve variants and other tokens. No fuzzy matching, word joining, or abbreviation expansion. |
@@ -37,7 +37,7 @@ Unit rules initially cover French/Fr and millimeter/millimeters/mm, case-insensi
 
 Protect unsupported numeric expressions before shorter rules run: number-word decimals, ranges, fractions, compound dimensions, corrections, and phrases outside the supported grammar must remain intact. For example, `two point five millimeters` must not become `two point 5 mm`; `twenty to twenty six millimeters` must not be partly rewritten. Do not round values or turn `2.5` into `25`. Unsupported expressions can remain less polished.
 
-**Confirmed 2026-10-24:** The user chose explicit spoken heading commands, such as `heading findings`. Bare heading words remain narrative text. Existing unambiguous standalone labels such as `Findings:` remain supported. This confirms heading recognition only; it does not approve the whole draft for implementation.
+**Confirmed 2026-10-24 (revised):** The user chose to support bare spoken headings, such as `findings`, without requiring the word `heading`. Explicit commands and existing standalone labels such as `Findings:` remain supported. The boundary examples above are proposed recognition rules; ordinary narrative must remain narrative. This replaces the earlier explicit-command requirement and confirms heading scope only, not the whole draft for implementation.
 
 ## Files and boundaries
 
@@ -64,8 +64,8 @@ Keep the existing STTCore/Transcription/CardiologyVocabulary.swift prompt and ve
 
 ## Task 2: Explicit layout and spelling
 
-- [ ] Add failing cases for the approved heading commands, existing standalone labels, unknown headings, mid-sentence narrative, and heading words used as ordinary nouns.
-- [ ] Implement anchored heading recognition and case normalization with escaped labels and whole-token boundaries. Match the literal command, not clinical meaning.
+- [ ] Add failing cases for the approved bare headings, explicit heading commands, existing standalone labels, unknown headings, mid-sentence narrative, and heading words used as ordinary nouns. Include positive `Findings. No coronary obstruction.` and negative `Findings were reviewed` cases.
+- [ ] Implement anchored heading recognition and case normalization with escaped labels and whole-token boundaries. Match an approved bare label at a tested section boundary or an explicit heading command; do not infer sections from clinical meaning.
 - [ ] Add and pass exact vocabulary-case tests. Include `evolution`, Evolut variants, and unknown medical terms to reject broad substring replacements.
 - [ ] Verify `the procedure was uncomplicated`, `cannot exclude coronary obstruction`, and `no paravalvular leak` retain their meaning and order.
 - [ ] Run `swift test --filter NoteFormatterTests`; commit passing layout/spelling rules and tests.
@@ -93,11 +93,11 @@ Keep the existing STTCore/Transcription/CardiologyVocabulary.swift prompt and ve
 - [ ] Keep raw WER, expected-fact scoring, prompt settings, fixture identities, and benchmark output unchanged. A separate formatted review must be labeled as formatting evidence, not a new recognition baseline.
 - [ ] Update README, manual checklist, and workflow map with actual implemented behavior. Document the supported heading syntax and unsupported numeric phrases. Update verification only with checks actually run.
 - [ ] Run `./scripts/format.sh`, then `./scripts/check.sh`. Expected: formatter/session regressions, existing tests, fixture checks, lint, compiler, and signed app packaging all pass.
-- [ ] Run `./scripts/run-local.sh`. Manually dictate the same fictional note free-form and with explicit heading commands; compare raw/editable text, edit, copy into TextEdit, and export if selected. Record only the checks actually completed.
+- [ ] Run `./scripts/run-local.sh`. Manually dictate the same fictional note free-form, with bare headings, and with explicit heading commands; compare raw/editable text, edit, copy into TextEdit, and export if selected. Record only the checks actually completed.
 - [ ] Review the code against this plan and repository conventions. Fix material findings. Open one focused formatting PR after PR #4 merges; attach it and run hosted checks for its final head/base. Do not merge without the user's instruction.
 
 ## Acceptance and deferred work
 
-Ready when deterministic examples pass, raw text stays available, formatting runs once, edits/copy/export work, and no rule infers clinical structure or corrects a recognition error. No model download is needed. The explicit heading-command requirement is confirmed. The initial allowlists and remaining rule details remain proposed until plan review.
+Ready when deterministic examples pass, raw text stays available, formatting runs once, edits/copy/export work, and no rule infers clinical structure or corrects a recognition error. No model download is needed. Support for bare spoken headings is confirmed; explicit commands are optional. The initial allowlists and remaining rule details remain proposed until plan review.
 
 Local-model Clean Up, live transcription/VAD, long-session recording, WhisperKit migration, hotkeys, and automatic copy remain separate work. This plan does not change recording or transcription timeouts.
