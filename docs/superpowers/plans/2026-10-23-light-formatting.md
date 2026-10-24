@@ -37,7 +37,7 @@ Unit rules initially cover French/Fr and millimeter/millimeters/mm, case-insensi
 
 Protect unsupported numeric expressions before shorter rules run: number-word decimals, ranges, fractions, compound dimensions, corrections, and phrases outside the supported grammar must remain intact. For example, `two point five millimeters` must not become `two point 5 mm`; `twenty to twenty six millimeters` must not be partly rewritten. Do not round values or turn `2.5` into `25`. Unsupported expressions can remain less polished.
 
-For headings, recognizing `heading findings` is safer than guessing from bare words. Existing unambiguous standalone labels remain supported. Confirm this command syntax before implementation; the source PRD does not establish reliable detection from ordinary narrative.
+**Confirmed 2026-10-24:** The user chose explicit spoken heading commands, such as `heading findings`. Bare heading words remain narrative text. Existing unambiguous standalone labels such as `Findings:` remain supported. This confirms heading recognition only; it does not approve the whole draft for implementation.
 
 ## Files and boundaries
 
@@ -98,6 +98,6 @@ Keep the existing STTCore/Transcription/CardiologyVocabulary.swift prompt and ve
 
 ## Acceptance and deferred work
 
-Ready when deterministic examples pass, raw text stays available, formatting runs once, edits/copy/export work, and no rule infers clinical structure or corrects a recognition error. No model download is needed. The heading syntax and initial allowlists above remain proposed until plan review.
+Ready when deterministic examples pass, raw text stays available, formatting runs once, edits/copy/export work, and no rule infers clinical structure or corrects a recognition error. No model download is needed. The explicit heading-command requirement is confirmed. The initial allowlists and remaining rule details remain proposed until plan review.
 
 Local-model Clean Up, live transcription/VAD, long-session recording, WhisperKit migration, hotkeys, and automatic copy remain separate work. This plan does not change recording or transcription timeouts.
