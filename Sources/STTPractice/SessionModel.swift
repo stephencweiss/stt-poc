@@ -150,7 +150,7 @@ final class SessionModel {
                     message = "No usable note returned. Select New Note to try again."
                     return
                 }
-                editedText = result.text
+                editedText = NoteFormatter.format(result.text)
                 state = .ready
                 message = String(
                     format: "Transcribed in %.1f seconds. Review the text before copy.",

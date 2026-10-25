@@ -208,6 +208,28 @@ final class SessionModelTests: XCTestCase {
         await model.shutdown()
     }
 
+    func testFormattingPreservesRawAndCopiesCurrentEdits() async {
+        let raw = "  Findings. sixteen french sheath. no paravalvular leak.  "
+        let clipboard = FakeClipboard()
+        let model = makeModel(clipboard: clipboard, engine: ImmediateTranscriber(text: raw))
+        model.retainForExport = true
+        await model.checkSetup()
+        model.record()
+        await wait { model.state == .recording }
+        model.stop()
+        await wait { model.state == .ready }
+        XCTAssertEqual(model.rawText, raw)
+        XCTAssertEqual(model.editedText, "Findings:\n16 Fr sheath. no paravalvular leak.")
+        model.editedText = "  My exact manual edit  "
+        for _ in 0..<20 { await Task.yield() }
+        XCTAssertEqual(model.editedText, "  My exact manual edit  ")
+        model.copyNote()
+        XCTAssertEqual(clipboard.text, "  My exact manual edit  ")
+        XCTAssertEqual(model.exportSnapshot()?.reference, "  My exact manual edit  ")
+        XCTAssertEqual(model.rawText, raw)
+        await model.shutdown()
+    }
+
     private func makeModel(
         capture: FakeCapture = FakeCapture(), clipboard: FakeClipboard = FakeClipboard(),
         engine: any TranscriberService = ImmediateTranscriber()

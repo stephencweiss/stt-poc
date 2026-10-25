@@ -1,6 +1,6 @@
 # STT POC
 
-A local macOS practice app for free-form cardiology dictation, editing, copying, and an optional local Clean Up Transform. The app records from the microphone, transcribes locally, and lets you edit and copy a note. A file benchmark provides fixed regression inputs. Formatting and Clean Up remain later application PRs.
+A local macOS practice app for free-form cardiology dictation, editing, copying, and an optional local Clean Up Transform. The app records from the microphone, transcribes locally, and lets you edit and copy a note. A file benchmark provides fixed regression inputs. Light formatting runs once after transcription; local-model Clean Up remains a later application PR.
 
 Read the [document guide](docs/README.md) for accepted scope, plans, and verification status.
 
@@ -22,7 +22,7 @@ Setup downloads only missing/mismatched tools into ignored .tools; it does not d
 ./scripts/run-local.sh
 ```
 
-Use **Record → Stop → edit → Copy Note**. Allow microphone access when macOS asks. If access is denied, allow STT Practice under System Settings → Privacy & Security → Microphone, then retry. Open **Local setup** to change the executable or model path and select **Check setup**.
+Quit an older running build before relaunching after code changes. Use **Record → Stop → edit → Copy Note**. Allow microphone access when macOS asks. If access is denied, allow STT Practice under System Settings → Privacy & Security → Microphone, then retry. Open **Local setup** to change the executable or model path and select **Check setup**.
 
 Each recording stops at 120 seconds and processes the full captured audio. This short-note policy comes from `RecordingConfiguration.maximumDurationSeconds` in [the shared recording configuration](Sources/STTCore/Audio/RecordingConfiguration.swift); it is not a Whisper model limit. Increasing it does not add long-session support: transcription still starts after Stop, has a 180-second processing timeout, and has no saved partial transcript. **Cancel** stops work and removes temporary recording files. **New Note** clears the current note. Raw text remains available for comparison; edits do not change it. Copy uses the current edited text. The app marks the clipboard as stale after another edit.
 
@@ -31,6 +31,24 @@ Use fictional practice cases. Notes remain in memory and are lost at quit. Audio
 For a sample you want to keep, enable **Keep this recording in memory for optional export** before Record. After transcription, **Export practice sample…** writes a new directory containing audio.wav and reference.txt (the current edited note). Review the reference against the audio before treating it as a regression input. Export is off by default. The app does not add samples to Git.
 
 See the [manual practice checklist](docs/practice-checklist.md) for device, permission, copy, offline, and cleanup checks. Ordinary tests use fake capture and clipboard boundaries; they do not prove microphone quality or cross-app paste behavior.
+
+## Light formatting
+
+The editor receives a formatted copy after transcription. **Raw transcript** keeps the exact engine result. Formatting runs once; it does not rewrite later edits. Copy and export use the current edited note.
+
+- Bare headings such as `Findings.` or `Findings:` become `Findings:` on a separate line. A heading can also stand alone on a line at a section boundary. After an unfinished narrative line, use a colon or a blank line to make the boundary clear. `Heading findings.` is optional syntax. Supported labels are Procedure, Indication, Access, Findings, Intervention, Hemodynamics, Complications, and Plan. Ordinary phrases such as `Findings were reviewed` stay narrative text.
+- Repeated horizontal spaces and extra blank lines are reduced. Paragraph order stays unchanged.
+- Approved numeric-unit expressions use notation such as `16 Fr sheath` and `26 mm`. Integer words from zero through ninety-nine are supported in these contexts. Ambiguous French nationality uses and unsupported decimals in words, ranges, dimensions, fractions, and corrections are preserved.
+- Exact terms use approved case: PCI, TAVR, LAD, RCA, IVUS, FFR, SAPIEN, and Evolut. No fuzzy word correction is used.
+
+For example, `Findings. sixteen french sheath. no paravalvular leak.` becomes:
+
+```text
+Findings:
+16 Fr sheath. no paravalvular leak.
+```
+
+The formatter does not add sections, infer facts, repair grammar, or correct recognition errors. Inspect raw text and check the result before copying. The later Clean Up Transform has separate scope.
 
 ## Local benchmark
 

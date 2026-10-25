@@ -27,7 +27,8 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | Four-target dependency rules | Implemented | Package graph enforces target direction; file boundaries require review |
 | Model accuracy/latency/memory | Measured locally | Full offline baseline completed; critical recognition errors remain; not a default CI requirement |
 | Microphone capture, note editing, manual copy/export | Implemented; live trial pending | Fake capture/clipboard and real conversion/file tests; target-Mac manual checks still required |
-| Hotkey, floating panel, automatic copy, formatting, Clean Up | Planned: later application PRs | Outside the usable dictation slice |
+| Light formatting | Implemented; live formatting trial pending | Pure transcript fixtures and session tests; no recognition-accuracy claim |
+| Hotkey, floating panel, automatic copy, Clean Up | Planned: later application PRs | Outside the current slices |
 | Workflow map | Implemented | docs/agent/feature_map.json records benchmark and local-dictation workflows; no automated UI test |
 | Remote branch protection | Not configured/verified | Workflow and local hooks do not enforce merging |
 
@@ -72,3 +73,11 @@ The session owns start/stop/inference/cancel work and rejects old events/results
 The final local ./scripts/check.sh passed on 2026-10-22 with 68 Swift tests and 18 repository/tool tests, lint, compiler warnings as errors, plist validation, and ad hoc signature verification. Conversion tests pass output through the same canonical WAV validator used by whisper.cpp. The capture-failure cleanup test fails when its state fix is removed and passes with the fix.
 
 Local launch via ./scripts/run-local.sh built and opened the signed app on 2026-10-22. The user reported that the basic microphone → transcription → edit → copy trial passed. This does not establish the remaining permission-denial, device-removal, offline, duration-limit, or crash/recovery checks. Hosted evidence must be from the current PR head/base. The [practice checklist](practice-checklist.md) remains the owner of pending live checks. No hardware test is claimed from fake-service tests.
+
+## Light formatting
+
+The formatter is a pure STTCore function. It runs once after nonempty transcription succeeds and the session revision is current. Raw text retains the exact engine result. Copy and export use current edited text; formatting does not run again on manual edits.
+
+The rules cover whitespace, approved bare/explicit headings, limited numeric-unit notation, and exact vocabulary case. Unsupported numeric constructions preserve their clause. No prompt, model, recognition scoring, or fixture reference changed. The [formatting review](benchmarks/2026-10-24-light-formatting.md) compares the saved baseline transcripts without new inference. Its changes are display notation, not improved raw WER.
+
+The new session test failed against the original raw-to-editor assignment before formatter integration. The formatting microphone/TextEdit trial in the manual checklist is pending; the user's earlier successful basic trial predates this change. Two local full runs reached all 77 tests but each failed one existing process-timing check during Mac sleep/wake interruptions. The power log shows repeated maintenance-sleep intervals of about 15 minutes; the heading matrix took 909 seconds in an interrupted full run and about two seconds in a focused rerun. The unchanged flooded-diagnostics test passed its focused rerun in 0.244 seconds. No timeout, process code, or test was weakened. Formatting and session tests passed in both full runs. Hosted CI is required for a stable full-suite result before acceptance. Local static/tool checks passed with 18 repository/tool tests; app packaging is checked separately because the local full script stops at the test failure.

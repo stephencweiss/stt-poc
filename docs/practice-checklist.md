@@ -17,4 +17,15 @@ The user reported a successful basic microphone → transcription → edit → c
 - [ ] Simulate a crash and relaunch. Check abandoned-session recovery without removing another running session.
 - [ ] Leave export off. Check that no audio/reference export appears. Enable it before another note and export once. Listen to the WAV and audit the saved reference.
 
-Use fictional text only in shared reports. Record microphone/device, macOS version, observed failures, and timing. Formatting, global hotkey, floating panel, automatic copy, and Clean Up are outside this slice.
+Use fictional text only in shared reports. Record microphone/device, macOS version, observed failures, and timing. Global hotkey, floating panel, automatic copy, and Clean Up remain outside this slice.
+
+## Formatting trial
+
+Status: pending user trial. The earlier successful basic dictation trial predates formatting.
+
+- [ ] Dictate a free-form fictional note. Check that no section labels or paragraphs are inferred from clinical meaning.
+- [ ] Dictate the same note with bare headings such as `Findings.` and with optional `heading findings`. Compare the unchanged raw transcript and formatted editor output. Check ordinary narrative uses of heading words too.
+- [ ] Check `sixteen french sheath`, `twenty six millimeters`, and an unsupported range/decimal phrase. Check values, laterality, negation, uncertainty, and device variants against what was spoken.
+- [ ] Edit formatted text. Copy into TextEdit; check that manual spaces and words stay as edited. Export if selected and check the saved reference against the edited note.
+
+These manual checks depend on the engine returning recognizable heading markers. Pure formatter tests use known transcript strings and do not establish speech-recognition accuracy.

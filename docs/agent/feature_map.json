@@ -33,7 +33,7 @@
         "Local whisper-cli and medium.en model",
         "Microphone permission for STT Practice"
       ],
-      "result": "Build and open the signed app; record up to 120 seconds, transcribe locally, edit, and manually copy; optional export retains audio only when selected before recording",
+      "result": "Build and open the signed app; record up to the configured limit, transcribe locally, apply conservative formatting once, edit, and manually copy; raw text remains exact; optional export uses current edits and retains audio only when selected before recording",
       "sources": [
         "Sources/STTPractice/App.swift",
         "Sources/STTPractice/ContentView.swift",
@@ -42,17 +42,21 @@
         "Sources/STTPractice/SampleExport.swift",
         "Sources/STTPractice/PracticeAppDelegate.swift",
         "Sources/STTAdapters/Audio/MicrophoneCaptureService.swift",
-        "Sources/STTAdapters/Audio/CaptureAudioConverter.swift"
+        "Sources/STTAdapters/Audio/CaptureAudioConverter.swift",
+        "Sources/STTCore/Formatting/NoteFormatter.swift",
+        "Sources/STTCore/Formatting/NumericUnitFormatter.swift"
       ],
       "tests": [
         "Tests/STTPracticeTests/SessionModelTests.swift",
         "Tests/STTPracticeTests/SampleExportTests.swift",
-        "Tests/STTAdaptersTests/AudioCaptureTests.swift"
+        "Tests/STTAdaptersTests/AudioCaptureTests.swift",
+        "Tests/STTCoreTests/NoteFormatterTests.swift"
       ],
       "manualSteps": [
         "Follow docs/practice-checklist.md for live microphone, permission, device, duration limit, quit, and TextEdit paste checks",
         "Ordinary tests use fake capture and clipboard; no automated UI or microphone proof",
-        "Review known baseline errors before using copied notes"
+        "Review known baseline errors before using copied notes",
+        "Run the formatting trial in docs/practice-checklist.md with bare headings and unsupported numeric phrases"
       ]
     }
   ]
