@@ -32,6 +32,13 @@ struct ContentView: View {
                 )
                 .monospacedDigit()
             }
+            if let name = session.systemInputName {
+                Text("System input at recording start: \(name)")
+                    .font(.caption).textSelection(.enabled)
+            } else {
+                Text("Input: macOS default. Choose it in System Settings → Sound → Input.")
+                    .font(.caption)
+            }
             ProgressView(value: Double(session.level), total: 1)
                 .accessibilityLabel("Microphone input level")
             Text(session.message).textSelection(.enabled)

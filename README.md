@@ -24,6 +24,8 @@ Setup downloads only missing/mismatched tools into ignored .tools; it does not d
 
 Quit an older running build before relaunching after code changes. Use **Record → Stop → edit → Copy Note**. Allow microphone access when macOS asks. If access is denied, allow STT Practice under System Settings → Privacy & Security → Microphone, then retry. Open **Local setup** to change the executable or model path and select **Check setup**.
 
+The app uses the macOS default input. Select it under **System Settings → Sound → Input** before recording; another app can use a different input. During recording, the app shows the system default name read at recording setup. This is a snapshot, not a per-frame route check or an app-specific microphone selector. Stop before changing inputs. If the name cannot be read, the app shows the system-input instructions instead.
+
 Each recording stops at 120 seconds and processes the full captured audio. This short-note policy comes from `RecordingConfiguration.maximumDurationSeconds` in [the shared recording configuration](Sources/STTCore/Audio/RecordingConfiguration.swift); it is not a Whisper model limit. Increasing it does not add long-session support: transcription still starts after Stop, has a 180-second processing timeout, and has no saved partial transcript. **Cancel** stops work and removes temporary recording files. **New Note** clears the current note. Raw text remains available for comparison; edits do not change it. Copy uses the current edited text. The app marks the clipboard as stale after another edit.
 
 Use fictional practice cases. Notes remain in memory and are lost at quit. Audio files are removed after processing, cancel, or failure; abandoned sessions are checked at launch. Deletion is not secure erase. No network service or model download is used. The vocabulary prompt is on, based on the measured baseline; recognition still has known value and drug-name errors.
@@ -47,6 +49,8 @@ For example, `Findings. sixteen french sheath. no paravalvular leak.` becomes:
 Findings:
 16 Fr sheath. no paravalvular leak.
 ```
+
+If Whisper returns non-speech markers such as `[BLANK_AUDIO]` mixed with text, the app warns that speech may be missing. It keeps those markers in both text views. Enable export before recording, then listen to the saved WAV to check whether speech reached the transcriber.
 
 The formatter does not add sections, infer facts, repair grammar, or correct recognition errors. Inspect raw text and check the result before copying. The later Clean Up Transform has separate scope.
 

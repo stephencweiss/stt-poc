@@ -6,6 +6,8 @@ The user reported a successful basic microphone → transcription → edit → c
 
 - [ ] Run ./scripts/run-local.sh. Check that the app opens and local paths pass setup.
 - [ ] Deny microphone access. Check the error and recovery instructions. Allow access in System Settings and retry.
+- [ ] Select the required device in System Settings → Sound → Input. Start recording and check the displayed system input name. Stop before changing inputs. Repeat with the built-in and wireless microphones.
+- [ ] Enable export and record more than 30 seconds of fictional speech. Listen to the full exported WAV and compare it with Raw transcript. If markers replace speech, report whether the missing words are audible in the WAV.
 - [ ] With networking off, record a fictional catheterization, PCI, and TAVR note. Stop, compare raw text with edited text, and check values, units, side, drugs, uncertainty, and negation.
 - [ ] Edit the note. Copy it into TextEdit. Edit again and check that the app asks for another copy.
 - [ ] Select New Note. Check that it clears the old note before a new recording.
