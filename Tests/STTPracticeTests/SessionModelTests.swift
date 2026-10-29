@@ -34,6 +34,57 @@ final class SessionModelTests: XCTestCase {
         XCTAssertEqual(discarded, 1)
     }
 
+    func testSystemInputLabelRejectsStaleRecordingEvents() async {
+        let capture = FakeCapture()
+        let model = makeModel(capture: capture)
+        await model.checkSetup()
+        model.record()
+        await wait { model.state == .recording }
+        let identifier = await capture.identifier
+        if let identifier {
+            capture.continuation.yield(
+                .inputDevice(recordingID: identifier, systemDefaultName: "Wireless mic"))
+        }
+        await wait { model.systemInputName == "Wireless mic" }
+        capture.continuation.yield(
+            .inputDevice(recordingID: UUID(), systemDefaultName: "Other mic"))
+        for _ in 0..<20 { await Task.yield() }
+        XCTAssertEqual(model.systemInputName, "Wireless mic")
+        model.cancel()
+        await wait { model.state == .idle }
+        model.newNote()
+        XCTAssertNil(model.systemInputName)
+        await model.shutdown()
+    }
+
+    func testMixedBlankAudioWarnsWithoutRemovingTranscript() async {
+        let raw = "Findings. [BLANK_AUDIO] [BLANK_AUDIO]"
+        let model = makeModel(engine: ImmediateTranscriber(text: raw))
+        model.retainForExport = true
+        await model.checkSetup()
+        model.record()
+        await wait { model.state == .recording }
+        model.stop()
+        await wait { model.state == .ready }
+        XCTAssertEqual(model.rawText, raw)
+        XCTAssertEqual(model.editedText, "Findings:\n[BLANK_AUDIO] [BLANK_AUDIO]")
+        XCTAssertTrue(model.message.contains("Speech may be missing"))
+        XCTAssertNotNil(model.exportSnapshot())
+        await model.shutdown()
+    }
+
+    func testMissingSpeechWithoutExportExplainsHowToCaptureAudio() async {
+        let model = makeModel(engine: ImmediateTranscriber(text: "Findings. [BLANK_AUDIO]"))
+        await model.checkSetup()
+        model.record()
+        await wait { model.state == .recording }
+        model.stop()
+        await wait { model.state == .ready }
+        XCTAssertNil(model.exportSnapshot())
+        XCTAssertTrue(model.message.contains("enable optional export before a new recording"))
+        await model.shutdown()
+    }
+
     func testCancelRejectsLateTranscription() async {
         let engine = HeldTranscriber()
         let model = makeModel(engine: engine)
@@ -205,6 +256,28 @@ final class SessionModelTests: XCTestCase {
         XCTAssertTrue(model.editedText.isEmpty)
         model.copyNote()
         XCTAssertEqual(clipboard.writes, 0)
+        await model.shutdown()
+    }
+
+    func testFormattingPreservesRawAndCopiesCurrentEdits() async {
+        let raw = "  Findings. sixteen french sheath. no paravalvular leak.  "
+        let clipboard = FakeClipboard()
+        let model = makeModel(clipboard: clipboard, engine: ImmediateTranscriber(text: raw))
+        model.retainForExport = true
+        await model.checkSetup()
+        model.record()
+        await wait { model.state == .recording }
+        model.stop()
+        await wait { model.state == .ready }
+        XCTAssertEqual(model.rawText, raw)
+        XCTAssertEqual(model.editedText, "Findings:\n16 Fr sheath. no paravalvular leak.")
+        model.editedText = "  My exact manual edit  "
+        for _ in 0..<20 { await Task.yield() }
+        XCTAssertEqual(model.editedText, "  My exact manual edit  ")
+        model.copyNote()
+        XCTAssertEqual(clipboard.text, "  My exact manual edit  ")
+        XCTAssertEqual(model.exportSnapshot()?.reference, "  My exact manual edit  ")
+        XCTAssertEqual(model.rawText, raw)
         await model.shutdown()
     }
 

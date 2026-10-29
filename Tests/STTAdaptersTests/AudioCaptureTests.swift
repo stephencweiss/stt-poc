@@ -26,6 +26,31 @@ final class AudioCaptureTests: XCTestCase {
         }
     }
 
+    func testConversionPreservesSignalAcrossThirtySecondBoundary() throws {
+        for rate in [16000.0, 44100.0, 48000.0] {
+            let root = try makeRoot()
+            defer { try? FileManager.default.removeItem(at: root) }
+            let input = root.appendingPathComponent("input.caf")
+            try writeTone(input, rate: rate, channels: 2, seconds: 36.25)
+            let output = root.appendingPathComponent("output.wav")
+            _ = try CaptureAudioConverter.convert(input: input, output: output)
+            let file = try AVAudioFile(forReading: output)
+            XCTAssertEqual(Double(file.length) / 16000, 36.25, accuracy: 0.002)
+            let buffer = try XCTUnwrap(
+                AVAudioPCMBuffer(pcmFormat: file.processingFormat, frameCapacity: 1600))
+            for second in [0, 1, 15, 29, 30, 31, 35, 36] {
+                file.framePosition = AVAudioFramePosition(second * 16000)
+                try file.read(into: buffer, frameCount: 1600)
+                XCTAssertEqual(buffer.frameLength, 1600)
+                let samples = try XCTUnwrap(buffer.floatChannelData?[0])
+                let energy = (0..<Int(buffer.frameLength)).reduce(0.0) {
+                    $0 + Double(samples[$1]) * Double(samples[$1])
+                }
+                XCTAssertGreaterThan(sqrt(energy / Double(buffer.frameLength)), 0.1)
+            }
+        }
+    }
+
     func testRetainsFullConfiguredDuration() throws {
         let root = try makeRoot()
         defer { try? FileManager.default.removeItem(at: root) }
@@ -67,6 +92,23 @@ final class AudioCaptureTests: XCTestCase {
         ) { error in
             XCTAssertEqual(error as? AudioCaptureError, .writeFailed)
         }
+    }
+
+    func testCaptureReportsSystemInputAtStart() async throws {
+        let root = try makeRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let service = makeService(root: root, recorder: FakeCaptureRecorder())
+        var events = service.events.makeAsyncIterator()
+        let identifier = UUID()
+        try await service.start(recordingID: identifier, retainForExport: false)
+        await service.poll()
+        guard case .inputDevice(let id, let name) = await events.next() else {
+            try await service.cancel()
+            return XCTFail("Expected input name before meter events")
+        }
+        XCTAssertEqual(id, identifier)
+        XCTAssertEqual(name, "Test input")
+        try await service.cancel()
     }
 
     func testCaptureOwnershipExportAndDiscard() async throws {
@@ -136,6 +178,7 @@ final class AudioCaptureTests: XCTestCase {
         var events = service.events.makeAsyncIterator()
         let first = UUID()
         try await service.start(recordingID: first, retainForExport: false)
+        _ = await events.next()
         recorder.status.withLock {
             $0 = .init(isRecording: false, durationSeconds: 1, rms: 0, failure: .unavailableDevice)
         }
@@ -148,6 +191,7 @@ final class AudioCaptureTests: XCTestCase {
         XCTAssertTrue(try FileManager.default.contentsOfDirectory(atPath: root.path).isEmpty)
         let second = UUID()
         try await service.start(recordingID: second, retainForExport: false)
+        _ = await events.next()
         recorder.status.withLock {
             $0 = .init(
                 isRecording: false, durationSeconds: RecordingConfiguration.maximumDurationSeconds,
@@ -318,6 +362,7 @@ final class AudioCaptureTests: XCTestCase {
 }
 
 private struct FakeCaptureRecorder: CaptureRecorder {
+    let systemInputName: String? = "Test input"
     let starts = OSAllocatedUnfairLock(initialState: 0)
     let status = OSAllocatedUnfairLock(
         initialState: RecorderSnapshot(
