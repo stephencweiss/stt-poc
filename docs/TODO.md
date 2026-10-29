@@ -2,7 +2,7 @@
 
 ## Next stacked slice
 
-- [ ] Add pause/resume for an unfinished recording, following the [draft design](superpowers/specs/2026-10-29-pause-resume-design.md). Implement separately from light formatting after design review.
+- [ ] Design and evaluate buffered transcription with explicit pause/resume, following the [revised draft](superpowers/specs/2026-10-29-pause-resume-design.md). Use one speech-segment pipeline for processing during capture or after Finish. Evaluate VAD, boundaries, queue bounds, and engine lifetime before implementation; keep this work separate from light formatting.
 
 ## v1
 

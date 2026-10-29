@@ -4,7 +4,7 @@
 |---|---|
 | [POC implementation plan](superpowers/plans/2026-10-20-local-stt-poc.md) | Current product decisions and proposed application build sequence |
 | [Usable dictation app plan](superpowers/plans/2026-10-22-usable-dictation-app.md) | Current capture, note, and copy implementation slice |
-| [Pause/resume design](superpowers/specs/2026-10-29-pause-resume-design.md) | Draft for the next stacked slice; not implemented |
+| [Buffered transcription and pause/resume design](superpowers/specs/2026-10-29-pause-resume-design.md) | Revised draft for segmented processing during capture or after Finish; not implemented |
 | [Light formatting plan](superpowers/plans/2026-10-23-light-formatting.md) | Approved rules, implementation tasks, and evidence for deterministic note formatting |
 | [Original PRD](../medical_stt_procedure_log_mvp_specification.md) | Supplied reference; later accepted decisions replace conflicting scope |
 | [Engineering adoption decision](decisions/2026-10-21-engineering-foundation.md) | Accepted engineering design and its adaptation from INAB/SuChef |
