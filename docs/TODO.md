@@ -1,5 +1,9 @@
 # TODO
 
+## Next stacked slice
+
+- [ ] Add pause/resume for an unfinished recording, following the [draft design](superpowers/specs/2026-10-29-pause-resume-design.md). Implement separately from light formatting after design review.
+
 ## v1
 
 - [ ] Migrate speech transcription from whisper.cpp to WhisperKit through the existing transcriber interface.
