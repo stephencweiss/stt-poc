@@ -38,10 +38,6 @@ struct ContentView: View {
             if [.starting, .stopping, .transcribing, .cancelling].contains(session.state) {
                 ProgressView().controlSize(.small)
             }
-            Toggle(
-                "Keep this recording in memory for optional export", isOn: $session.retainForExport
-            )
-            .disabled(session.state.isBusy || !session.rawText.isEmpty)
             Text("Edit note").font(.headline)
             TextEditor(text: $session.editedText)
                 .font(.body)
@@ -62,8 +58,10 @@ struct ContentView: View {
                     .disabled(session.state != .ready || session.exportWAV == nil)
             }
             if !session.exportStatus.isEmpty { Text(session.exportStatus).font(.caption) }
-            Text("Local processing. Notes stay in memory. Review all clinical facts before copy.")
-                .font(.caption).foregroundStyle(.secondary)
+            Text(
+                "Local processing. Notes and current audio stay in memory until New Note or quit. Review all clinical facts before copy."
+            )
+            .font(.caption).foregroundStyle(.secondary)
         }
         .padding(24)
         .task { await session.checkSetup() }

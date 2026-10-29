@@ -26,7 +26,7 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | Swift app compiler, XCTest, packaging | Implemented | Swift 6, warnings as errors, and ad hoc signed local app; no distribution signing |
 | Four-target dependency rules | Implemented | Package graph enforces target direction; file boundaries require review |
 | Model accuracy/latency/memory | Measured locally | Full offline baseline completed; critical recognition errors remain; not a default CI requirement |
-| Microphone capture, note editing, manual copy/export | Implemented; live trial pending | Fake capture/clipboard and real conversion/file tests; target-Mac manual checks still required |
+| Microphone capture, note editing, manual copy/export | Implemented; basic microphone → transcription → edit → copy trial complete (user report) | Export and detailed permission/device/offline/cleanup checks still require target-Mac manual results |
 | Hotkey, floating panel, automatic copy, formatting, Clean Up | Planned: later application PRs | Outside the usable dictation slice |
 | Workflow map | Implemented | docs/agent/feature_map.json records benchmark and local-dictation workflows; no automated UI test |
 | Remote branch protection | Not configured/verified | Workflow and local hooks do not enforce merging |
@@ -67,8 +67,8 @@ Review also found incorrect expected facts in the fixture manifest. They were co
 
 The app uses AVAudioRecorder for framework-managed capture. No application audio tap or custom audio-buffer queue is used. One converter processes the finalized recording off the main actor into the canonical CLI WAV format. Recorder failures and device availability checks produce typed errors. Level measurements detect energy only, not speech. Permission and physical device behavior still require the manual checklist.
 
-The session owns start/stop/inference/cancel work and rejects old events/results by recording identity and revision. Quit delays termination until owned work drains and files are removed. Default recording files are temporary; an explicit opt-in retains bounded WAV bytes in memory for sample export. Notes and audio are not logged.
+The session owns start/stop/inference/cancel work and rejects old events/results by recording identity and revision. Quit delays termination until owned work drains and files are removed. Recording files are temporary; the app retains bounded WAV bytes for the current successful note in memory for optional export. New Note, cancel, or quit releases session audio. An export already selected owns its snapshot until completion; saving files still requires explicit export. Notes and audio are not logged.
 
 The final local ./scripts/check.sh passed on 2026-10-22 with 68 Swift tests and 18 repository/tool tests, lint, compiler warnings as errors, plist validation, and ad hoc signature verification. Conversion tests pass output through the same canonical WAV validator used by whisper.cpp. The capture-failure cleanup test fails when its state fix is removed and passes with the fix.
 
-Local launch via ./scripts/run-local.sh built and opened the signed app on 2026-10-22. A live microphone, offline dictation, and cross-app paste trial remain pending. Hosted evidence must be from the current PR head/base. The [practice checklist](practice-checklist.md) remains the owner of pending live checks. No hardware test is claimed from fake-service tests.
+Local launch via ./scripts/run-local.sh built and opened the signed app on 2026-10-22. On 2026-10-29, the user confirmed completion of the basic microphone → transcription → edit → copy trial reported in PR #4. This does not establish offline operation, cross-app paste, or the other detailed manual results. Hosted evidence must be from the current PR head/base. The [practice checklist](practice-checklist.md) records the completed basic trial and owns the remaining manual checks. No hardware test is claimed from fake-service tests.

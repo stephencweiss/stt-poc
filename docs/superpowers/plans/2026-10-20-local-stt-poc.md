@@ -216,7 +216,7 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 
 **Exit:** Stop returns complete usable audio; cancel removes session files.
 
-**2026-10-22 implementation:** The usable app adds framework-managed capture, conversion, session state, editing, manual copy, cancellation, quit cleanup, and optional export. See the [execution plan](2026-10-22-usable-dictation-app.md) and [manual checklist](../../practice-checklist.md). Live microphone and paste checks remain pending. Formatting stays in PR 3.
+**2026-10-22 implementation:** The usable app adds framework-managed capture, conversion, session state, editing, manual copy, cancellation, quit cleanup, and optional export. See the [execution plan](2026-10-22-usable-dictation-app.md) and [manual checklist](../../practice-checklist.md). The user confirmed the basic microphone → transcription → edit → copy trial on 2026-10-29; detailed manual checks, including cross-app paste, remain pending in the checklist. Formatting stays in PR 3.
 
 ### Task 5: Add conservative formatting
 
@@ -303,7 +303,7 @@ Start local practice after PR 2 and test again after PRs 3 and 4. This gives ear
 2. **Confirmed:** Free-form dictation with readable text, optional spoken headings, and a local language model for the Clean Up Transform only. Preserve meaning and spoken order; inferred structure, summaries, and field extraction remain deferred.
 3. **Proposed:** Use the installed whisper.cpp engine first, with an engine comparison after the first practice trial.
 4. **Proposed:** English, one speaker, separate notes, recordings up to 120 seconds, and fictional practice content.
-5. **Proposed:** No automatic retention; manual Copy first, optional automatic copy later.
+5. **Updated 2026-10-29:** Retain the current recording in memory for optional export until New Note, cancel, or quit. Saving files remains explicit. This replaces the earlier no-retention default; see the [retention decision](../../decisions/2026-10-29-current-recording-export.md). Manual Copy first, optional automatic copy later.
 
 Resolve these during plan review. There is no need to settle future distribution, database, or iOS choices for this POC.
 

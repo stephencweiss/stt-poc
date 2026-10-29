@@ -28,7 +28,7 @@ Each recording stops at 120 seconds and processes the full captured audio. This 
 
 Use fictional practice cases. Notes remain in memory and are lost at quit. Audio files are removed after processing, cancel, or failure; abandoned sessions are checked at launch. Deletion is not secure erase. No network service or model download is used. The vocabulary prompt is on, based on the measured baseline; recognition still has known value and drug-name errors.
 
-For a sample you want to keep, enable **Keep this recording in memory for optional export** before Record. After transcription, **Export practice sample…** writes a new directory containing audio.wav and reference.txt (the current edited note). Review the reference against the audio before treating it as a regression input. Export is off by default. The app does not add samples to Git.
+The current recording stays in memory for optional export after transcription. **Export practice sample…** writes a new directory containing audio.wav and reference.txt (the current edited note). New Note, cancel, or quit releases the session audio; recordings do not survive an app restart. An export already selected keeps its snapshot until that export completes. Temporary recording files are still deleted after processing. Review the reference against the audio before treating it as a regression input. Files are saved only when you export. The app does not add samples to Git. See the [retention decision](docs/decisions/2026-10-29-current-recording-export.md).
 
 See the [manual practice checklist](docs/practice-checklist.md) for device, permission, copy, offline, and cleanup checks. Ordinary tests use fake capture and clipboard boundaries; they do not prove microphone quality or cross-app paste behavior.
 

@@ -29,7 +29,6 @@ enum CopyStatus: Equatable { case none, copied, stale, failed }
 @MainActor @Observable
 final class SessionModel {
     var configuration = PracticeConfiguration()
-    var retainForExport = false
     var editedText = "" {
         didSet { if copyStatus == .copied { copyStatus = .stale } }
     }
@@ -108,10 +107,9 @@ final class SessionModel {
         level = 0
         state = .starting
         message = "Requesting microphone access…"
-        let retain = retainForExport
         operation = Task {
             do {
-                try await capture.start(recordingID: token, retainForExport: retain)
+                try await capture.start(recordingID: token, retainForExport: true)
                 try Task.checkCancellation()
                 guard revision == token, !closed else { return }
                 state = .recording
@@ -142,7 +140,6 @@ final class SessionModel {
                 guard revision == token, !closed else { return }
                 recordingID = nil
                 rawText = result.text
-                exportWAV = audio.exportWAV
                 let text = result.text.trimmingCharacters(in: .whitespacesAndNewlines)
                 let markers = ["[BLANK_AUDIO]", "[static]", "(water splashing)"]
                 guard !text.isEmpty, !markers.contains(text) else {
@@ -150,6 +147,7 @@ final class SessionModel {
                     message = "No usable note returned. Select New Note to try again."
                     return
                 }
+                exportWAV = audio.exportWAV
                 editedText = result.text
                 state = .ready
                 message = String(

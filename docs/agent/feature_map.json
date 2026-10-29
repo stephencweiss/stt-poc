@@ -33,7 +33,7 @@
         "Local whisper-cli and medium.en model",
         "Microphone permission for STT Practice"
       ],
-      "result": "Build and open the signed app; record up to 120 seconds, transcribe locally, edit, and manually copy; optional export retains audio only when selected before recording",
+      "result": "Build and open the signed app; record up to 120 seconds, transcribe locally, edit, and manually copy; current audio stays in memory for optional export until New Note, cancel, or quit; saving files requires explicit export",
       "sources": [
         "Sources/STTPractice/App.swift",
         "Sources/STTPractice/ContentView.swift",

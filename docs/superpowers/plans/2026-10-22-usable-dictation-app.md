@@ -25,7 +25,7 @@ Use the existing medium.en model and general cardiology vocabulary prompt. No fo
 - [x] Bound capture to 120 seconds; stop and retain the complete captured audio. Send level/duration and limit/error events. Reject empty/near-silent input without claiming speech detection.
 - [x] Test device and recorder failures: stop capture, report a typed error, and remove owned files. Use AVAudioRecorder with framework-managed capture; no application buffer queue exists to overflow.
 - [x] Own private session files outside Git. Delete after processing/cancel/error/quit and recover only verified abandoned sessions at launch. Support repeated start/stop/cancel without stale callbacks affecting a new recording.
-- [x] Keep optional sample export explicit: `start(retainForExport:)` decides whether `CapturedAudio` also contains bounded in-memory WAV data. Default false; files are still deleted after transcription.
+- [x] Keep file export explicit. The app now calls `start(retainForExport: true)` to retain bounded WAV data for the current note in memory; temporary files are still deleted after transcription. This replaces the earlier pre-recording opt-in; see the [2026-10-29 decision](../../decisions/2026-10-29-current-recording-export.md).
 - [x] Run focused audio tests without hardware or models. Keep live microphone checks manual.
 
 ## 2. Session state and copy
@@ -60,4 +60,4 @@ Use the existing medium.en model and general cardiology vocabulary prompt. No fo
 - [x] Document launch, permissions, errors, temporary-file handling, export, and known recognition failures. Provide a short manual trial checklist.
 - [ ] Commit and open the next application PR, attach it to this task, and run fresh hosted checks. Do not merge it.
 
-Live microphone, physical device removal, offline dictation, and cross-app paste remain pending in docs/practice-checklist.md. The launch smoke check confirms the signed app starts; it does not establish those manual results.
+The user confirmed completion of the basic microphone → transcription → edit → copy trial on 2026-10-29. Detailed manual checks, including physical device removal, offline dictation, and cross-app paste, remain pending in docs/practice-checklist.md. The launch smoke check confirms the signed app starts; it does not establish those detailed manual results.
