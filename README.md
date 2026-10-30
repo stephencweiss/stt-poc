@@ -54,6 +54,7 @@ Read [fixture provenance and scoring](Fixtures/Benchmark/README.md) before chang
 - [Verify model and prompt changes](docs/conventions/model-changes.md)
 - [Run pinned local and hosted checks](docs/conventions/quality-checks.md)
 - [Keep private data out of Git and logs](docs/conventions/private-data.md)
+- [Define and maintain application logs](docs/conventions/logging.md)
 
 ## CI
 

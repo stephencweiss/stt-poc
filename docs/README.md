@@ -8,6 +8,9 @@
 | [Engineering adoption decision](decisions/2026-10-21-engineering-foundation.md) | Accepted engineering design and its adaptation from INAB/SuChef |
 | [Engineering design](superpowers/specs/2026-10-20-engineering-standards.md) | Reviewed design context; active conventions/verification own implementation detail |
 | [Verification](verification.md) | Actual commands, check status, evidence, and limits |
+| [Application log catalog](log-catalog.md) | Current log levels, definitions, triggers, and data policy |
+| [App logging](logging.md) | Read app logs in Terminal, Console, or Xcode |
+| [Session state ownership](session-state-transitions.md) | Executable transition contract, tests, and task guards |
 | [Workflow map](agent/feature_map.json) | Current commands, controls, source/tests, and manual checks |
 | [TODO](TODO.md) | Deferred work |
 

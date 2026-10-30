@@ -17,6 +17,7 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | Check | Status | Limit |
 |---|---|---|
 | Matching convention indexes and local document file links | Implemented | Anchor links and Markdown formatting are not checked; supplied PRD is preserved |
+| Logging/catalog joint update | Implemented | Text-diff heuristic only; staged index in quick checks, current changes in full checks; no semantic catalog validation |
 | Protected paths and symlinks | Implemented | Staged mode reads index paths; full mode covers tracked/nonignored paths |
 | Redacted Gitleaks scan | Implemented | Staged mode materializes index blobs; scans current files, not all Git history; not a clinical-content detector |
 | Fixture checksums and manifest integrity | Implemented | 15 committed fictional cases; missing or changed assets fail, with no silent skips |
@@ -72,3 +73,12 @@ The session owns start/stop/inference/cancel work and rejects old events/results
 The final local ./scripts/check.sh passed on 2026-10-22 with 68 Swift tests and 18 repository/tool tests, lint, compiler warnings as errors, plist validation, and ad hoc signature verification. Conversion tests pass output through the same canonical WAV validator used by whisper.cpp. The capture-failure cleanup test fails when its state fix is removed and passes with the fix.
 
 Local launch via ./scripts/run-local.sh built and opened the signed app on 2026-10-22. On 2026-10-29, the user confirmed completion of the basic microphone → transcription → edit → copy trial reported in PR #4. This does not establish offline operation, cross-app paste, or the other detailed manual results. Hosted evidence must be from the current PR head/base. The [practice checklist](practice-checklist.md) records the completed basic trial and owns the remaining manual checks. No hardware test is claimed from fake-service tests.
+
+
+## Logging catalog and executable state transitions
+
+Local `./scripts/check.sh` passed on 2026-10-30 with 71 Swift tests and 25 repository/tool tests, document and secret checks, Swift format/SwiftLint, shell/workflow checks, compiler warnings as errors, plist validation, and app signature verification.
+
+The transition test checks all 170 state/event combinations against an independent expectation table. Existing session tests still cover recording, cancellation, stale events/results, failed cleanup sequencing, copy, export, and shutdown. These are fake-service tests, not new hardware acceptance evidence.
+
+Seven logging gate tests cover added, changed, removed, and renamed logging source; partial staging; rejected empty/deleted/whitespace-only catalog edits; unrelated source; untracked files; and initial commits. The initial-commit full-mode regression failed before the fix and passed after it. The gate requires a joint catalog update and does not validate its meaning. See the [logging convention](conventions/logging.md) for detection limits.

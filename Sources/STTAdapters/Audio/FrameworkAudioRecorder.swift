@@ -75,6 +75,8 @@ struct FrameworkAudioRecorder: CaptureRecorder {
 }
 
 /// The callback bridge stores only an immutable lock with a typed error, never audio or diagnostics.
+/// Multiple callbacks can precede a poll. The latest failure replaces any earlier failure;
+/// a successful completion does not clear it. The lock protects access, not callback order.
 private final class RecorderDelegate: NSObject, AVAudioRecorderDelegate, Sendable {
     let failure = OSAllocatedUnfairLock<AudioCaptureError?>(initialState: nil)
 

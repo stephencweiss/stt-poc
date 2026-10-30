@@ -3,8 +3,10 @@ import Foundation
 import STTCore
 import os
 
-/// A separate namespace keeps microphone recovery away from model output and unrelated files.
+/// Creates and removes temporary recording folders and recovers abandoned sessions.
 enum AudioSessionDirectory {
+    /// Identifies recording folders named stt-audio-<process ID>-<UUID>.
+    /// Recovery also checks the name, folder type, owner, and creator process before removal.
     private static let prefix = "stt-audio-"
     private static let logger = Logger(subsystem: "STTPOC", category: "AudioCapture")
 
