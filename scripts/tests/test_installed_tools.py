@@ -36,6 +36,38 @@ class InstalledToolTests(unittest.TestCase):
             with self.subTest(text=text):
                 self.assertNotEqual(self.lint(text + '\n').returncode, 0)
 
+    def test_legacy_logging_apis_fail(self):
+        samples = [
+            'let log = OSLog(subsystem: "Example", category: "Test")',
+            'let log = OSLog.default',
+            'typealias LegacyLog = OSLog',
+            'NSLog("Failure")',
+            'NSLogv("Failure", arguments)',
+            'os_log("Failure")',
+            'os_log_error(log, "Failure")',
+            'let write = os_log',
+        ]
+        for text in samples:
+            with self.subTest(text=text):
+                result = self.lint(text + '\n')
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn('logger_only', result.stdout + result.stderr)
+
+    def test_logger_and_legacy_names_in_comments_and_strings_pass(self):
+        text = '''import os
+let logger = Logger(subsystem: "Example", category: "Test")
+logger.error("Failure")
+// OSLog, NSLog, and os_log are not used here.
+let description = "OSLog NSLog os_log"
+'''
+        self.assertEqual(self.lint(text).returncode, 0)
+
+    def test_oslog_module_import_for_logger_passes(self):
+        text = '''import OSLog
+let logger = OSLog.Logger(subsystem: "Example", category: "Test")
+'''
+        self.assertEqual(self.lint(text).returncode, 0)
+
     def test_complex_function_fails(self):
         text = 'func value(_ x: Int) {\n' + '\n'.join(f'if x == {n} {{ print(x) }}' for n in range(12)) + '\n}\n'
         self.assertNotEqual(self.lint(text).returncode, 0)

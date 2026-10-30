@@ -8,7 +8,7 @@ import sys
 
 CATALOG = 'docs/log-catalog.md'
 LOG_EXPRESSION = re.compile(
-    r'\b(?:Logger|OSLog|NSLog|os_log)\s*\('
+    r'\bLogger\s*\('
     r'|\.\s*(?:trace|debug|info|notice|warning|error|fault|critical|log)\s*\('
 )
 

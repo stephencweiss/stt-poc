@@ -22,6 +22,7 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | Redacted Gitleaks scan | Implemented | Staged mode materializes index blobs; scans current files, not all Git history; not a clinical-content detector |
 | Fixture checksums and manifest integrity | Implemented | 15 committed fictional cases; missing or changed assets fail, with no silent skips |
 | Repository policy and installed tool tests | Implemented | Fictional temporary files; no services or models |
+| Logger-only API rule | Implemented | SwiftLint checks code identifiers; comments, strings, and OSLog module imports for Logger are allowed; lint inspects current files, not staged blobs |
 | Swift format/SwiftLint | Implemented | Checks application/test source and temporary rule-test snippets |
 | ShellCheck, shell syntax, actionlint | Implemented | Static workflow validation does not prove a hosted run |
 | Swift app compiler, XCTest, packaging | Implemented | Swift 6, warnings as errors, and ad hoc signed local app; no distribution signing |
@@ -82,3 +83,10 @@ Local `./scripts/check.sh` passed on 2026-10-30 with 71 Swift tests and 25 repos
 The transition test checks all 170 state/event combinations against an independent expectation table. Existing session tests still cover recording, cancellation, stale events/results, failed cleanup sequencing, copy, export, and shutdown. These are fake-service tests, not new hardware acceptance evidence.
 
 Seven logging gate tests cover added, changed, removed, and renamed logging source; partial staging; rejected empty/deleted/whitespace-only catalog edits; unrelated source; untracked files; and initial commits. The initial-commit full-mode regression failed before the fix and passed after it. The gate requires a joint catalog update and does not validate its meaning. See the [logging convention](conventions/logging.md) for detection limits.
+
+
+## Logger-only policy
+
+Local `./scripts/check.sh` passed on 2026-10-30 with 71 Swift tests and 28 repository/tool tests, lint, build, and app packaging after adding `logger_only`. Installed-tool regressions reject legacy constructors, type aliases, default-log access, function references, and calls. They permit Logger, names in comments and strings, and the OSLog module import/qualification used to access Logger. The rejection test failed before the rule was added and passed afterward.
+
+The Logger-only rule uses SwiftLint syntax kinds to exclude comments and strings. Like the other Swift lint rules, quick and full checks inspect current source; staged catalog checks remain a separate index-based text rule. A catalog update cannot make a forbidden API pass lint. False positives require a detector regression and correction, not a dummy catalog edit or blanket hook bypass.

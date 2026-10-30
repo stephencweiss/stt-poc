@@ -4,7 +4,7 @@ Status: required working standard. Automated enforcement is listed in [verificat
 
 tooling.json owns Xcode/Swift versions, minimum Python runtime, runner image, and tool versions/download checksums. Use setup-dev.sh --install-tools for explicit downloads into ignored .tools. Do not upgrade tools implicitly. Commit Package.resolved when dependencies exist.
 
-swift format owns layout. SwiftLint checks only the enabled correctness/complexity rules in .swiftlint.yml, with strict findings and complexity limit 10. Narrow suppressions need a reason/review. Never weaken a check solely to make a change pass. Checks do not rewrite or stage files.
+swift format owns layout. SwiftLint checks the enabled correctness/complexity rules and the Logger-only custom rule in .swiftlint.yml, with strict findings and complexity limit 10. Narrow suppressions need a reason/review. Never weaken a check solely to make a change pass. Checks do not rewrite or stage files.
 
 Run ./scripts/check.sh --quick for staged data safety plus document/Swift checks. Run ./scripts/check.sh before requesting review. Missing required tools fail with setup instructions. Full checks include repository policy tests, installed lint rule tests, shell/workflow validation, and fixture integrity. App build/test/package checks become mandatory once Package.swift exists; Swift source without a package fails.
 

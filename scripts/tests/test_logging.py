@@ -84,7 +84,7 @@ class LoggingPolicyTests(unittest.TestCase):
         self.assertEqual(self.check().returncode, 0)
 
     def test_new_untracked_logging_file_is_checked_in_full_mode(self):
-        self.write('Sources/New.swift', 'os_log("Failure")\n')
+        self.write('Sources/New.swift', 'logger.error("Failure")\n')
         self.assertNotEqual(self.check(staged=False).returncode, 0)
         self.assertEqual(self.check().returncode, 0)
 
