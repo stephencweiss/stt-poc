@@ -20,6 +20,7 @@ let package = Package(
             name: "STTBenchmarkTests",
             dependencies: ["STTBenchmark", "STTCore", "STTAdapters", "STTTestSupport"]),
         .testTarget(name: "STTCoreTests", dependencies: ["STTCore"]),
+        .testTarget(name: "STTPracticeTests", dependencies: ["STTPractice", "STTCore"]),
         .testTarget(
             name: "STTAdaptersTests", dependencies: ["STTAdapters", "STTCore", "STTTestSupport"]),
     ],

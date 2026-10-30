@@ -26,22 +26,33 @@
       ]
     },
     {
-      "id": "setup-window",
+      "id": "local-dictation",
       "command": "./scripts/run-local.sh",
       "prerequisites": [
-        "Apple Silicon Mac with the pinned Xcode tools"
+        "Apple Silicon Mac with pinned Xcode tools",
+        "Local whisper-cli and medium.en model",
+        "Microphone permission for STT Practice"
       ],
-      "result": "Build, ad hoc sign, and open STTPractice.app; Record is disabled in this baseline",
+      "result": "Build and open the signed app; record up to 120 seconds, transcribe locally, edit, and manually copy; current audio stays in memory for optional export until New Note, cancel, or quit; saving files requires explicit export",
       "sources": [
+        "Sources/STTPractice/App.swift",
         "Sources/STTPractice/ContentView.swift",
-        "scripts/build-app.sh",
-        "scripts/run-local.sh"
+        "Sources/STTPractice/SessionModel.swift",
+        "Sources/STTPractice/Clipboard.swift",
+        "Sources/STTPractice/SampleExport.swift",
+        "Sources/STTPractice/PracticeAppDelegate.swift",
+        "Sources/STTAdapters/Audio/MicrophoneCaptureService.swift",
+        "Sources/STTAdapters/Audio/CaptureAudioConverter.swift"
       ],
-      "tests": [],
+      "tests": [
+        "Tests/STTPracticeTests/SessionModelTests.swift",
+        "Tests/STTPracticeTests/SampleExportTests.swift",
+        "Tests/STTAdaptersTests/AudioCaptureTests.swift"
+      ],
       "manualSteps": [
-        "Check that the setup window opens",
-        "Change a path to a missing file and check the status message",
-        "Visual controls have no automated UI test yet"
+        "Follow docs/practice-checklist.md for live microphone, permission, device, duration limit, quit, and TextEdit paste checks",
+        "Ordinary tests use fake capture and clipboard; no automated UI or microphone proof",
+        "Review known baseline errors before using copied notes"
       ]
     }
   ]
