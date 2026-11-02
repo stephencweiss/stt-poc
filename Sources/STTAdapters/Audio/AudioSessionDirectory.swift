@@ -43,7 +43,7 @@ enum AudioSessionDirectory {
     static func cleanOnDeinit(_ directory: URL) {
         do { try remove(directory) } catch {
             logger.error(
-                "Audio session cleanup failed; abandoned-session recovery will retry after exit.")
+                "event=audio.cleanup_failed recovery=retry_after_exit")
         }
     }
 

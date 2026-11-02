@@ -19,22 +19,26 @@ These are selection guidelines, not a requirement to log every operation. Only t
 
 ## Recording cleanup failure
 
+- Event ID: `audio.cleanup_failed`
 - Subsystem: `STTPOC`
 - Category: `AudioCapture`
 - Level: error
 - Source: [AudioSessionDirectory.cleanOnDeinit](../Sources/STTAdapters/Audio/AudioSessionDirectory.swift)
-- Message: `Audio session cleanup failed; abandoned-session recovery will retry after exit.`
+- Message: `event=audio.cleanup_failed recovery=retry_after_exit`
+- Fields: event and recovery are string tokens. Event is exactly audio.cleanup_failed; recovery is exactly retry_after_exit. No optional fields.
 - Trigger: removal of a temporary recording folder throws during capture-service destruction.
 - Response: recovery can retry after the creator process exits. Check temporary-folder permissions if failures continue.
 - Data policy: fixed text only; no audio, note, path, process ID, or raw error details.
 
 ## Transcription cleanup failure
 
+- Event ID: `transcription.cleanup_failed`
 - Subsystem: `STTPOC`
 - Category: `WhisperSession`
 - Level: error
 - Source: [WhisperSessionRecovery.removeOwnedDirectory](../Sources/STTAdapters/Transcription/WhisperSessionRecovery.swift)
-- Message: `Whisper session cleanup failed; recovery will retry after this process exits.`
+- Message: `event=transcription.cleanup_failed recovery=retry_after_exit`
+- Fields: event and recovery are string tokens. Event is exactly transcription.cleanup_failed; recovery is exactly retry_after_exit. No optional fields.
 - Trigger: removal of an owned temporary transcription folder throws. This can occur during normal session cleanup or destruction.
 - Response: recovery can retry after the creator process exits. Check temporary-folder permissions if failures continue.
 - Data policy: fixed text only; no audio, transcript, prompt, path, or engine diagnostics.

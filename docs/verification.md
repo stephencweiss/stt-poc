@@ -90,3 +90,7 @@ Seven logging gate tests cover added, changed, removed, and renamed logging sour
 Local `./scripts/check.sh` passed on 2026-10-30 with 71 Swift tests and 28 repository/tool tests, lint, build, and app packaging after adding `logger_only`. Installed-tool regressions reject legacy constructors, type aliases, default-log access, function references, and calls. They permit Logger, names in comments and strings, and the OSLog module import/qualification used to access Logger. The rejection test failed before the rule was added and passed afterward.
 
 The Logger-only rule uses SwiftLint syntax kinds to exclude comments and strings. Like the other Swift lint rules, quick and full checks inspect current source; staged catalog checks remain a separate index-based text rule. A catalog update cannot make a forbidden API pass lint. False positives require a detector regression and correction, not a dummy catalog edit or blanket hook bypass.
+
+## Stable logging event fields
+
+Local `./scripts/check.sh` passed on 2026-11-02 with 71 Swift tests and 28 repository/tool tests, lint, build, and app packaging after changing the two cleanup messages to stable event IDs and fixed recovery tokens. The catalog defines their exact field values; the logging convention defines the token grammar. This changes message content only, not cleanup behavior, levels, categories, or data retention. Live unified-log capture was not part of this check.

@@ -31,6 +31,17 @@ To read retained messages from the last 30 minutes:
 
 `stream` watches new messages. `show` reads retained history. The flags include available info and debug messages; they do not add log calls or recover messages that macOS did not retain. Use `/usr/bin/log help stream` or `/usr/bin/log help show` for local command help.
 
+## Machine-readable output
+
+Use newline-delimited JSON when a program reads the stream:
+
+```sh
+/usr/bin/log stream --style ndjson --level debug \
+  --predicate 'subsystem == "STTPOC"'
+```
+
+Read application fields from the eventMessage string. Split the message on ASCII spaces, then split each token at its equals sign. The [logging convention](conventions/logging.md) defines the format; the [catalog](log-catalog.md) defines each event's fields and permitted values. These tokens are not separate JSON properties. Ignore stream status records that have no eventMessage, and handle unknown event IDs without guessing their meaning.
+
 ## What to expect
 
 The [application log catalog](log-catalog.md) defines the current categories, levels, messages, triggers, and expected silence. Read it to select a filter and interpret results. The [logging convention](conventions/logging.md) defines when to add logs and how to maintain the catalog.
