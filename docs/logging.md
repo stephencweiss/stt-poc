@@ -40,7 +40,7 @@ Use newline-delimited JSON when a program reads the stream:
   --predicate 'subsystem == "STTPOC"'
 ```
 
-Read application fields from the eventMessage string. Split the message on ASCII spaces, then split each token at its equals sign. The [logging convention](conventions/logging.md) defines the format; the [catalog](log-catalog.md) defines each event's fields and permitted values. These tokens are not separate JSON properties. Ignore stream status records that have no eventMessage, and handle unknown event IDs without guessing their meaning.
+The command can print a plain-text filtering preamble before the JSON records. Skip that preamble, then ignore stream status records that have no eventMessage. Read application fields from the eventMessage string. Split the message on ASCII spaces, then split each token at its equals sign. The [logging convention](conventions/logging.md) defines the format; the [catalog](log-catalog.md) defines each event's fields and permitted values. These tokens are not separate JSON properties. Handle unknown event IDs without guessing their meaning.
 
 ## What to expect
 
