@@ -6,9 +6,19 @@ only_rules:
   - cyclomatic_complexity
   - nesting
   - blanket_disable_command
+  - custom_rules
 cyclomatic_complexity:
   warning: 10
   error: 10
 nesting:
   type_level: 2
   function_level: 2
+custom_rules:
+  logger_only:
+    name: Use Logger
+    regex: '(?<!import )\b(?:OSLog(?!\s*\.\s*Logger\b)|NSLogv?|os_log(?:_[A-Za-z0-9_]+)?)\b'
+    match_kinds:
+      - identifier
+      - typeidentifier
+    message: Use Logger for application logs; legacy logging APIs are not permitted.
+    severity: error

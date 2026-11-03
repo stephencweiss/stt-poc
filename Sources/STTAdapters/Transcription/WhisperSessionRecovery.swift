@@ -47,7 +47,7 @@ public enum WhisperSessionRecovery {
         do { try FileManager.default.removeItem(at: directory) } catch {
             // No path, transcript, prompt, or engine diagnostics enter the log.
             logger.error(
-                "Whisper session cleanup failed; recovery will retry after this process exits.")
+                "event=transcription.cleanup_failed recovery=retry_after_exit")
         }
     }
 

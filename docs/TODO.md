@@ -3,6 +3,7 @@
 ## v1
 
 - [ ] Migrate speech transcription from whisper.cpp to WhisperKit through the existing transcriber interface.
+  - Sequence: run the first usable-app practice trial before the engine comparison (user decision, 2026-10-22).
   - Record the whisper.cpp baseline before migration, including tool/model versions, prompt settings, hardware, and test results.
   - Run the same audio fixtures, reference transcripts, scoring rules, and prompt-on/prompt-off tests with WhisperKit. Use equivalent model variants where available; document model and decoding differences.
   - Replicate tests for critical terms, values, units, laterality, negation, silence, and background noise. Report accuracy by procedure group and overall.
