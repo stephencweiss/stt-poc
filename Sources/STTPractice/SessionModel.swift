@@ -23,6 +23,7 @@ final class SessionModel {
     }
     private(set) var state = PracticeState.setupNeeded
     private(set) var rawText = ""
+    private(set) var systemInputName: String?
     private(set) var message = "Check local setup before recording."
     private(set) var durationSeconds = 0.0
     private(set) var level: Float = 0
@@ -95,6 +96,7 @@ final class SessionModel {
         recordingID = token
         durationSeconds = 0
         level = 0
+        systemInputName = nil
         message = "Requesting microphone access…"
         operation = Task {
             do {
@@ -137,11 +139,21 @@ final class SessionModel {
                     return
                 }
                 exportWAV = audio.exportWAV
-                editedText = result.text
+                editedText = NoteFormatter.format(result.text)
                 guard transition(.transcriptAccepted) else { return }
-                message = String(
-                    format: "Transcribed in %.1f seconds. Review the text before copy.",
-                    result.elapsedSeconds)
+                if markers.contains(where: text.contains) {
+                    let recovery =
+                        exportWAV == nil
+                        ? "To check the audio, make a new recording and export it."
+                        : "Export and listen to the recording to check the audio."
+                    message =
+                        "Speech may be missing. Whisper returned non-speech markers. Check Raw transcript and the microphone input. "
+                        + recovery
+                } else {
+                    message = String(
+                        format: "Transcribed in %.1f seconds. Review the text before copy.",
+                        result.elapsedSeconds)
+                }
             } catch { await fail(error, token: token) }
         }
     }
@@ -176,6 +188,7 @@ final class SessionModel {
             checkedConfiguration == configuration ? .newNoteReady : .newNoteNeedsSetup
         guard transition(event) else { return }
         rawText = ""
+        systemInputName = nil
         editedText = ""
         exportWAV = nil
         copyStatus = .none
@@ -245,6 +258,11 @@ final class SessionModel {
 
     private func receive(_ event: AudioCaptureEvent) {
         switch event {
+        case .inputDevice(let identifier, let name):
+            guard identifier == recordingID, state == .starting || state == .recording else {
+                return
+            }
+            systemInputName = name
         case .level(let identifier, let rms, let duration):
             guard identifier == recordingID, state == .recording else { return }
             level = rms

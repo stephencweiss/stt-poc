@@ -12,18 +12,21 @@ struct RecorderSnapshot: Sendable {
 
 /// Synchronous calls stay on the capture actor. AVFoundation owns realtime callbacks and file writes.
 protocol CaptureRecorder: Sendable {
+    var systemInputName: String? { get }
     func start() throws
     func stop()
     func snapshot() -> RecorderSnapshot
 }
 
 struct FrameworkAudioRecorder: CaptureRecorder {
+    let systemInputName: String?
     private let recorder: AVAudioRecorder
     private let delegate: RecorderDelegate
     private let deviceID: String
     private let started = ContinuousClock.now
 
     init(url: URL) throws {
+        systemInputName = SystemAudioInput.defaultName()
         guard let device = AVCaptureDevice.default(for: .audio), device.isConnected else {
             throw AudioCaptureError.unavailableDevice
         }

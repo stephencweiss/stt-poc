@@ -5,6 +5,8 @@ Status: manual checks for the usable dictation app. Record results on the target
 - [x] Basic microphone → transcription → edit → copy trial. The user confirmed completion on 2026-10-29; this does not complete the detailed checks below.
 - [ ] Run ./scripts/run-local.sh. Check that the app opens and local paths pass setup.
 - [ ] Deny microphone access. Check the error and recovery instructions. Allow access in System Settings and retry.
+- [ ] Select the required device in System Settings → Sound → Input. Start recording and check the displayed system input name. Stop before changing inputs. Repeat with the built-in and wireless microphones.
+- [ ] Record more than 30 seconds of fictional speech. Listen to the full exported WAV and compare it with Raw transcript. If markers replace speech, report whether the missing words are audible in the WAV.
 - [ ] With networking off, record a fictional catheterization, PCI, and TAVR note. Stop, compare raw text with edited text, and check values, units, side, drugs, uncertainty, and negation.
 - [ ] Edit the note. Copy it into TextEdit. Edit again and check that the app asks for another copy.
 - [ ] Select New Note. Check that it clears the old note before a new recording.
@@ -16,4 +18,15 @@ Status: manual checks for the usable dictation app. Record results on the target
 - [ ] Simulate a crash and relaunch. Check abandoned-session recovery without removing another running session.
 - [ ] Record without changing any export setting. Check that export is available after transcription and no audio/reference export files appear until requested. Export once, listen to the WAV, and audit the saved reference. Select New Note and check that the old sample is no longer available. Quit and relaunch; check that no sample returns.
 
-Use fictional text only in shared reports. Record microphone/device, macOS version, observed failures, and timing. Formatting, global hotkey, floating panel, automatic copy, and Clean Up are outside this slice.
+Use fictional text only in shared reports. Record microphone/device, macOS version, observed failures, and timing. Global hotkey, floating panel, automatic copy, and Clean Up remain outside this slice.
+
+## Formatting trial
+
+Status: pending user trial. The earlier successful basic dictation trial predates formatting.
+
+- [ ] Dictate a free-form fictional note. Check that no section labels or paragraphs are inferred from clinical meaning.
+- [ ] Dictate the same note with bare headings such as `Findings.` and with optional `heading findings`. Compare the unchanged raw transcript and formatted editor output. Check ordinary narrative uses of heading words too.
+- [ ] Check `sixteen french sheath`, `twenty six millimeters`, and an unsupported range/decimal phrase. Check values, laterality, negation, uncertainty, and device variants against what was spoken.
+- [ ] Edit formatted text. Copy into TextEdit; check that manual spaces and words stay as edited. Export and check the saved reference against the edited note.
+
+These manual checks depend on the engine returning recognizable heading markers. Pure formatter tests use known transcript strings and do not establish speech-recognition accuracy.

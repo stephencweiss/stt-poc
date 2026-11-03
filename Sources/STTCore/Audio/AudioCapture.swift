@@ -13,6 +13,7 @@ public struct CapturedAudio: Sendable {
 }
 
 public enum AudioCaptureEvent: Sendable {
+    case inputDevice(recordingID: UUID, systemDefaultName: String?)
     case level(recordingID: UUID, rms: Float, durationSeconds: Double)
     case limitReached(recordingID: UUID)
     case failed(recordingID: UUID, error: AudioCaptureError)

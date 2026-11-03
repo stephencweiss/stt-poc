@@ -82,6 +82,9 @@ public actor MicrophoneCaptureService: AudioCaptureService {
             state = .recording(capture, recorder)
             try Task.checkCancellation()
             try recorder.start()
+            continuation.yield(
+                .inputDevice(
+                    recordingID: recordingID, systemDefaultName: recorder.systemInputName))
             beginMonitoring(recordingID: recordingID)
         } catch {
             try cleanUp()

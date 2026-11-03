@@ -29,7 +29,8 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | Four-target dependency rules | Implemented | Package graph enforces target direction; file boundaries require review |
 | Model accuracy/latency/memory | Measured locally | Full offline baseline completed; critical recognition errors remain; not a default CI requirement |
 | Microphone capture, note editing, manual copy/export | Implemented; basic microphone → transcription → edit → copy trial complete (user report) | Export and detailed permission/device/offline/cleanup checks still require target-Mac manual results |
-| Hotkey, floating panel, automatic copy, formatting, Clean Up | Planned: later application PRs | Outside the usable dictation slice |
+| Light formatting | Implemented; live formatting trial pending | Pure transcript fixtures and session tests; no recognition-accuracy claim |
+| Hotkey, floating panel, automatic copy, Clean Up | Planned: later application PRs | Outside the current slices |
 | Workflow map | Implemented | docs/agent/feature_map.json records benchmark and local-dictation workflows; no automated UI test |
 | Remote branch protection | Not configured/verified | Workflow and local hooks do not enforce merging |
 
@@ -75,6 +76,21 @@ The final local ./scripts/check.sh passed on 2026-10-22 with 68 Swift tests and 
 
 Local launch via ./scripts/run-local.sh built and opened the signed app on 2026-10-22. On 2026-10-29, the user confirmed completion of the basic microphone → transcription → edit → copy trial reported in PR #4. This does not establish offline operation, cross-app paste, or the other detailed manual results. Hosted evidence must be from the current PR head/base. The [practice checklist](practice-checklist.md) records the completed basic trial and owns the remaining manual checks. No hardware test is claimed from fake-service tests.
 
+## Light formatting
+
+The formatter is a pure STTCore function. It runs once after nonempty transcription succeeds and the session revision is current. Raw text retains the exact engine result. Copy and export use current edited text; formatting does not run again on manual edits.
+
+The rules cover whitespace, approved bare/explicit headings, limited numeric-unit notation, and exact vocabulary case. Unsupported numeric constructions preserve their clause. No prompt, model, recognition scoring, or fixture reference changed. The [formatting review](benchmarks/2026-10-24-light-formatting.md) compares the saved baseline transcripts without new inference. Its changes are display notation, not improved raw WER.
+
+The new session test failed against the original raw-to-editor assignment before formatter integration. The formatting microphone/TextEdit trial in the manual checklist is pending; the user's earlier successful basic trial predates this change. Two local full runs reached all 77 tests but each failed one existing process-timing check during Mac sleep/wake interruptions. The power log shows repeated maintenance-sleep intervals of about 15 minutes; the heading matrix took 909 seconds in an interrupted full run and about two seconds in a focused rerun. The unchanged flooded-diagnostics test passed its focused rerun in 0.244 seconds. No timeout, process code, or test was weakened. Formatting and session tests passed in both full runs. Hosted CI is required for a stable full-suite result before acceptance. Local static/tool checks passed with 18 repository/tool tests; app packaging is checked separately because the local full script stops at the test failure.
+
+## Missing-speech investigation
+
+On 2026-10-29 the user reported a recording longer than 30 seconds with `Findings` and `[BLANK_AUDIO]` in place of most speech. The user confirmed that the raw transcript also contained the markers and optional export was off. The recording was removed after processing, so it cannot be inspected; the cause is not confirmed. A read-only device check found Wireless Mic Rx connected, while MacBook Pro Microphone was the current system default. This does not prove which device was active during the failed recording.
+
+A new conversion test retains 36.25 seconds and audible signal before and after the 30-second boundary at 16, 44.1, and 48 kHz. A session regression shows that formatting preserves mixed non-speech markers. The success-message regression failed before a warning was added. The input-name regressions failed before metadata delivery and session handling were added. The label is a system-default snapshot at recorder setup; it does not bind the recorder or verify each frame's route. Live checks with the wireless microphone and an exported recording remain pending.
+
+The final local full check passed on 2026-10-29 with 82 Swift tests, 18 repository/tool tests, lint, warnings-as-errors build, and signed app packaging. The export-off recovery test failed before the conditional message was added. Code review found no remaining issues in these diagnostics. Read-only execution of the Core Audio name reader agreed with AVFoundation and system_profiler on the current default input. No microphone was opened for these checks.
 
 ## Logging catalog and executable state transitions
 
@@ -94,3 +110,8 @@ The Logger-only rule uses SwiftLint syntax kinds to exclude comments and strings
 ## Stable logging event fields
 
 Local `./scripts/check.sh` passed on 2026-11-02 with 71 Swift tests and 28 repository/tool tests, lint, build, and app packaging after changing the two cleanup messages to stable event IDs and fixed recovery tokens. The catalog defines their exact field values; the logging convention defines the token grammar. This changes message content only, not cleanup behavior, levels, categories, or data retention. A separate one-second STTPOC-only NDJSON stream confirmed the plain-text filtering preamble and terminal status record; it contained no application events, so it does not verify a live cleanup-failure emission.
+
+
+## PR #5 conflict resolution
+
+Local `./scripts/check.sh` passed on 2026-11-03 after merging current main into the formatting branch: 85 Swift tests, 28 repository/tool tests, document and secret checks, Swift format/SwiftLint, shell/workflow checks, warnings-as-errors build, plist validation, and app signature verification. Formatting and input diagnostics now use the executable state transitions and current-recording export policy from PR #4. The missing-speech warning directs the user to export the current recording; no pre-recording export switch is required. Live formatting and device checks remain pending. Hosted checks must use the updated PR head/base.
