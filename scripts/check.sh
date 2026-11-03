@@ -9,10 +9,12 @@ python3 scripts/tooling.py verify
 python3 scripts/repository.py documents
 scanner=$(python3 scripts/tooling.py path gitleaks)
 if [[ ${1:-} == '--quick' ]]; then
+    python3 scripts/logging_policy.py --staged
     python3 scripts/repository.py paths --staged
     python3 scripts/repository.py fixtures --staged
     python3 scripts/repository.py secrets --staged --scanner "$scanner"
 else
+    python3 scripts/logging_policy.py
     python3 scripts/repository.py paths
     python3 scripts/repository.py secrets --scanner "$scanner"
 fi

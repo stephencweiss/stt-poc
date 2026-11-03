@@ -14,6 +14,7 @@ Use ASD-STE100 Simplified Technical English. Keep replies brief and focused. Rea
 - [Verify model and prompt changes](docs/conventions/model-changes.md)
 - [Run pinned local and hosted checks](docs/conventions/quality-checks.md)
 - [Keep private data out of Git and logs](docs/conventions/private-data.md)
+- [Define and maintain application logs](docs/conventions/logging.md)
 
 ## Working practices
 
@@ -23,6 +24,7 @@ Use ASD-STE100 Simplified Technical English. Keep replies brief and focused. Rea
 - Before tests or fixtures, read testing-and-fixtures.md and private-data.md.
 - Before engine/prompt/model changes, also read model-changes.md.
 - Before CI/hooks/tooling changes, read quality-checks.md and docs/verification.md.
+- Before logging changes, read logging.md and update docs/log-catalog.md.
 - Preserve unrelated work. Keep tasks focused. Do not weaken checks to hide failures.
 - Run relevant checks and report evidence. Keep planned checks separate from active checks.
 - Update the workflow map only when implemented behavior changes; it starts with the first working workflow.

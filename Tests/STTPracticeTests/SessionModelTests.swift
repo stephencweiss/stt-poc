@@ -60,7 +60,6 @@ final class SessionModelTests: XCTestCase {
     func testMixedBlankAudioWarnsWithoutRemovingTranscript() async {
         let raw = "Findings. [BLANK_AUDIO] [BLANK_AUDIO]"
         let model = makeModel(engine: ImmediateTranscriber(text: raw))
-        model.retainForExport = true
         await model.checkSetup()
         model.record()
         await wait { model.state == .recording }
@@ -73,15 +72,16 @@ final class SessionModelTests: XCTestCase {
         await model.shutdown()
     }
 
-    func testMissingSpeechWithoutExportExplainsHowToCaptureAudio() async {
+    func testMissingSpeechExplainsHowToCheckCurrentAudio() async {
         let model = makeModel(engine: ImmediateTranscriber(text: "Findings. [BLANK_AUDIO]"))
         await model.checkSetup()
         model.record()
         await wait { model.state == .recording }
         model.stop()
         await wait { model.state == .ready }
-        XCTAssertNil(model.exportSnapshot())
-        XCTAssertTrue(model.message.contains("enable optional export before a new recording"))
+        XCTAssertNotNil(model.exportSnapshot())
+        XCTAssertTrue(
+            model.message.contains("Export and listen to the recording to check the audio."))
         await model.shutdown()
     }
 
@@ -97,6 +97,8 @@ final class SessionModelTests: XCTestCase {
         await engine.finish()
         await wait { model.state == .idle }
         XCTAssertTrue(model.rawText.isEmpty)
+        XCTAssertNil(model.exportWAV)
+        XCTAssertNil(model.exportSnapshot())
         await model.shutdown()
     }
 
@@ -210,7 +212,6 @@ final class SessionModelTests: XCTestCase {
             }
         }
         let model = makeModel()
-        model.retainForExport = true
         await model.checkSetup()
         model.record()
         await wait { model.state == .recording }
@@ -232,15 +233,33 @@ final class SessionModelTests: XCTestCase {
         await model.shutdown()
     }
 
-    func testNoExportAudioIsRetainedByDefault() async {
+    func testExportIsAvailableByDefaultAndClearedForNewNote() async throws {
         let model = makeModel()
         await model.checkSetup()
         model.record()
         await wait { model.state == .recording }
         model.stop()
         await wait { model.state == .ready }
+        let sample = try XCTUnwrap(model.exportSnapshot())
+        XCTAssertEqual(sample.audio, Data([1, 2]))
+        XCTAssertEqual(sample.reference, model.editedText)
+        model.newNote()
+        XCTAssertNil(model.exportWAV)
         XCTAssertNil(model.exportSnapshot())
         await model.shutdown()
+    }
+
+    func testShutdownClearsDefaultExportAudio() async throws {
+        let model = makeModel()
+        await model.checkSetup()
+        model.record()
+        await wait { model.state == .recording }
+        model.stop()
+        await wait { model.state == .ready }
+        XCTAssertNotNil(model.exportSnapshot())
+        await model.shutdown()
+        XCTAssertNil(model.exportWAV)
+        XCTAssertNil(model.exportSnapshot())
     }
 
     func testNonSpeechMarkerRemainsRawButCannotBeCopied() async {
@@ -253,6 +272,7 @@ final class SessionModelTests: XCTestCase {
         model.stop()
         await wait { model.state == .error }
         XCTAssertEqual(model.rawText, "[BLANK_AUDIO]")
+        XCTAssertNil(model.exportWAV)
         XCTAssertTrue(model.editedText.isEmpty)
         model.copyNote()
         XCTAssertEqual(clipboard.writes, 0)
@@ -263,7 +283,6 @@ final class SessionModelTests: XCTestCase {
         let raw = "  Findings. sixteen french sheath. no paravalvular leak.  "
         let clipboard = FakeClipboard()
         let model = makeModel(clipboard: clipboard, engine: ImmediateTranscriber(text: raw))
-        model.retainForExport = true
         await model.checkSetup()
         model.record()
         await wait { model.state == .recording }

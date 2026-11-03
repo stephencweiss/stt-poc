@@ -33,7 +33,7 @@
         "Local whisper-cli and medium.en model",
         "Microphone permission for STT Practice"
       ],
-      "result": "Build and open the signed app; record up to the configured limit, transcribe locally, apply conservative formatting once, edit, and manually copy; raw text remains exact; optional export uses current edits and retains audio only when selected before recording; show the system input name at recording setup and warn when non-speech markers are mixed with text",
+      "result": "Build and open the signed app; record up to the configured limit, transcribe locally, apply conservative formatting once, edit, and manually copy; raw text remains exact; current audio stays in memory for optional export until New Note, cancel, or quit; export uses current edits and saves files only when requested; show the system input name at recording setup and warn when non-speech markers are mixed with text",
       "sources": [
         "Sources/STTPractice/App.swift",
         "Sources/STTPractice/ContentView.swift",

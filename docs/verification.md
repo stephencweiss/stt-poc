@@ -17,16 +17,18 @@ Setup verifies pinned Xcode/Swift and tool versions from tooling.json. Downloads
 | Check | Status | Limit |
 |---|---|---|
 | Matching convention indexes and local document file links | Implemented | Anchor links and Markdown formatting are not checked; supplied PRD is preserved |
+| Logging/catalog joint update | Implemented | Text-diff heuristic only; staged index in quick checks, current changes in full checks; no semantic catalog validation |
 | Protected paths and symlinks | Implemented | Staged mode reads index paths; full mode covers tracked/nonignored paths |
 | Redacted Gitleaks scan | Implemented | Staged mode materializes index blobs; scans current files, not all Git history; not a clinical-content detector |
 | Fixture checksums and manifest integrity | Implemented | 15 committed fictional cases; missing or changed assets fail, with no silent skips |
 | Repository policy and installed tool tests | Implemented | Fictional temporary files; no services or models |
+| Logger-only API rule | Implemented | SwiftLint checks code identifiers; comments, strings, and OSLog module imports for Logger are allowed; lint inspects current files, not staged blobs |
 | Swift format/SwiftLint | Implemented | Checks application/test source and temporary rule-test snippets |
 | ShellCheck, shell syntax, actionlint | Implemented | Static workflow validation does not prove a hosted run |
 | Swift app compiler, XCTest, packaging | Implemented | Swift 6, warnings as errors, and ad hoc signed local app; no distribution signing |
 | Four-target dependency rules | Implemented | Package graph enforces target direction; file boundaries require review |
 | Model accuracy/latency/memory | Measured locally | Full offline baseline completed; critical recognition errors remain; not a default CI requirement |
-| Microphone capture, note editing, manual copy/export | Implemented; live trial pending | Fake capture/clipboard and real conversion/file tests; target-Mac manual checks still required |
+| Microphone capture, note editing, manual copy/export | Implemented; basic microphone → transcription → edit → copy trial complete (user report) | Export and detailed permission/device/offline/cleanup checks still require target-Mac manual results |
 | Light formatting | Implemented; live formatting trial pending | Pure transcript fixtures and session tests; no recognition-accuracy claim |
 | Hotkey, floating panel, automatic copy, Clean Up | Planned: later application PRs | Outside the current slices |
 | Workflow map | Implemented | docs/agent/feature_map.json records benchmark and local-dictation workflows; no automated UI test |
@@ -68,11 +70,11 @@ Review also found incorrect expected facts in the fixture manifest. They were co
 
 The app uses AVAudioRecorder for framework-managed capture. No application audio tap or custom audio-buffer queue is used. One converter processes the finalized recording off the main actor into the canonical CLI WAV format. Recorder failures and device availability checks produce typed errors. Level measurements detect energy only, not speech. Permission and physical device behavior still require the manual checklist.
 
-The session owns start/stop/inference/cancel work and rejects old events/results by recording identity and revision. Quit delays termination until owned work drains and files are removed. Default recording files are temporary; an explicit opt-in retains bounded WAV bytes in memory for sample export. Notes and audio are not logged.
+The session owns start/stop/inference/cancel work and rejects old events/results by recording identity and revision. Quit delays termination until owned work drains and files are removed. Recording files are temporary; the app retains bounded WAV bytes for the current successful note in memory for optional export. New Note, cancel, or quit releases session audio. An export already selected owns its snapshot until completion; saving files still requires explicit export. Notes and audio are not logged.
 
 The final local ./scripts/check.sh passed on 2026-10-22 with 68 Swift tests and 18 repository/tool tests, lint, compiler warnings as errors, plist validation, and ad hoc signature verification. Conversion tests pass output through the same canonical WAV validator used by whisper.cpp. The capture-failure cleanup test fails when its state fix is removed and passes with the fix.
 
-Local launch via ./scripts/run-local.sh built and opened the signed app on 2026-10-22. The user reported that the basic microphone → transcription → edit → copy trial passed. This does not establish the remaining permission-denial, device-removal, offline, duration-limit, or crash/recovery checks. Hosted evidence must be from the current PR head/base. The [practice checklist](practice-checklist.md) remains the owner of pending live checks. No hardware test is claimed from fake-service tests.
+Local launch via ./scripts/run-local.sh built and opened the signed app on 2026-10-22. On 2026-10-29, the user confirmed completion of the basic microphone → transcription → edit → copy trial reported in PR #4. This does not establish offline operation, cross-app paste, or the other detailed manual results. Hosted evidence must be from the current PR head/base. The [practice checklist](practice-checklist.md) records the completed basic trial and owns the remaining manual checks. No hardware test is claimed from fake-service tests.
 
 ## Light formatting
 
@@ -89,3 +91,27 @@ On 2026-10-29 the user reported a recording longer than 30 seconds with `Finding
 A new conversion test retains 36.25 seconds and audible signal before and after the 30-second boundary at 16, 44.1, and 48 kHz. A session regression shows that formatting preserves mixed non-speech markers. The success-message regression failed before a warning was added. The input-name regressions failed before metadata delivery and session handling were added. The label is a system-default snapshot at recorder setup; it does not bind the recorder or verify each frame's route. Live checks with the wireless microphone and an exported recording remain pending.
 
 The final local full check passed on 2026-10-29 with 82 Swift tests, 18 repository/tool tests, lint, warnings-as-errors build, and signed app packaging. The export-off recovery test failed before the conditional message was added. Code review found no remaining issues in these diagnostics. Read-only execution of the Core Audio name reader agreed with AVFoundation and system_profiler on the current default input. No microphone was opened for these checks.
+
+## Logging catalog and executable state transitions
+
+Local `./scripts/check.sh` passed on 2026-10-30 with 71 Swift tests and 25 repository/tool tests, document and secret checks, Swift format/SwiftLint, shell/workflow checks, compiler warnings as errors, plist validation, and app signature verification.
+
+The transition test checks all 170 state/event combinations against an independent expectation table. Existing session tests still cover recording, cancellation, stale events/results, failed cleanup sequencing, copy, export, and shutdown. These are fake-service tests, not new hardware acceptance evidence.
+
+Seven logging gate tests cover added, changed, removed, and renamed logging source; partial staging; rejected empty/deleted/whitespace-only catalog edits; unrelated source; untracked files; and initial commits. The initial-commit full-mode regression failed before the fix and passed after it. The gate requires a joint catalog update and does not validate its meaning. See the [logging convention](conventions/logging.md) for detection limits.
+
+
+## Logger-only policy
+
+Local `./scripts/check.sh` passed on 2026-10-30 with 71 Swift tests and 28 repository/tool tests, lint, build, and app packaging after adding `logger_only`. Installed-tool regressions reject legacy constructors, type aliases, default-log access, function references, and calls. They permit Logger, names in comments and strings, and the OSLog module import/qualification used to access Logger. The rejection test failed before the rule was added and passed afterward.
+
+The Logger-only rule uses SwiftLint syntax kinds to exclude comments and strings. Like the other Swift lint rules, quick and full checks inspect current source; staged catalog checks remain a separate index-based text rule. A catalog update cannot make a forbidden API pass lint. False positives require a detector regression and correction, not a dummy catalog edit or blanket hook bypass.
+
+## Stable logging event fields
+
+Local `./scripts/check.sh` passed on 2026-11-02 with 71 Swift tests and 28 repository/tool tests, lint, build, and app packaging after changing the two cleanup messages to stable event IDs and fixed recovery tokens. The catalog defines their exact field values; the logging convention defines the token grammar. This changes message content only, not cleanup behavior, levels, categories, or data retention. A separate one-second STTPOC-only NDJSON stream confirmed the plain-text filtering preamble and terminal status record; it contained no application events, so it does not verify a live cleanup-failure emission.
+
+
+## PR #5 conflict resolution
+
+Local `./scripts/check.sh` passed on 2026-11-03 after merging current main into the formatting branch: 85 Swift tests, 28 repository/tool tests, document and secret checks, Swift format/SwiftLint, shell/workflow checks, warnings-as-errors build, plist validation, and app signature verification. Formatting and input diagnostics now use the executable state transitions and current-recording export policy from PR #4. The missing-speech warning directs the user to export the current recording; no pre-recording export switch is required. Live formatting and device checks remain pending. Hosted checks must use the updated PR head/base.

@@ -7,17 +7,6 @@ struct PracticeConfiguration: Sendable, Equatable {
     var modelPath = "/opt/homebrew/share/whisper-cpp/ggml-medium.en.bin"
 }
 
-enum PracticeState: Equatable {
-    case setupNeeded, checkingSetup, idle, starting, recording, stopping, transcribing, cancelling,
-        ready, error
-    var isBusy: Bool {
-        switch self {
-        case .checkingSetup, .starting, .recording, .stopping, .transcribing, .cancelling: true
-        default: false
-        }
-    }
-}
-
 struct PracticeSample: Sendable {
     let audio: Data
     let reference: String
@@ -29,7 +18,6 @@ enum CopyStatus: Equatable { case none, copied, stale, failed }
 @MainActor @Observable
 final class SessionModel {
     var configuration = PracticeConfiguration()
-    var retainForExport = false
     var editedText = "" {
         didSet { if copyStatus == .copied { copyStatus = .stale } }
     }
@@ -66,57 +54,56 @@ final class SessionModel {
     }
 
     var canRecord: Bool {
-        (state == .idle || state == .error) && rawText.isEmpty
+        state.next(after: .record) != nil && rawText.isEmpty
             && checkedConfiguration == configuration && !closed
     }
 
     func requestSetupCheck() {
-        guard !state.isBusy else { return }
+        guard state.next(after: .checkSetup) != nil else { return }
         operation = Task { await checkSetup() }
     }
 
     func checkSetup() async {
-        guard !state.isBusy, !closed, rawText.isEmpty else { return }
-        state = .checkingSetup
+        guard !closed, rawText.isEmpty else { return }
+        guard transition(.checkSetup) else { return }
         let snapshot = configuration
         let token = revision
         do {
             try await capture.cancel()
             try await setup(snapshot)
             guard token == revision, !closed else { return }
+            guard transition(.setupSucceeded) else { return }
             checkedConfiguration = snapshot
-            state = .idle
             message = "Ready. Use fictional practice cases."
             listenForEvents()
         } catch {
             guard token == revision, !closed else { return }
-            state = .setupNeeded
+            guard transition(.setupFailed) else { return }
             message = "Setup failed. Check executable, model, and temporary-folder permissions."
         }
     }
 
     func record() {
-        guard state == .idle || state == .error, rawText.isEmpty, !closed else { return }
+        guard rawText.isEmpty, !closed else { return }
         guard checkedConfiguration == configuration else {
-            state = .setupNeeded
+            guard transition(.configurationChanged) else { return }
             message = "Setup paths changed. Check setup again."
             return
         }
+        guard transition(.record) else { return }
         let token = UUID()
         revision = token
         recordingID = token
         durationSeconds = 0
         level = 0
         systemInputName = nil
-        state = .starting
         message = "Requesting microphone access…"
-        let retain = retainForExport
         operation = Task {
             do {
-                try await capture.start(recordingID: token, retainForExport: retain)
+                try await capture.start(recordingID: token, retainForExport: true)
                 try Task.checkCancellation()
                 guard revision == token, !closed else { return }
-                state = .recording
+                guard transition(.captureStarted) else { return }
                 message =
                     "Recording. Maximum \(Int(RecordingConfiguration.maximumDurationSeconds)) seconds."
             } catch { await fail(error, token: token) }
@@ -124,8 +111,8 @@ final class SessionModel {
     }
 
     func stop() {
-        guard state == .recording, let token = recordingID else { return }
-        state = .stopping
+        guard let token = recordingID else { return }
+        guard transition(.stop) else { return }
         message = "Preparing audio…"
         let engine = transcriber(configuration)
         operation = Task {
@@ -133,8 +120,8 @@ final class SessionModel {
                 let audio = try await capture.stop()
                 try Task.checkCancellation()
                 guard revision == token, !closed else { return }
+                guard transition(.audioPrepared) else { return }
                 durationSeconds = audio.durationSeconds
-                state = .transcribing
                 message = "Transcribing locally…"
                 let result = try await engine.transcribe(
                     TranscriptionRequest(
@@ -144,20 +131,20 @@ final class SessionModel {
                 guard revision == token, !closed else { return }
                 recordingID = nil
                 rawText = result.text
-                exportWAV = audio.exportWAV
                 let text = result.text.trimmingCharacters(in: .whitespacesAndNewlines)
                 let markers = ["[BLANK_AUDIO]", "[static]", "(water splashing)"]
                 guard !text.isEmpty, !markers.contains(text) else {
-                    state = .error
+                    guard transition(.transcriptRejected) else { return }
                     message = "No usable note returned. Select New Note to try again."
                     return
                 }
+                exportWAV = audio.exportWAV
                 editedText = NoteFormatter.format(result.text)
-                state = .ready
+                guard transition(.transcriptAccepted) else { return }
                 if markers.contains(where: text.contains) {
                     let recovery =
                         exportWAV == nil
-                        ? "To check the audio, enable optional export before a new recording."
+                        ? "To check the audio, make a new recording and export it."
                         : "Export and listen to the recording to check the audio."
                     message =
                         "Speech may be missing. Whisper returned non-speech markers. Check Raw transcript and the microphone input. "
@@ -172,12 +159,11 @@ final class SessionModel {
     }
 
     func cancel() {
-        guard state.isBusy, state != .cancelling, state != .checkingSetup else { return }
+        guard transition(.cancel) else { return }
         revision = UUID()
         recordingID = nil
         let previous = operation
         previous?.cancel()
-        state = .cancelling
         message = "Cancelling…"
         operation = Task {
             var cleaned = true
@@ -187,17 +173,20 @@ final class SessionModel {
             guard !closed else { return }
             level = 0
             if cleaned {
-                state = .idle
+                guard transition(.cancelled) else { return }
                 message = "Cancelled. Recording files removed."
             } else {
-                state = .setupNeeded
+                guard transition(.cleanupFailed) else { return }
                 message = "Cleanup failed. Quit and check temporary-folder permissions."
             }
         }
     }
 
     func newNote() {
-        guard !state.isBusy, !closed else { return }
+        guard !closed else { return }
+        let event: PracticeEvent =
+            checkedConfiguration == configuration ? .newNoteReady : .newNoteNeedsSetup
+        guard transition(event) else { return }
         rawText = ""
         systemInputName = nil
         editedText = ""
@@ -205,7 +194,6 @@ final class SessionModel {
         copyStatus = .none
         durationSeconds = 0
         level = 0
-        state = checkedConfiguration == configuration ? .idle : .setupNeeded
         message = "Ready for a new note."
     }
 
@@ -250,6 +238,13 @@ final class SessionModel {
         exportWAV = nil
     }
 
+    /// All state writes pass through the transition contract before effects continue.
+    private func transition(_ event: PracticeEvent) -> Bool {
+        guard let next = state.next(after: event) else { return false }
+        state = next
+        return true
+    }
+
     private func listenForEvents() {
         guard eventTask == nil else { return }
         let events = capture.events
@@ -279,10 +274,10 @@ final class SessionModel {
             guard identifier == recordingID, state == .starting || state == .recording else {
                 return
             }
+            guard transition(.failure) else { return }
             revision = UUID()
             let token = revision
             recordingID = nil
-            state = .cancelling
             let previous = operation
             previous?.cancel()
             operation = Task {
@@ -294,16 +289,16 @@ final class SessionModel {
 
     private func fail(_ error: Error, token: UUID) async {
         guard token == revision, !closed else { return }
-        state = .cancelling
+        guard transition(.failure) else { return }
         do { try await capture.cancel() } catch {
             guard token == revision, !closed else { return }
-            state = .setupNeeded
+            guard transition(.cleanupFailed) else { return }
             message = "Recording cleanup failed. Quit and check temporary-folder permissions."
             return
         }
         guard token == revision, !closed else { return }
         recordingID = nil
-        state = .error
+        guard transition(.failureCleaned) else { return }
         level = 0
         if error as? AudioCaptureError == .permissionDenied {
             message =
