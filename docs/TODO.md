@@ -1,5 +1,9 @@
 # TODO
 
+## Next stacked slice
+
+- [ ] Design and evaluate buffered transcription with explicit pause/resume, following the [revised draft](superpowers/specs/2026-10-29-pause-resume-design.md). Use one speech-segment pipeline for processing during capture or after Finish. Evaluate VAD, boundaries, queue bounds, and engine lifetime before implementation; keep this work separate from light formatting.
+
 ## v1
 
 - [ ] Migrate speech transcription from whisper.cpp to WhisperKit through the existing transcriber interface.
